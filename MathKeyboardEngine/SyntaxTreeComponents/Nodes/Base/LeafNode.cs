@@ -1,6 +1,5 @@
-﻿namespace MathKeyboardEngine
+﻿namespace MathKeyboardEngine;
+
+public abstract class LeafNode : TreeNode
 {
-    public abstract class LeafNode : TreeNode
-    {
-    }
 }

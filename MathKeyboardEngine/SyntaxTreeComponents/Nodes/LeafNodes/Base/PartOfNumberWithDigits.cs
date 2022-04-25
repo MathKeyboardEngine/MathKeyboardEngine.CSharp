@@ -1,6 +1,5 @@
-﻿namespace MathKeyboardEngine
+﻿namespace MathKeyboardEngine;
+
+public abstract class PartOfNumberWithDigits : LeafNode
 {
-    public abstract class PartOfNumberWithDigits : LeafNode
-    {
-    }
 }

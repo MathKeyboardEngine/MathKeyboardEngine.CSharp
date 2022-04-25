@@ -1,37 +1,36 @@
-﻿namespace MathKeyboardEngine
+﻿namespace MathKeyboardEngine;
+
+public abstract class TreeNode : SyntaxTreeComponent
 {
-    public abstract class TreeNode : SyntaxTreeComponent
-    {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value (...).
-        public Placeholder ParentPlaceholder { get; set; }
+    public Placeholder ParentPlaceholder { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value (...).
 
-        protected abstract string GetLatexPart(KeyboardMemory k, LatexConfiguration latexConfiguration);
-        public override string GetLatex(KeyboardMemory k, LatexConfiguration latexConfiguration)
+    protected abstract string GetLatexPart(KeyboardMemory k, LatexConfiguration latexConfiguration);
+    public override string GetLatex(KeyboardMemory k, LatexConfiguration latexConfiguration)
+    {
+        var latex = GetLatexPart(k, latexConfiguration);
+        if (k.SelectionDiff != null && k.SelectionDiff != 0)
         {
-            string? latex = GetLatexPart(k, latexConfiguration);
-            if (k.SelectionDiff != null && k.SelectionDiff != 0)
+            if (this == k.InclusiveSelectionLeftBorder)
             {
-                if (this == k.InclusiveSelectionLeftBorder)
-                {
-                    latex = StringHelper.ConcatLatex(latexConfiguration.SelectionHightlightStart, latex);
-                }
-                if (this == k.InclusiveSelectionRightBorder)
-                {
-                    latex = StringHelper.ConcatLatex(latexConfiguration.SelectionHightlightEnd, latex);
-                }
-                return latex;
+                latex = StringHelper.ConcatLatex(latexConfiguration.SelectionHightlightStart, latex);
+            }
+            if (this == k.InclusiveSelectionRightBorder)
+            {
+                latex = StringHelper.ConcatLatex(latexConfiguration.SelectionHightlightEnd, latex);
+            }
+            return latex;
+        }
+        else
+        {
+            if (this == k.Current)
+            {
+                return StringHelper.ConcatLatex(latex, latexConfiguration.ActivePlaceholderLatex);
             }
             else
             {
-                if (this == k.Current)
-                {
-                    return StringHelper.ConcatLatex(latex, latexConfiguration.ActivePlaceholderLatex);
-                }
-                else
-                {
-                    return latex;
-                }
+                return latex;
             }
         }
     }
