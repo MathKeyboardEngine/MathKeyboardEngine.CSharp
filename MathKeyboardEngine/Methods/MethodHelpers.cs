@@ -28,4 +28,27 @@ public static class MethodHelpers
             }
         }
     }
+
+    public static void EncapsulateAllPartsOfNumberWithDigitsLeftOfIndex(int exclusiveRightIndex, List<TreeNode> siblingNodes, Placeholder toPlaceholder)
+    {
+        for (var i = exclusiveRightIndex - 1; i >= 0; i--)
+        {
+            var siblingNode = siblingNodes[i];
+            if (siblingNode is PartOfNumberWithDigits)
+            {
+                siblingNodes.Remove(siblingNode);
+                toPlaceholder.Nodes.Insert(0, siblingNode);
+                siblingNode.ParentPlaceholder = toPlaceholder;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    public static Placeholder? GetFirstNonEmptyOnLeftOf(this IEnumerable<Placeholder> source, Placeholder element)
+    {
+        return source.SkipWhile(x => x != element).Skip(1).FirstOrDefault(x => x.Nodes.Count > 0);
+    }
 }

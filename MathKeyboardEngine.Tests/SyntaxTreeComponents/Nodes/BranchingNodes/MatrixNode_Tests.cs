@@ -2,7 +2,7 @@
 
 namespace MathKeyboardEngine.Tests;
 
-public class MatrixNodeTests
+public class MatrixNode_Tests
 {
     [Fact]
     public void PMatrix_width2_height3_1r2d4d6()

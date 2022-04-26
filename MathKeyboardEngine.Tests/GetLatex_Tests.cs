@@ -2,7 +2,7 @@
 
 namespace MathKeyboardEngine.Tests;
 
-public class GetLatexTests
+public class GetLatex_Tests
 {
     private static readonly LatexConfiguration Config = new LatexConfiguration
     {
