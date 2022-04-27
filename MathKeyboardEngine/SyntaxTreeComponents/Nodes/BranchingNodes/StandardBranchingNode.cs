@@ -6,7 +6,7 @@ public class StandardBranchingNode : BranchingNode
     private readonly string _then;
     private readonly string[] _rest;
     public StandardBranchingNode(string before, string then, params string[] rest)
-        : base(Enumerable.Range(1, rest.Length + 2).Select(x => new Placeholder()).ToList())
+        : base(Enumerable.Range(1, rest.Length + 1).Select(x => new Placeholder()).ToList())
     {
         _before = before;
         _then = then;

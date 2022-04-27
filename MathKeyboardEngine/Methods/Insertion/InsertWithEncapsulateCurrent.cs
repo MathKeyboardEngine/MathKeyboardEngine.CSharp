@@ -1,8 +1,8 @@
 ﻿namespace MathKeyboardEngine;
 
-public class InsertWithEncapsulateCurrentMethod
+public static class InsertWithEncapsulateCurrentMethod
 {
-    public static void InsertWithEncapsulateCurrent(KeyboardMemory k, BranchingNode newNode, Options? options = null)
+    public static void InsertWithEncapsulateCurrent(this KeyboardMemory k, BranchingNode newNode, Options? options = null)
     {
         var encapsulatingPlaceholder = newNode.Placeholders[0];
         if (k.Current is TreeNode)

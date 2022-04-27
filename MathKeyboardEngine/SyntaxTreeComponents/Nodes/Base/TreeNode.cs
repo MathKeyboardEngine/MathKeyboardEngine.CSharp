@@ -18,7 +18,7 @@ public abstract class TreeNode : SyntaxTreeComponent
             }
             if (this == k.InclusiveSelectionRightBorder)
             {
-                latex = StringHelper.ConcatLatex(latexConfiguration.SelectionHightlightEnd, latex);
+                latex = StringHelper.ConcatLatex(latex, latexConfiguration.SelectionHightlightEnd);
             }
             return latex;
         }

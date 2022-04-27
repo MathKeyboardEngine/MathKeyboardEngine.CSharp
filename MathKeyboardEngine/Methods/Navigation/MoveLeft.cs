@@ -2,7 +2,7 @@
 
 public static class MoveLeftMethod
 {
-    public static void MoveLeft(KeyboardMemory k)
+    public static void MoveLeft(this KeyboardMemory k)
     {
         if (k.Current is Placeholder)
         {

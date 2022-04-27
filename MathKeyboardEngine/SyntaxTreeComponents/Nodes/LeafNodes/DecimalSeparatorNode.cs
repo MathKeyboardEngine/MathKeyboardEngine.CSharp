@@ -3,7 +3,7 @@
 public class DecimalSeparatorNode : PartOfNumberWithDigits
 {
     private readonly Func<string> _latex;
-    public DecimalSeparatorNode(string latex)
+    public DecimalSeparatorNode(string latex = ".")
     {
         _latex = () => latex;
     }

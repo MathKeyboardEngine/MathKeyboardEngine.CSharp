@@ -49,6 +49,6 @@ public static class MethodHelpers
 
     public static Placeholder? GetFirstNonEmptyOnLeftOf(this IEnumerable<Placeholder> source, Placeholder element)
     {
-        return source.SkipWhile(x => x != element).Skip(1).FirstOrDefault(x => x.Nodes.Count > 0);
+        return source.Reverse().SkipWhile(x => x != element).Skip(1).FirstOrDefault(x => x.Nodes.Count > 0);
     }
 }
