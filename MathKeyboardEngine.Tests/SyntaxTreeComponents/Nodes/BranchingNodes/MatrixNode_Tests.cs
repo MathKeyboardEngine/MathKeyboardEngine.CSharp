@@ -19,4 +19,6 @@ public class MatrixNode_Tests
         k.Insert(new DigitNode("6"));
         Expect.Latex(@"\begin{pmatrix}1 & 2 \\ ⬚ & 4 \\ ⬚ & 6▦\end{pmatrix}", k);
     }
+
+    // continue port here
 }
