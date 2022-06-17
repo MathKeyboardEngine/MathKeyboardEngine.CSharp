@@ -27,8 +27,8 @@ public static class MoveLeftMethod
         else if (k.Current is BranchingNode)
         {
             var current = (BranchingNode)k.Current;
-            k.Current = current.Placeholders.SelectMany(x => x.Nodes).LastOrDefault()
-                ?? (SyntaxTreeComponent)current.Placeholders.Last();
+            var placeholder = current.Placeholders.Last();
+            k.Current = placeholder.Nodes.LastOrDefault() ?? (SyntaxTreeComponent)placeholder;
         }
         else
         {

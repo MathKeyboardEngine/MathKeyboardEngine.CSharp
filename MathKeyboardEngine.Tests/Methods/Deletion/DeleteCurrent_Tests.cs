@@ -172,5 +172,227 @@ public class DeleteCurrent_Tests
         Expect.Latex("12▦", k);
     }
 
-    // Continue port here
+    [Fact]
+    public void DeleteCurrent_from_the_right_of_a_single_Placeholder_BranchingNode__Placeholder_contains_a_TreeNodes()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new RoundBracketsNode("(", ")"));
+        k.Insert(new DigitNode("1"));
+        k.Insert(new StandardLeafNode("+"));
+        k.Insert(new StandardLeafNode("x"));
+        k.MoveRight();
+        Expect.Latex("(1+x)▦", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex("1+x▦", k);
+
+    }
+
+    [Fact]
+    public void DeleteCurrent_from_the_right_of_a_BranchingNode__last_Placeholder_contains_a_LeafNode()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DigitNode("1"));
+        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.Insert(new StandardLeafNode("x"));
+        k.MoveRight();
+        Expect.Latex(@"\frac{1}{x}▦", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex(@"\frac{1}{▦}", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_from_the_right_of_a_BranchingNode__last_Placeholder_contains_nested_BranchingNodes()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DigitNode("1"));
+        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.Insert(new DigitNode("1"));
+        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.Insert(new DigitNode("1"));
+        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.Insert(new StandardLeafNode("x"));
+        k.MoveRight();
+        k.MoveRight();
+        k.MoveRight();
+        Expect.Latex(@"\frac{1}{\frac{1}{\frac{1}{x}}}▦", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex(@"\frac{1}{\frac{1}{\frac{1}{▦}}}", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_from_the_right_of_a_BranchingNode__last_Placeholder_is_empty_and_first_Placeholder_contains_1_LeafNode()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DigitNode("1"));
+        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.MoveRight();
+        k.MoveRight();
+        Expect.Latex(@"\frac{1}{⬚}▦", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex("1▦", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_deletes_a_subscript_from_its_empty_Placeholder()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DigitNode("1"));
+        k.Insert(new DigitNode("2"));
+        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode("", "_{", "}"));
+        Expect.Latex("12_{▦}", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex("12▦", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_deletes_a_subscript_from_the_right()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DigitNode("1"));
+        k.Insert(new DigitNode("2"));
+        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode("", "_{", "}"));
+        k.MoveRight();
+        k.MoveRight();
+        Expect.Latex("12_{⬚}▦", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex("12▦", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_deletes_a_subscript_from_the_right__case_with_a_BranchingNode_on_the_right()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DigitNode("1"));
+        k.Insert(new DigitNode("2"));
+        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode("", "_{", "}"));
+        Expect.Latex(@"12_{▦}", k);
+        k.MoveRight();
+        Expect.Latex(@"12_{⬚}▦", k);
+        k.Insert(new StandardBranchingNode(@"\sqrt{", "}"));
+        Expect.Latex(@"12_{⬚}\sqrt{▦}", k);
+        k.MoveLeft();
+        Expect.Latex(@"12_{⬚}▦\sqrt{⬚}", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex(@"12▦\sqrt{⬚}", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_deletes_a_single_column_matrix_or_any_BranchingNode_from_the_right_if_the_only_non_empty_Placeholder_is_at_index_0()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new MatrixNode("pmatrix", 1, 3));
+        k.Insert(new DigitNode("1"));
+        k.Insert(new DigitNode("2"));
+        k.MoveDown();
+        k.MoveRight();
+        k.MoveRight();
+        Expect.Latex(@"\begin{pmatrix}12 \\ ⬚ \\ ⬚\end{pmatrix}▦", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex("12▦", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_deletes_a_fraction_from_its_second_Placeholder__case_with_a_BranchingNode_on_the_right()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.Insert(new StandardLeafNode("a"));
+        k.Insert(new StandardLeafNode("b"));
+        k.MoveDown();
+        k.MoveRight();
+        Expect.Latex(@"\frac{ab}{⬚}▦", k);
+        k.Insert(new StandardBranchingNode(@"\sqrt{", "}"));
+        Expect.Latex(@"\frac{ab}{⬚}\sqrt{▦}", k);
+        k.MoveLeft();
+        Expect.Latex(@"\frac{ab}{⬚}▦\sqrt{⬚}", k);
+        k.MoveLeft();
+        Expect.Latex(@"\frac{ab}{▦}\sqrt{⬚}", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex(@"ab▦\sqrt{⬚}", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_deletes_the_last_TreeNode_of_the_last_Placeholder_with_content()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new MatrixNode("pmatrix", 2, 2));
+        k.Insert(new DigitNode("1"));
+        k.Insert(new DigitNode("2"));
+        k.MoveDown();
+        k.Insert(new DigitNode("3"));
+        k.Insert(new DigitNode("4"));
+        k.MoveRight();
+        k.MoveRight();
+        Expect.Latex(@"\begin{pmatrix}12 & ⬚ \\ 34 & ⬚\end{pmatrix}▦", k);
+        // Act & Assert
+        k.DeleteCurrent();
+        Expect.Latex(@"\begin{pmatrix}12 & ⬚ \\ 3▦ & ⬚\end{pmatrix}", k);
+        k.DeleteCurrent();
+        Expect.Latex(@"\begin{pmatrix}12 & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
+        k.DeleteCurrent();
+        Expect.Latex(@"\begin{pmatrix}1▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_does_nothing_from_the_first_Placeholder_if_multiple_sibling_Placeholders_are_filled()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new MatrixNode("pmatrix", 2, 2));
+        k.MoveRight();
+        k.Insert(new DigitNode("2"));
+        k.MoveDown();
+        k.Insert(new DigitNode("4"));
+        k.MoveLeft();
+        k.MoveLeft();
+        k.MoveUp();
+        Expect.Latex(@"\begin{pmatrix}▦ & 2 \\ ⬚ & 4\end{pmatrix}", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex(@"\begin{pmatrix}▦ & 2 \\ ⬚ & 4\end{pmatrix}", k);
+    }
+
+    [Fact]
+    public void DeleteCurrent_deletes_a_BranchingNode_from_one_of_its_Placeholders__sets_Current_at_the_right_of_the_previous_TreeNode()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DigitNode("2"));
+        k.Insert(new StandardLeafNode(@"\times"));
+        k.Insert(new MatrixNode("pmatrix", 2, 2));
+        Expect.Latex(@"2\times\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        // Act
+        k.DeleteCurrent();
+        // Assert
+        Expect.Latex(@"2\times▦", k);
+    }
 }

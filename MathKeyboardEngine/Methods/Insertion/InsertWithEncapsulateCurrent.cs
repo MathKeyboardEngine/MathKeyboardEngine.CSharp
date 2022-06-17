@@ -5,9 +5,8 @@ public static class InsertWithEncapsulateCurrentMethod
     public static void InsertWithEncapsulateCurrent(this KeyboardMemory k, BranchingNode newNode, Options? options = null)
     {
         var encapsulatingPlaceholder = newNode.Placeholders[0];
-        if (k.Current is TreeNode)
+        if (k.Current is TreeNode current)
         {
-            var current = (TreeNode)k.Current;
             var siblingNodes = current.ParentPlaceholder.Nodes;
             var currentIndex = siblingNodes.IndexOf(current);
             siblingNodes[currentIndex] = newNode;
