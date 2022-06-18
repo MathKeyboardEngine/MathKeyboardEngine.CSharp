@@ -54,7 +54,7 @@ public class FractionNode_Tests
     public void Delete_empty_fraction_from_numerator()
     {
         var k = new KeyboardMemory();
-        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.Insert(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         Expect.Latex(@"\frac{▦}{⬚}", k);
         k.DeleteCurrent();
         Expect.Latex("▦", k);
@@ -71,5 +71,78 @@ public class FractionNode_Tests
         Expect.Latex("▦", k);
     }
 
-    // continue port here
+    [Fact]
+    public void Delete_empty_fraction_from_right()
+    {
+        var k = new KeyboardMemory();
+        k.Insert(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.MoveDown();
+        k.MoveRight();
+        Expect.Latex(@"\frac{⬚}{⬚}▦", k);
+        k.DeleteCurrent();
+        Expect.Latex("▦", k);
+    }
+
+    [Fact]
+    public void Deleting_fraction_from_denominator_releases_nonempty_numerator()
+    {
+        var k = new KeyboardMemory();
+        k.Insert(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.Insert(new DigitNode("1"));
+        k.Insert(new DigitNode("2"));
+        k.MoveDown();
+        k.Insert(new DigitNode("3"));
+        k.MoveRight();
+        Expect.Latex(@"\frac{12}{3}▦", k);
+        k.DeleteCurrent();
+        Expect.Latex(@"\frac{12}{▦}", k);
+        k.DeleteCurrent();
+        Expect.Latex("12▦", k);
+    }
+
+    [Fact]
+    public void MoveUp_in_filled_fraction()
+    {
+        var k = new KeyboardMemory();
+        k.Insert(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.Insert(new DigitNode("1"));
+        k.Insert(new DigitNode("2"));
+        k.MoveDown();
+        k.Insert(new DigitNode("3"));
+        Expect.Latex(@"\frac{12}{3▦}", k);
+        k.MoveUp();
+        Expect.Latex(@"\frac{12▦}{3}", k);
+    }
+
+    [Fact]
+    public void Impossible_updown_requests_in_filled_fraction_should_not_throw()
+    {
+        var k = new KeyboardMemory();
+        k.Insert(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.Insert(new DigitNode("1"));
+        Expect.Latex(@"\frac{1▦}{⬚}", k);
+        k.MoveUp();
+        Expect.Latex(@"\frac{1▦}{⬚}", k);
+
+        k.MoveDown();
+        k.Insert(new DigitNode("2"));
+        Expect.Latex(@"\frac{1}{2▦}", k);
+        k.MoveDown();
+        Expect.Latex(@"\frac{1}{2▦}", k);
+    }
+
+    [Fact]
+    public void Impossible_updown_requests_in_empty_fraction_should_not_throw()
+    {
+        var k = new KeyboardMemory();
+        k.Insert(new DescendingBranchingNode(@"\frac{", "}{", "}"));
+        k.MoveDown();
+        Expect.Latex(@"\frac{⬚}{▦}", k);
+        k.MoveDown();
+        Expect.Latex(@"\frac{⬚}{▦}", k);
+        k.MoveUp();
+        Expect.Latex(@"\frac{▦}{⬚}", k);
+        k.MoveUp();
+        Expect.Latex(@"\frac{▦}{⬚}", k);
+    }
 }
