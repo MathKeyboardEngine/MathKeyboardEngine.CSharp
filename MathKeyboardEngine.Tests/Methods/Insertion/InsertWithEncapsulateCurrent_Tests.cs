@@ -111,5 +111,66 @@ public class InsertWithEncapsulateCurrent_Tests
         Assert.Equal("(2+3)", powerNode.Placeholders[0].GetLatex(k, null!));
     }
 
-    // Continue port here
+    [Fact]
+    public void With_DeleteOuterRoundBracketsIfAny__deletes_outer_round_brackets_during_encapsulation()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DigitNode("1"));
+        k.Insert(new StandardLeafNode("+"));
+        k.Insert(new RoundBracketsNode("(", ")"));
+        k.Insert(new RoundBracketsNode("(", ")"));
+        k.Insert(new StandardLeafNode("x"));
+        k.Insert(new StandardLeafNode("+"));
+        k.Insert(new DigitNode("2"));
+        k.MoveRight();
+        k.Insert(new RoundBracketsNode("(", ")"));
+        k.Insert(new StandardLeafNode("x"));
+        k.Insert(new StandardLeafNode("-"));
+        k.Insert(new DigitNode("3"));
+        k.MoveRight();
+        k.MoveRight();
+        Expect.Latex(@"1+((x+2)(x-3))▦", k);
+        // Act
+        k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"), InsertWithEncapsulateCurrentMethod.Options.DeleteOuterRoundBracketsIfAny);
+        // Assert
+        Expect.Latex(@"1+\frac{(x+2)(x-3)}{▦}", k);
+    }
+
+    [Fact]
+    public void With_DeleteOuterRoundBracketsIfAny__does_not_delete_square_brackets_during_encapsulation()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new DigitNode("1"));
+        k.Insert(new StandardLeafNode("+"));
+        k.Insert(new StandardBranchingNode("|", "|"));
+        k.Insert(new StandardLeafNode("x"));
+        k.Insert(new StandardLeafNode("+"));
+        k.Insert(new DigitNode("3"));
+        k.MoveRight();
+        Expect.Latex(@"1+|x+3|▦", k);
+        // Act
+        var fraction = new DescendingBranchingNode(@"\frac{", "}{", "}");
+        k.InsertWithEncapsulateCurrent(fraction, InsertWithEncapsulateCurrentMethod.Options.DeleteOuterRoundBracketsIfAny);
+        // Assert
+        Expect.Latex(@"1+\frac{|x+3|}{▦}", k);
+    }
+
+    [Fact]
+    public void With_DeleteOuterRoundBracketsIfAny__encapsulation_by_single_Placeholder_BranchingNode_sets_the_cursor_at_the_right_of_the_new_BranchingNode()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new RoundBracketsNode("(", ")"));
+        k.Insert(new StandardLeafNode("A"));
+        k.Insert(new StandardLeafNode("B"));
+        k.MoveRight();
+        Expect.Latex("(AB)▦", k);
+        // Act
+        k.InsertWithEncapsulateCurrent(new StandardBranchingNode(@"\overrightarrow{", "}"), InsertWithEncapsulateCurrentMethod.Options.DeleteOuterRoundBracketsIfAny);
+        // Assert
+        Expect.Latex(@"\overrightarrow{AB}▦", k);
+
+    }
 }

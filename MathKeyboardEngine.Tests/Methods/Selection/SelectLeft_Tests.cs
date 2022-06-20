@@ -4,7 +4,7 @@ namespace MathKeyboardEngine.Tests;
 public class SelectLeft_Tests
 {
     [Fact]
-    public void Can_select_a_single_TreeNode_and_the_selection_is_correctly_displayed__case_exclusive_right_border_is_a_TreeNode()
+    public void Can_select_a_single_TreeNode_and_the_selection_is_correctly_displayed__case_exclusive_left_border_is_a_TreeNode()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -18,7 +18,7 @@ public class SelectLeft_Tests
     }
 
     [Fact]
-    public void Can_select_a_single_TreeNode_and_the_selection_is_correctly_displayed__case_exclusive_right_border_is_a_Placeholder()
+    public void Can_select_a_single_TreeNode_and_the_selection_is_correctly_displayed__case_exclusive_left_border_is_a_Placeholder()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -31,7 +31,7 @@ public class SelectLeft_Tests
     }
 
     [Fact]
-    public void Can_select_mulitple_TreeNodes_and_the_selection_is_correctly_displayed__case_exclusive_right_border_is_a_TreeNode()
+    public void Can_select_mulitple_TreeNodes_and_the_selection_is_correctly_displayed__case_exclusive_left_border_is_a_TreeNode()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -47,7 +47,7 @@ public class SelectLeft_Tests
     }
 
     [Fact]
-    public void Can_select_mulitple_TreeNodes_and_the_selection_is_correctly_displayed__case_exclusive_right_border_is_a_Placeholder()
+    public void Can_select_mulitple_TreeNodes_and_the_selection_is_correctly_displayed__case_exclusive_left_border_is_a_Placeholder()
     {
         // Arrange
         var k = new KeyboardMemory();
