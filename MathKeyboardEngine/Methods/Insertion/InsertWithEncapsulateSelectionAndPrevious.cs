@@ -5,7 +5,7 @@ public static class InsertWithEncapsulateSelectionAndPreviousMethod
     {
         if (newNode.Placeholders.Count < 2)
         {
-            throw new Exception($"Expected 2 {nameof(Placeholder)}s");
+            throw new Exception($"Expected 2 {nameof(Placeholder)}s.");
         }
         var selection = SelectionHelper.PopSelection(k);
         var secondPlaceholder = newNode.Placeholders[1];
