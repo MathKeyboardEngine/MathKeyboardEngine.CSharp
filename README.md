@@ -55,7 +55,7 @@ var keyboardMemory = new KeyboardMemory();
 
 // Handle button clicks, etc.
 ```
-
+Note that MathKeyboardEngine for C# is a port from [MathKeyboardEngine for JavaScript](https://github.com/MathKeyboardEngine/MathKeyboardEngine) and that the documentation has not been ported (yet).
 
 ## Ask or contribute
 
