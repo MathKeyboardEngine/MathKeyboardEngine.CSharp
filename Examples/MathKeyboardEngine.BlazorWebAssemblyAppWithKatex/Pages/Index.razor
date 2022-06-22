@@ -2,17 +2,32 @@
 @inject IJSRuntime JS
 @using MathKeyboardEngine
 
-<PageTitle>Index</PageTitle>
+<PageTitle>MathKeyboardEngine + KaTeX (in a Blazor WebAssembly App)</PageTitle>
 
 <h1>MathKeyboardEngine + KaTeX (in a Blazor WebAssembly App)</h1>
 
-<h2>Buttons</h2>
-<div @ref=fractionKey @onclick=FractionKeyClicked></div>
-<div @onclick=DeleteKeyClicked>Delete</div>
-<h2>EditModeLatex</h2>
-<div @ref=typesetEditModeLatex @onclick="DisplayResult"></div>
-<h2>ViewModeLatex</h2>
-<div>@viewModeLatex</div>
+<div id="pureLatexFromPhysicalKeys"></div>
+<div id="typesetEditModeLatex" @ref=typesetEditModeLatex></div>
+<div id="viewModeLatex">@viewModeLatex</div>
+<i>Example keys - to be styled - to help you design your virtual math keyboard</i>
+<div id="mathKeyboard">
+    <div id="selectionModeToggle"></div>
+    <div @onclick=MoveUpClicked>&#x25B2;</div>
+    <div @onclick=DeleteKeyClicked>&#128293;</div>
+    <br />
+    <div @onclick=MoveLeftClicked>&#x25C0;</div>
+    <div @onclick=MoveDownClicked>&#x25BC;</div>
+    <div @onclick=MoveRightClicked>&#x25B6;</div>
+    <br />
+	<div @onclick="async () => await DigitClicked(1)">1</div>
+	<div @onclick="async () => await DigitClicked(2)">2</div>
+	<div @onclick="async () => await DigitClicked(3)">3</div>
+	<br />
+    <div @ref=fractionKey @onclick=FractionKeyClicked></div>
+</div>
+<div class="footer">
+    <a href="https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp">View on GitHub</a>
+</div>
 
 @code {
 	public readonly KeyboardMemory _keyboardMemory = new KeyboardMemory();
@@ -20,7 +35,7 @@
 	ElementReference typesetEditModeLatex;
 	ElementReference fractionKey;
 
-	private string? viewModeLatex;
+	private string viewModeLatex = "";
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -30,15 +45,21 @@
 
 	private TreeNode GetFractionNode() => new DescendingBranchingNode(@"\frac{", "}{", "}");
 
-	private async Task FractionKeyClicked()
+	private async Task FractionKeyClicked() => await WithDisplayResult(() => _keyboardMemory.Insert(GetFractionNode()));
+	private async Task DeleteKeyClicked() => await WithDisplayResult(_keyboardMemory.DeleteCurrent);
+	private async Task MoveUpClicked() => await WithDisplayResult(_keyboardMemory.MoveUp);
+	private async Task MoveLeftClicked() => await WithDisplayResult(_keyboardMemory.MoveLeft);
+	private async Task MoveDownClicked() => await WithDisplayResult(_keyboardMemory.MoveDown);
+	private async Task MoveRightClicked() => await WithDisplayResult(_keyboardMemory.MoveRight);
+	private async Task DigitClicked(int i)
 	{
-		_keyboardMemory.Insert(GetFractionNode());
-		await DisplayResult();
+		await WithDisplayResult(() => _keyboardMemory.Insert(new DigitNode(i.ToString())));
 	}
 
-	private async Task DeleteKeyClicked()
+
+	private async Task WithDisplayResult(Action action)
 	{
-		_keyboardMemory.DeleteCurrent();
+		action();
 		await DisplayResult();
 	}
 
@@ -53,4 +74,102 @@
 		await JS.InvokeVoidAsync("katex.render", @$"\displaystyle {editModeLatex}", typesetEditModeLatex, new { throwOnError = false});
 		viewModeLatex = _keyboardMemory.GetViewModeLatex(_latexConfiguration);
 	}
+
+	[JSInvokable("keydown")]
+	protected void KeyDown(KeyboardEventArgs e)
+	{
+
+	}
 }
+
+<style>
+	:root {
+    --selection-mode-color: #1668c7;
+}
+
+.dark {
+    background-color: black;
+    color: white;
+}
+
+html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    font-size: 1.5rem;
+}
+
+input {
+    font-size: 1rem;
+    width: 2.5rem;
+}
+
+#typesetEditModeLatex {
+    border: 1px solid gray;
+    padding: 0.25rem;
+    min-height: 2.5rem;
+}
+
+#viewModeLatex {
+    text-align: right;
+}
+
+#mathKeyboard > * {
+    display: inline-block;
+    border: 1px solid gray;
+    padding: 0.25rem;
+    margin: 1px;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+    vertical-align: middle;
+    text-align: center;
+    cursor: default;
+    user-select: none;
+    outline: 0;
+}
+
+.inSelectionMode {
+    background-color: var(--selection-mode-color);
+}
+
+#selectionModeToggle {
+    background-color: var(--selection-mode-color);
+}
+
+#settingsContainer {
+    display: none;
+    text-align: left;
+}
+
+.setting {
+    margin: 1rem;
+    cursor: default;
+}
+
+.setting-value {
+    border: 1px solid gray;
+    padding: 0.15rem;
+}
+
+.footer {
+    text-align: center;
+    margin: 15px;
+}
+
+a {
+    color: #58a6ff;
+    text-decoration: none;
+    border: 1px solid #58a6ff;
+    padding: 0.25rem;
+}
+
+#pureLatexFromPhysicalKeys {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: green;
+    text-align: right;
+}
+
+</style>
