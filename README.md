@@ -1,4 +1,4 @@
-![](https://badgen.net/badge/test%20coverage/100%25/green) [![NuGet](https://img.shields.io/nuget/vpre/MathKeyboardEngine.svg)]
+![](https://badgen.net/badge/test%20coverage/100%25/green) ![NuGet](https://img.shields.io/nuget/vpre/MathKeyboardEngine.svg)
 
 ## MathKeyboardEngine for C#
 
