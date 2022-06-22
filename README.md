@@ -8,7 +8,7 @@ Also available: [MathKeyboardEngine for JavaScript](https://github.com/MathKeybo
 
 #### Which LaTeX typesetting libraries?
 
-- If you're making a [Blazor WebAssembly app](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor), then use for example [KaTeX](https://katex.org/) or [MathJax](https://www.mathjax.org/). You have the keyboard-logic from MathKeyboardEngine in C# and an extreme amount of LaTeX commands after just a few lines of JavaScript glue code - examples will follow.
+- If you're making a [Blazor WebAssembly app](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor), then use for example [KaTeX](https://katex.org/) or [MathJax](https://www.mathjax.org/). You have the keyboard-logic from MathKeyboardEngine in C# and an extreme amount of LaTeX commands after just a few lines of JavaScript glue code.
 - If you're making a Windows desktop application, then use for example [WPF-Math](https://github.com/ForNeVeR/wpf-math). Note that MathKeyboardEngine has its own syntax tree and that it works independently.
 - In all other cases, use for example [CSharpMath](https://github.com/verybadcat/CSharpMath). CSharpMath can render LaTeX even for mobile development. Note that CSharpMath distributes several packages and that it also has its own keyboard functionality - however, you may want to choose MathKeyboardEngine for its flexibility.
 
@@ -56,6 +56,8 @@ var keyboardMemory = new KeyboardMemory();
 // Handle button clicks, etc.
 ```
 Note that MathKeyboardEngine for C# is a port from [MathKeyboardEngine for JavaScript](https://github.com/MathKeyboardEngine/MathKeyboardEngine) and that the documentation has not been ported (yet).
+
+The [Examples](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) folder does not contain much yet. Pull requests are welcome :)
 
 ## Ask or contribute
 

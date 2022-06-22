@@ -1,0 +1,56 @@
+﻿@page "/"
+@inject IJSRuntime JS
+@using MathKeyboardEngine
+
+<PageTitle>Index</PageTitle>
+
+<h1>MathKeyboardEngine + KaTeX (in a Blazor WebAssembly App)</h1>
+
+<h2>Buttons</h2>
+<div @ref=fractionKey @onclick=FractionKeyClicked></div>
+<div @onclick=DeleteKeyClicked>Delete</div>
+<h2>EditModeLatex</h2>
+<div @ref=typesetEditModeLatex @onclick="DisplayResult"></div>
+<h2>ViewModeLatex</h2>
+<div>@viewModeLatex</div>
+
+@code {
+	public readonly KeyboardMemory _keyboardMemory = new KeyboardMemory();
+	public readonly LatexConfiguration _latexConfiguration  = new LatexConfiguration();
+	ElementReference typesetEditModeLatex;
+	ElementReference fractionKey;
+
+	private string? viewModeLatex;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await RenderLatexInKeyAsync(GetFractionNode(), fractionKey);
+		await DisplayResult();
+	}
+
+	private TreeNode GetFractionNode() => new DescendingBranchingNode(@"\frac{", "}{", "}");
+
+	private async Task FractionKeyClicked()
+	{
+		_keyboardMemory.Insert(GetFractionNode());
+		await DisplayResult();
+	}
+
+	private async Task DeleteKeyClicked()
+	{
+		_keyboardMemory.DeleteCurrent();
+		await DisplayResult();
+	}
+
+	private async Task RenderLatexInKeyAsync(TreeNode node, ElementReference key)
+	{
+		await JS.InvokeVoidAsync("katex.render", node.GetViewModeLatex(_latexConfiguration), key, new { throwOnError = false});
+	}
+
+	private async Task DisplayResult()
+	{
+		var editModeLatex = _keyboardMemory.GetEditModeLatex(_latexConfiguration);
+		await JS.InvokeVoidAsync("katex.render", @$"\displaystyle {editModeLatex}", typesetEditModeLatex, new { throwOnError = false});
+		viewModeLatex = _keyboardMemory.GetViewModeLatex(_latexConfiguration);
+	}
+}
