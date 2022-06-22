@@ -4,9 +4,7 @@
 
 MathKeyboardEngine for C# provides the logic for a highly customizable virtual math keyboard. It is intended for use together with any LaTeX typesetting library.
 
-Also available:
-
-- [MathKeyboardEngine for JavaScript](https://github.com/MathKeyboardEngine/MathKeyboardEngine).
+Also available: [MathKeyboardEngine for JavaScript](https://github.com/MathKeyboardEngine/MathKeyboardEngine).
 
 #### Which LaTeX typesetting libraries?
 
