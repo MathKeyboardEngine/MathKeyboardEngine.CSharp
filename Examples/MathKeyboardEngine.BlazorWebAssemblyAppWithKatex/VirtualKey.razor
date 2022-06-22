@@ -1,0 +1,56 @@
+﻿@inject IJSRuntime JS
+
+<div @ref=key @onclick=OnClick></div>
+
+@code {
+	ElementReference key;
+
+	[Parameter, EditorRequired]
+	public Func<TreeNode> GetTreeNode { get; set; } = () => throw new ArgumentNullException($"{nameof(VirtualKey)}.{nameof(GetTreeNode)}");
+
+	[Parameter, EditorRequired]
+	public Func<MathTextboxInfo> GetMathTextboxInfo { get; set; } = () => throw new ArgumentNullException($"{nameof(VirtualKey)}.{nameof(GetMathTextboxInfo)}");
+
+	[Parameter, EditorRequired]
+	public Func<Task> AfterClickProcessedAsync { get; set; } = () => throw new ArgumentNullException($"{nameof(VirtualKey)}.{nameof(AfterClickProcessedAsync)}");
+
+	[Parameter]
+	public Action<KeyboardMemory, TreeNode> InsertAction { get; set; } = (k, node) => k.Insert(node);
+
+	[Parameter]
+	public Action<KeyboardMemory, TreeNode>? SelectionModeInsertAction { get; set; }
+
+	public async Task OnClick()
+	{
+		var k = GetMathTextboxInfo().KeyboardMemory;
+		var node = GetTreeNode();
+
+		if (k.InSelectionMode())
+		{
+			if (SelectionModeInsertAction == null)
+			{
+				InsertAction(k, node);
+			}
+			else
+			{
+				SelectionModeInsertAction(k, node);
+			}
+		}
+		else
+		{
+			InsertAction(k, node);
+		}
+		await AfterClickProcessedAsync();
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await RenderLatexInKeyAsync(GetTreeNode(), key);
+		await base.OnAfterRenderAsync(firstRender);
+	}
+
+	private async Task RenderLatexInKeyAsync(TreeNode node, ElementReference key)
+	{
+		await JS.InvokeVoidAsync("katex.render", node.GetViewModeLatex(GetMathTextboxInfo().LatexConfiguration), key, new { throwOnError = false});
+	}
+}
