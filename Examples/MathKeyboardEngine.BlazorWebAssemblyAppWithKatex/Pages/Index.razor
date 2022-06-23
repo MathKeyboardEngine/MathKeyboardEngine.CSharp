@@ -5,7 +5,6 @@
 	- Because the namespace of this project starts with "MathKeyboardEngine", this examples skips the following using: `@using MathKeyboardEngine`.
 	- This example uses a custom Component called "VirtualKey" to avoid duplication, which requires an-also-custom-made "MathTextboxInfo" (which contains the KeyboardMemory (think "styntax tree") for a single "math textbox", so that a VirtualKey can be reused for multiple textboxes).
 	- The "decimalSeparatorSetting" and "multiplicationSymbolSetting" change at a random moment.
-	- SelectionMode has not yet been implemented - the blue key does not do anything yet.
 *@
 
 <PageTitle>MathKeyboardEngine + KaTeX (in a Blazor WebAssembly App)</PageTitle>
@@ -17,42 +16,42 @@
 <div id="viewModeLatex">@viewModeLatex</div>
 <i>Example keys - to be styled - to help you design your virtual math keyboard</i>
 <div id="mathKeyboard">
-	<div id="selectionModeToggle"></div>
+	<div @onclick=ToggleSelectionMode id="selectionModeToggle"></div>
 	<div @onclick=MoveUpClicked>&#x25B2;</div>
-	<div @onclick=DeleteKeyClicked>&#128293;</div>
+	<div @onclick=DeleteKeyClicked class="@CssHelper.GetSelectionModeClass(_keyboardMemory)">&#128293;</div>
 	<br />
-	<div @onclick=MoveLeftClicked>&#x25C0;</div>
+	<div @onclick=MoveLeftClicked class="@CssHelper.GetSelectionModeClass(_keyboardMemory)">&#x25C0;</div>
 	<div @onclick=MoveDownClicked>&#x25BC;</div>
-	<div @onclick=MoveRightClicked>&#x25B6;</div>
+	<div @onclick=MoveRightClicked class="@CssHelper.GetSelectionModeClass(_keyboardMemory)">&#x25B6;</div>
 	<br />
 	@for (int i = 0; i < 10; i++)
 	{
 		var digit = i;
-		<VirtualKey GetTreeNode="() => new DigitNode(digit.ToString())" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
+		<VirtualKey GetTreeNode="() => new DigitNode(digit.ToString())" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	}
-	<VirtualKey GetTreeNode="() => new DecimalSeparatorNode(decimalSeparatorSetting)" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
+	<VirtualKey GetTreeNode="() => new DecimalSeparatorNode(decimalSeparatorSetting)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	<br />
 	@foreach(var letter in new[] { "a", "b", "c", "x", "y", "z", @"\alpha", @"\beta", @"\gamma", @"\lambda", @"\mu", @"\pi" })
 	{
-		<VirtualKey GetTreeNode="() => new StandardLeafNode(letter)" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
+		<VirtualKey GetTreeNode="() => new StandardLeafNode(letter)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	}
 	<br/>
 	@foreach(var op in new[] { @"\pm", "+", "-", })
 	{
-		<VirtualKey GetTreeNode="() => new StandardLeafNode(op)" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
+		<VirtualKey GetTreeNode="() => new StandardLeafNode(op)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	}
-	<VirtualKey GetTreeNode="() => new StandardLeafNode(multiplicationSymbolSetting)" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
+	<VirtualKey GetTreeNode="() => new StandardLeafNode(multiplicationSymbolSetting)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	@foreach(var op in new[] { ":", @"\div", "!", })
 	{
-		<VirtualKey GetTreeNode="() => new StandardLeafNode(op)" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
+		<VirtualKey GetTreeNode="() => new StandardLeafNode(op)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	}
 	<br/>
-	<VirtualKey GetTreeNode="GetBinomialNode" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
-	<VirtualKey GetTreeNode="GetFractionNode" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
-	<VirtualKey GetTreeNode="GetPowerNode" InsertAction="(k, node) => k.InsertWithEncapsulateCurrent((BranchingNode)node)" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
-	<VirtualKey GetTreeNode="GetSubscriptNode" InsertAction="(k, node) => k.InsertWithEncapsulateCurrent((BranchingNode)node)" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
-	<VirtualKey GetTreeNode="GetSquareRootNode" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
-	<VirtualKey GetTreeNode="GetNthRootNode" GetMathTextboxInfo="GetMathTextboxInfo" AfterClickProcessedAsync="DisplayResult"></VirtualKey>
+	<VirtualKey GetTreeNode="GetBinomialNode" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetFractionNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelection(node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetPowerNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelectionAndPrevious(node)" InsertAction="(k, node) => k.InsertWithEncapsulateCurrent((BranchingNode)node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetSubscriptNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelectionAndPrevious(node)" InsertAction="(k, node) => k.InsertWithEncapsulateCurrent((BranchingNode)node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetSquareRootNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelection(node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetNthRootNode" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 
 </div>
 <div class="footer">
@@ -61,7 +60,11 @@
 
 @code {
 	public readonly KeyboardMemory _keyboardMemory = new KeyboardMemory();
-	public readonly LatexConfiguration _latexConfiguration  = new LatexConfiguration();
+	public readonly LatexConfiguration _latexConfiguration  = new LatexConfiguration
+	{
+		SelectionHightlightStart = @"\colorbox{" + CssHelper.SelectionModeColor + @"}{\(\displaystyle",
+		SelectionHightlightEnd = @"\)}",
+	};
 	public Func<string> decimalSeparatorSetting = () => DateTime.Now.Second % 2 == 0 ? "." : "{,}";
 	public Func<string> multiplicationSymbolSetting = () => DateTime.Now.Second % 2 == 0 ? @"\times" : @"\cdot";
 
@@ -69,7 +72,7 @@
 	{
 		KeyboardMemory = _keyboardMemory,
 		LatexConfiguration = _latexConfiguration,
-		AfterClickProcessed = DisplayResult,
+		AfterKeyboardMemoryUpdatedAsync = DisplayResultAsync,
 	};
 
 	ElementReference typesetEditModeLatex;
@@ -78,7 +81,10 @@
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		await DisplayResult();
+		if (firstRender)
+		{
+			await DisplayResultAsync();
+		}
 	}
 
 	private TreeNode GetFractionNode() => new DescendingBranchingNode(@"\frac{", "}{", "}");
@@ -88,17 +94,77 @@
 	private TreeNode GetSquareRootNode() => new StandardBranchingNode(@"\sqrt{", "}");
 	private TreeNode GetNthRootNode() => new DescendingBranchingNode(@"\sqrt[", "]{", "}");
 
-	private async Task DeleteKeyClicked() => await WithDisplayResult(_keyboardMemory.DeleteCurrent);
-	private async Task MoveUpClicked() => await WithDisplayResult(_keyboardMemory.MoveUp);
-	private async Task MoveLeftClicked() => await WithDisplayResult(_keyboardMemory.MoveLeft);
-	private async Task MoveDownClicked() => await WithDisplayResult(_keyboardMemory.MoveDown);
-	private async Task MoveRightClicked() => await WithDisplayResult(_keyboardMemory.MoveRight);
-
-
-	private async Task WithDisplayResult(Action action)
+	private async Task ToggleSelectionMode()
 	{
-		action();
-		await DisplayResult();
+		if (_keyboardMemory.InSelectionMode())
+		{
+			_keyboardMemory.LeaveSelectionMode();
+		}
+		else
+		{
+			_keyboardMemory.EnterSelectionMode();
+		}
+		await DisplayResultAsync();
+	}
+
+	private async Task DeleteKeyClicked()
+	{
+		if (_keyboardMemory.InSelectionMode())
+		{
+			_keyboardMemory.DeleteSelection();
+		}
+		else
+		{
+			_keyboardMemory.DeleteCurrent();
+		}
+
+		await DisplayResultAsync();
+	}
+
+	private async Task MoveUpClicked() 
+	{
+		if (_keyboardMemory.InSelectionMode())
+		{
+			_keyboardMemory.LeaveSelectionMode();
+		}
+		_keyboardMemory.MoveUp();
+		await DisplayResultAsync();
+	}
+
+	private async Task MoveLeftClicked()
+	{
+		if (_keyboardMemory.InSelectionMode())
+		{
+			_keyboardMemory.SelectLeft();
+		}
+		else
+		{
+			_keyboardMemory.MoveLeft();
+		}
+		await DisplayResultAsync();
+	}
+
+	private async Task MoveDownClicked() 	
+	{
+		if (_keyboardMemory.InSelectionMode())
+		{
+			_keyboardMemory.LeaveSelectionMode();
+		}
+		_keyboardMemory.MoveDown();
+		await DisplayResultAsync();
+	}
+
+	private async Task MoveRightClicked() 
+	{
+		if (_keyboardMemory.InSelectionMode())
+		{
+			_keyboardMemory.SelectRight();
+		}
+		else
+		{
+			_keyboardMemory.MoveRight();
+		}
+		await DisplayResultAsync();
 	}
 
 	private async Task RenderLatexInKeyAsync(TreeNode node, ElementReference key)
@@ -106,17 +172,18 @@
 		await JS.InvokeVoidAsync("katex.render", node.GetViewModeLatex(_latexConfiguration), key, new { throwOnError = false});
 	}
 
-	private async Task DisplayResult()
+	private async Task DisplayResultAsync()
 	{
 		var editModeLatex = _keyboardMemory.GetEditModeLatex(_latexConfiguration);
 		await JS.InvokeVoidAsync("katex.render", @$"\displaystyle {editModeLatex}", typesetEditModeLatex, new { throwOnError = false});
 		viewModeLatex = _keyboardMemory.GetViewModeLatex(_latexConfiguration);
+		StateHasChanged();
 	}
 }
 
 <style>
 	:root {
-    --selection-mode-color: #1668c7;
+    --selection-mode-color: @(CssHelper.SelectionModeColor);
 }
 
 .dark {
