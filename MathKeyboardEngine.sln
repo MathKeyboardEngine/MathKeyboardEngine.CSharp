@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWebAssemblyAppWithKatex", "Examples\BlazorWebAssemblyAppWithKatex\BlazorWebAssemblyAppWithKatex.csproj", "{D369770A-FCE0-4173-BFDC-B8AE72E3C963}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathKeyboardEngine", "MathKeyboardEngine\MathKeyboardEngine.csproj", "{7F6788D7-4540-4862-A85A-AE4C32828C80}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathKeyboardEngine.Tests", "MathKeyboardEngine.Tests\MathKeyboardEngine.Tests.csproj", "{F3E1835B-AD37-4ECD-ADD0-DB178626CC34}"
@@ -14,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{A6C0C8F2-1B82-451B-BCBA-7FF9B1E16555}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathKeyboardEngine.BlazorWebAssemblyAppWithKatex", "Examples\MathKeyboardEngine.BlazorWebAssemblyAppWithKatex\MathKeyboardEngine.BlazorWebAssemblyAppWithKatex.csproj", "{D369770A-FCE0-4173-BFDC-B8AE72E3C963}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,6 @@
-﻿namespace MathKeyboardEngine.BlazorWebAssemblyAppWithKatex;
+﻿using MathKeyboardEngine;
+
+namespace BlazorWebAssemblyAppWithKatex;
 
 public class MathTextboxInfo
 {

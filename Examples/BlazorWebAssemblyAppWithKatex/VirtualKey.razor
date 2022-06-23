@@ -1,4 +1,5 @@
-﻿@inject IJSRuntime JS
+﻿@using MathKeyboardEngine
+@inject IJSRuntime JS
 
 <div @ref=key @onclick=OnClick class="@(SelectionModeInsertAction != null ? CssHelper.GetSelectionModeClass(GetMathTextboxInfo().KeyboardMemory) : "")"></div>
 

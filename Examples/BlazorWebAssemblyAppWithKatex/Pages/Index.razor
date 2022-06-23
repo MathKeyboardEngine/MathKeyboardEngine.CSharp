@@ -1,8 +1,8 @@
 ﻿@page "/"
+@using MathKeyboardEngine
 @inject IJSRuntime JS
 @*
 	Notes:
-	- Because the namespace of this project starts with "MathKeyboardEngine", this examples skips the following using: `@using MathKeyboardEngine`.
 	- This example uses a custom Component called "VirtualKey" to avoid duplication, which requires an-also-custom-made "MathTextboxInfo" (which contains the KeyboardMemory (think "styntax tree") for a single "math textbox", so that a VirtualKey can be reused for multiple textboxes).
 	- The "decimalSeparatorSetting" and "multiplicationSymbolSetting" change at a random moment.
 *@
