@@ -84,6 +84,8 @@
 		if (firstRender)
 		{
 			await DisplayResultAsync();
+			DocumentEvents.OnPhysicalKeyDownHandler = OnPhysicalKeyDown;
+			DocumentEvents.OnPhysicalKeyUpHandler = OnPhysicalKeyUp;
 		}
 	}
 
@@ -178,6 +180,55 @@
 		await JS.InvokeVoidAsync("katex.render", @$"\displaystyle {editModeLatex}", typesetEditModeLatex, new { throwOnError = false});
 		viewModeLatex = _keyboardMemory.GetViewModeLatex(_latexConfiguration);
 		StateHasChanged();
+	}
+
+	public async Task OnPhysicalKeyUp(string key)
+	{
+		Console.WriteLine("Hello from instance UP: " + key);
+
+		if (key.StartsWith("Shift"))
+		{
+			inShift = false;
+		}
+		else if (key.StartsWith("Control"))
+		{
+			if (_keyboardMemory.InSelectionMode())
+			{
+				_keyboardMemory.LeaveSelectionMode();
+			}
+			else
+			{
+				_keyboardMemory.EnterSelectionMode();
+			}
+			await DisplayResultAsync();
+		}
+	}
+
+	private bool inShift = false;
+	public async Task OnPhysicalKeyDown(string key)
+	{
+		Console.WriteLine("Hello from instance DOWN: " + key);
+		if (key.StartsWith("Shift"))
+		{
+			inShift = true;
+		}
+		else if (key.StartsWith("Control"))
+		{
+			return;
+		}
+		else if (_keyboardMemory.InSelectionMode())
+		{
+			if (key == "ArrowLeft")
+			{
+				_keyboardMemory.SelectLeft();
+			}
+			else if (key == "ArrowRight")
+			{
+				_keyboardMemory.SelectRight();
+			}
+		}
+
+		await DisplayResultAsync();
 	}
 }
 

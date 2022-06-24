@@ -19,8 +19,12 @@
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+    <div id="app"><strong>Loading Blazor WebAssembly App...</strong></div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        document.onkeydown = (e) => DotNet.invokeMethodAsync('BlazorWebAssemblyAppWithKatex', 'OnPhysicalKeyDown', e.key);
+        document.onkeyup = (e) => DotNet.invokeMethodAsync('BlazorWebAssemblyAppWithKatex', 'OnPhysicalKeyUp', e.key);
+    </script>
 </body>
 
 </html>
