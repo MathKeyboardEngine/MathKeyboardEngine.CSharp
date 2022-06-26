@@ -11,8 +11,8 @@
 
 <h1>MathKeyboardEngine + KaTeX (in a Blazor WebAssembly App)</h1>
 
-<div id="pureLatexFromPhysicalKeys"></div>
 <div id="typesetEditModeLatex" @ref=typesetEditModeLatex></div>
+<div id="pureLatexFromPhysicalKeys">@pureLatex</div>
 <div id="viewModeLatex">@viewModeLatex</div>
 <i>Example keys - to be styled - to help you design your virtual math keyboard</i>
 <div id="mathKeyboard">
@@ -40,7 +40,7 @@
 	{
 		<VirtualKey GetTreeNode="() => new StandardLeafNode(op)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	}
-	<VirtualKey GetTreeNode="() => new StandardLeafNode(multiplicationSymbolSetting)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetMultiplicationNode" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	@foreach(var op in new[] { ":", @"\div", "!", })
 	{
 		<VirtualKey GetTreeNode="() => new StandardLeafNode(op)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
@@ -59,14 +59,14 @@
 </div>
 
 @code {
-	public readonly KeyboardMemory _keyboardMemory = new KeyboardMemory();
-	public readonly LatexConfiguration _latexConfiguration  = new LatexConfiguration
+	private KeyboardMemory _keyboardMemory = new KeyboardMemory();
+	private LatexConfiguration _latexConfiguration  = new LatexConfiguration
 	{
 		SelectionHightlightStart = @"\colorbox{" + CssHelper.SelectionModeColor + @"}{\(\displaystyle",
 		SelectionHightlightEnd = @"\)}",
 	};
-	public Func<string> decimalSeparatorSetting = () => DateTime.Now.Second % 2 == 0 ? "." : "{,}";
-	public Func<string> multiplicationSymbolSetting = () => DateTime.Now.Second % 2 == 0 ? @"\times" : @"\cdot";
+	private static Func<string> decimalSeparatorSetting = () => DateTime.Now.Second % 2 == 0 ? "." : "{,}";
+	private static Func<string> multiplicationSymbolSetting = () => DateTime.Now.Second % 2 == 0 ? @"\times" : @"\cdot";
 
 	public MathTextboxInfo GetMathTextboxInfo() => new MathTextboxInfo
 	{
@@ -78,6 +78,7 @@
 	ElementReference typesetEditModeLatex;
 
 	private string viewModeLatex = "";
+	private string pureLatex = "";
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -89,12 +90,17 @@
 		}
 	}
 
-	private TreeNode GetFractionNode() => new DescendingBranchingNode(@"\frac{", "}{", "}");
-	private TreeNode GetBinomialNode() => new DescendingBranchingNode(@"\binom{", "}{", "}");
-	private TreeNode GetPowerNode() => new AscendingBranchingNode("", "^{", "}");
-	private TreeNode GetSubscriptNode() => new DescendingBranchingNode("", "_{", "}");
-	private TreeNode GetSquareRootNode() => new StandardBranchingNode(@"\sqrt{", "}");
-	private TreeNode GetNthRootNode() => new DescendingBranchingNode(@"\sqrt[", "]{", "}");
+	private static BranchingNode GetFractionNode() => new DescendingBranchingNode(@"\frac{", "}{", "}");
+	private static BranchingNode GetBinomialNode() => new DescendingBranchingNode(@"\binom{", "}{", "}");
+	private static BranchingNode GetPowerNode() => new AscendingBranchingNode("", "^{", "}");
+	private static BranchingNode GetSubscriptNode() => new DescendingBranchingNode("", "_{", "}");
+	private static BranchingNode GetSquareRootNode() => new StandardBranchingNode(@"\sqrt{", "}");
+	private static BranchingNode GetNthRootNode() => new DescendingBranchingNode(@"\sqrt[", "]{", "}");
+	private static BranchingNode GetPipesNode() => new StandardBranchingNode(@"\left|", @"\right|");
+	private static BranchingNode GetCurlyBracketsNode() => new StandardBranchingNode(@"\left\{", @"\right\}");
+	private static BranchingNode GetSquareBracketsNode() => new StandardBranchingNode(@"\left[", @"\right]");
+	private static Func<StandardLeafNode> GetMultiplicationNode = () => new StandardLeafNode(multiplicationSymbolSetting);
+	private static Func<DecimalSeparatorNode> GetDecimalSeparatorNode = () => new DecimalSeparatorNode(decimalSeparatorSetting);
 
 	private async Task ToggleSelectionMode()
 	{
@@ -185,12 +191,11 @@
 	public async Task OnPhysicalKeyUp(string key)
 	{
 		Console.WriteLine("Hello from instance UP: " + key);
-
 		if (key.StartsWith("Shift"))
 		{
 			inShift = false;
 		}
-		else if (key.StartsWith("Control"))
+		else if (key == "ControlLeft")
 		{
 			if (_keyboardMemory.InSelectionMode())
 			{
@@ -212,7 +217,7 @@
 		{
 			inShift = true;
 		}
-		else if (key.StartsWith("Control"))
+		else if (key == "ControlLeft")
 		{
 			return;
 		}
@@ -226,10 +231,121 @@
 			{
 				_keyboardMemory.SelectRight();
 			}
+			else if (inShift)
+			{
+				var handler = SelectionModePhysicalKeydownHandlersForShift.Value.FirstOrDefault(x => x.CanHandle(key));
+				if (handler != null)
+				{
+					handler?.Handle(_keyboardMemory, key);
+					_keyboardMemory.LeaveSelectionMode();
+				}
+				else
+				{
+					_keyboardMemory.LeaveSelectionMode();
+					PhysicalKeydownHandlersForShift.Value.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+				}
+			}
+			else
+			{
+				var handler = SelectionModePhysicalKeydownHandlersNoShift.Value.FirstOrDefault(x => x.CanHandle(key));
+				if (handler != null)
+				{
+					handler?.Handle(_keyboardMemory, key);
+					_keyboardMemory.LeaveSelectionMode();
+				}
+				else
+				{
+					PhysicalKeydownHandlersNoShift.Value.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+				}
+			}
+		}
+		else
+		{
+          if (!inShift && key == "Backslash") {
+            pureLatex = @"\";
+          } else if (pureLatex.Length > 0) {
+            if (key == "Space" || key == "Enter" || key == "Escape") {
+              var node = (TreeNode)(
+                pureLatex == @"\frac"
+                  ? GetFractionNode()
+                  : pureLatex == @"\binom"
+                  ? GetBinomialNode()
+                  : pureLatex == @"\sqrt"
+                  ? GetSquareRootNode()
+                  : new StandardLeafNode(pureLatex));
+              _keyboardMemory.Insert(node);
+              pureLatex = "";
+            } else if (key == "Backspace") {
+              pureLatex = pureLatex.Substring(0, pureLatex.Length - 1);
+            } else if (key.StartsWith("Key")) {
+              if (inShift) {
+                pureLatex += key[3];
+              } else {
+                pureLatex += key[3].ToString().ToLower();
+              }
+            }
+          } else if (inShift)
+			{
+				PhysicalKeydownHandlersForShift.Value.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+			}
+			else
+			{
+				PhysicalKeydownHandlersNoShift.Value.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+			}
 		}
 
 		await DisplayResultAsync();
 	}
+	public Lazy<PhysicalKeyHandler[]> PhysicalKeydownHandlersForShift = new Lazy<PhysicalKeyHandler[]>(() => new PhysicalKeyHandler[]
+	{
+		new PhysicalKeyHandler("Digit6", (k, key) => k.InsertWithEncapsulateCurrent(GetPowerNode())),
+		new PhysicalKeyHandler("Digit9", (k, key) => k.Insert(new RoundBracketsNode())),
+		new PhysicalKeyHandler("Digit0", (k, key) => k.MoveRight()),
+		new PhysicalKeyHandler("Digit8", (k, key) => k.Insert(GetMultiplicationNode())),
+		new PhysicalKeyHandler("Equal", (k, key) => k.Insert(new StandardLeafNode("+"))),
+		new PhysicalKeyHandler("Minus", (k, key) => k.InsertWithEncapsulateCurrent(GetSubscriptNode())),
+		new PhysicalKeyHandler("Digit1", (k, key) => k.Insert(new StandardLeafNode("!"))),
+		new PhysicalKeyHandler("Digit5", (k, key) => k.Insert(new StandardLeafNode(@"\%"))),
+		new PhysicalKeyHandler((key) => key.StartsWith("Key"), (k, key) => k.Insert(new StandardLeafNode(key[3].ToString()))),
+		new PhysicalKeyHandler("Backslash", (k, key) => k.Insert(GetPipesNode())),
+		new PhysicalKeyHandler("BracketLeft", (k, key) => k.Insert(GetCurlyBracketsNode())),
+		new PhysicalKeyHandler("BracketRight", (k, key) => k.MoveRight()),
+		new PhysicalKeyHandler("Comma", (k, key) => k.Insert(new StandardLeafNode("<"))),
+		new PhysicalKeyHandler("Period", (k, key) => k.Insert(new StandardLeafNode(">"))),
+		new PhysicalKeyHandler("Semicolon", (k, key) => k.Insert(new StandardLeafNode(":")))
+	});
+
+	public Lazy<PhysicalKeyHandler[]> PhysicalKeydownHandlersNoShift = new Lazy<PhysicalKeyHandler[]>(() => new PhysicalKeyHandler[]
+	{
+        new PhysicalKeyHandler((key) => key.StartsWith("Digit"), (k, key) => k.Insert(new DigitNode(key[5].ToString()))),
+        new PhysicalKeyHandler((key) => key.StartsWith("Key"), (k, key) => k.Insert(new StandardLeafNode(key[3].ToString().ToLower()))),
+        new PhysicalKeyHandler("Backspace", (k, key) => k.DeleteCurrent()),
+        new PhysicalKeyHandler("ArrowLeft", (k, key) => k.MoveLeft()),
+        new PhysicalKeyHandler("ArrowRight", (k, key) => k.MoveRight()),
+        new PhysicalKeyHandler("ArrowUp", (k, key) => k.MoveUp()),
+        new PhysicalKeyHandler("ArrowDown", (k, key) => k.MoveDown()),
+        new PhysicalKeyHandler("Slash", (k, key) => k.InsertWithEncapsulateCurrent(GetFractionNode(), InsertWithEncapsulateCurrentMethod.Options.DeleteOuterRoundBracketsIfAny)),
+        new PhysicalKeyHandler("Equal", (k, key) => k.Insert(new StandardLeafNode("="))),
+        new PhysicalKeyHandler("Minus", (k, key) => k.Insert(new StandardLeafNode("-"))),
+        new PhysicalKeyHandler((key) => key == "Period" || key == "Comma", (k, key) => k.Insert(GetDecimalSeparatorNode())),
+        new PhysicalKeyHandler("BracketLeft", (k, key) => k.Insert(GetSquareBracketsNode())),
+        new PhysicalKeyHandler("BracketRight", (k, key) => k.MoveRight())
+	});
+
+	public Lazy<PhysicalKeyHandler[]> SelectionModePhysicalKeydownHandlersForShift = new Lazy<PhysicalKeyHandler[]>(() => new PhysicalKeyHandler[]
+	{
+        new PhysicalKeyHandler("Digit6", (k, key) => k.InsertWithEncapsulateSelectionAndPrevious(GetPowerNode())),
+        new PhysicalKeyHandler("BracketLeft", (k, key) => k.InsertWithEncapsulateSelection(GetCurlyBracketsNode())),
+        new PhysicalKeyHandler("Backslash", (k, key) => k.InsertWithEncapsulateSelection(GetPipesNode())),
+        new PhysicalKeyHandler("Digit9", (k, key) => k.InsertWithEncapsulateSelection(new RoundBracketsNode()))
+    });
+
+	public Lazy<BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler[]> SelectionModePhysicalKeydownHandlersNoShift = new Lazy<BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler[]>(() => new BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler[]
+    {
+		new BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler("Backspace", (k, key) => k.DeleteSelection()),
+        new BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler("BracketLeft", (k, key) => k.InsertWithEncapsulateSelection(GetSquareBracketsNode())),
+        new BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler("Slash", (k, key) => k.InsertWithEncapsulateSelection(GetFractionNode()))
+    });
 }
 
 <style>
@@ -315,11 +431,7 @@ a {
 }
 
 #pureLatexFromPhysicalKeys {
-    position: absolute;
-    left: 0;
-    top: 0;
     color: green;
-    text-align: right;
 }
 
 </style>
