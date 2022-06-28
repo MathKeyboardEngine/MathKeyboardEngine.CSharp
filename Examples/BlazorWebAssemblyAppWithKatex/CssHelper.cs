@@ -8,6 +8,4 @@ public static class CssHelper
     {
         return k.InSelectionMode() ? "inSelectionMode" : "";
     }
-
-    public const string SelectionModeColor = "#add8e6";
 }

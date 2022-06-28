@@ -18,6 +18,9 @@
 	[Parameter]
 	public Action<KeyboardMemory, BranchingNode>? SelectionModeInsertAction { get; set; }
 
+	[Parameter]
+	public string? OverrideLatexInKey { get; set; }
+
 	public async Task OnClick()
 	{ 
 		var info = GetMathTextboxInfo();
@@ -51,6 +54,6 @@
 
 	private async Task RenderLatexInKeyAsync(TreeNode node, ElementReference key)
 	{
-		await JS.InvokeVoidAsync("katex.render", node.GetViewModeLatex(GetMathTextboxInfo().LatexConfiguration), key, new { throwOnError = false});
+		await JS.InvokeVoidAsync("katex.render", OverrideLatexInKey ?? node.GetViewModeLatex(GetMathTextboxInfo().LatexConfiguration), key, new { throwOnError = false});
 	}
 }

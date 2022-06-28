@@ -18,6 +18,14 @@
 	<div @onclick=MoveLeftClicked class="@CssHelper.GetSelectionModeClass(_keyboardMemory)">&#x25C0;</div>
 	<div @onclick=MoveDownClicked>&#x25BC;</div>
 	<div @onclick=MoveRightClicked class="@CssHelper.GetSelectionModeClass(_keyboardMemory)">&#x25B6;</div>
+	<div onclick="const settingsContainer = document.getElementById('settingsContainer'); settingsContainer.style.display = settingsContainer.style.display == 'block' ? 'none' : 'block';">
+		<strong>Settings</strong>
+    </div>
+    <div id="settingsContainer">
+		<div @onclick=ToggleMultiplicationSignType class="setting">Output multiplication sign: <span class="setting-value">@multiplicationSignType</span></div>
+		<div @onclick=ToggleDecimalSeparatorSignType class="setting">Decimal separator: <span class="setting-value">@decimalSeparatorSignType</span></div>
+		<div @onclick=ToggleColorScheme class="setting">Color scheme: <span class="setting-value">@_colorScheme.Preference</span></div>
+    </div>
 	<br />
 	@for (int i = 0; i < 10; i++)
 	{
@@ -35,7 +43,7 @@
 	{
 		<VirtualKey GetTreeNode="() => new StandardLeafNode(op)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	}
-	<VirtualKey GetTreeNode="GetMultiplicationNode" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetMultiplicationNode" GetMathTextboxInfo="GetMathTextboxInfo" OverrideLatexInKey="\times"></VirtualKey>
 	@foreach(var op in new[] { ":", @"\div", "!", })
 	{
 		<VirtualKey GetTreeNode="() => new StandardLeafNode(op)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
@@ -101,11 +109,54 @@
 	private KeyboardMemory _keyboardMemory = new KeyboardMemory();
 	private LatexConfiguration _latexConfiguration  = new LatexConfiguration
 	{
-		SelectionHightlightStart = @"\colorbox{" + CssHelper.SelectionModeColor + @"}{\(\displaystyle",
 		SelectionHightlightEnd = @"\)}",
 	};
-	private string decimalSeparatorSetting() => DateTime.Now.Second % 2 == 0 ? "." : "{,}";
-	private string multiplicationSymbolSetting() => DateTime.Now.Second % 2 == 0 ? @"\times" : @"\cdot";
+	private void SetSelectionHightlightStart()
+	{
+		_latexConfiguration.SelectionHightlightStart = @"\colorbox{" + _colorScheme.SelectionModeColor + @"}{\(\displaystyle";
+	}
+	private readonly ColorScheme _colorScheme = new ColorScheme();
+
+	protected override async Task OnInitializedAsync()
+	{
+		await _colorScheme.LoadOSPreferenceAsync(JS);
+		SetSelectionHightlightStart();
+		await base.OnInitializedAsync();
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await DisplayResultAsync();
+			DocumentEvents.OnPhysicalKeyDownHandler = OnPhysicalKeyDownAsync;
+			DocumentEvents.OnPhysicalKeyUpHandler = OnPhysicalKeyUp;
+		}
+	}
+
+	public void ToggleColorScheme()
+	{
+		_colorScheme.Toggle();
+		SetSelectionHightlightStart();
+		StateHasChanged();
+	}
+
+	private string decimalSeparatorSignType = "decimal point";
+	private string decimalSeparatorSetting() => decimalSeparatorSignType == "decimal point" ? "." : "{,}";
+	private async Task ToggleDecimalSeparatorSignType()
+	{
+		decimalSeparatorSignType = decimalSeparatorSignType == "decimal point" ? "decimal comma" : "decimal point";
+		await DisplayResultAsync();
+	}
+
+	private string multiplicationSignType = "cross";
+	private string multiplicationSymbolSetting() => multiplicationSignType == "cross" ? @"\times" : @"\cdot";
+	private async Task ToggleMultiplicationSignType()
+	{
+		multiplicationSignType = multiplicationSignType == "cross" ? "dot" : "cross";
+		await DisplayResultAsync();
+	}
+
 	private int matrixHeight { get; set; } = 2;
 	private int matrixWidth { get; set; } = 2;
 
@@ -120,21 +171,6 @@
 	public async Task<bool> ShouldIgnorePhysicalKeyPresses()
 	{
 		return await JS.InvokeAsync<bool>("document.activeElement.classList.contains", "disable-physical-keypress-math-input-when-focused");
-	}
-
-	ElementReference typesetEditModeLatex;
-
-	private string viewModeLatex = "";
-	private string pureLatex = "";
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender)
-		{
-			await DisplayResultAsync();
-			DocumentEvents.OnPhysicalKeyDownHandler = OnPhysicalKeyDownAsync;
-			DocumentEvents.OnPhysicalKeyUpHandler = OnPhysicalKeyUp;
-		}
 	}
 
 	private StandardLeafNode GetMultiplicationNode() => new StandardLeafNode(multiplicationSymbolSetting);
@@ -232,6 +268,8 @@
 		await JS.InvokeVoidAsync("katex.render", node.GetViewModeLatex(_latexConfiguration), key, new { throwOnError = false});
 	}
 
+	private string viewModeLatex = "";
+	private ElementReference typesetEditModeLatex;
 	private async Task DisplayResultAsync()
 	{
 		var editModeLatex = _keyboardMemory.GetEditModeLatex(_latexConfiguration);
@@ -249,6 +287,7 @@
 		return Task.CompletedTask;
 	}
 
+	private string pureLatex = "";
 	private bool inShift = false;
 	public async Task OnPhysicalKeyDownAsync(string key)
 	{
@@ -417,13 +456,16 @@
 }
 
 <style>
-	:root {
-    --selection-mode-color: @(CssHelper.SelectionModeColor);
+:root {
+    --selection-mode-color: @(_colorScheme.SelectionModeColor);
 }
 
-.dark {
-    background-color: black;
-    color: white;
+@if (_colorScheme.Preference == ColorScheme.PreferenceType.Dark)
+{
+	@((MarkupString)@"body {
+		background-color: black;
+		color: white;
+	}");
 }
 
 html {

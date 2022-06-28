@@ -35,7 +35,7 @@ Also available: [MathKeyboardEngine for JavaScript](https://github.com/MathKeybo
 
 - you have full control over what you display on the virtual keyboard keys and what a virtual key press actually does.
 - customize the editor output at runtime: dot or comma as decimal separator, cross or dot for multiplication, cursor style, colors, etc.
-- this library also supports handling input from a physical keyboard, where - for example - the forward slash "/" key can be programmed to result in encapsulating a previously typed number as the numerator of a fraction. (No example available yet.)
+- this library also supports handling input from a physical keyboard, where - for example - the forward slash "/" key can be programmed to result in encapsulating a previously typed number as the numerator of a fraction. (See the examples from this C# repository or the JavaScript reporitory.)
 - almost forgotten: it's open source, free to use, free to modify (please fork this repo)!
 
 
@@ -57,7 +57,7 @@ var keyboardMemory = new KeyboardMemory();
 ```
 Note that MathKeyboardEngine for C# is a port from [MathKeyboardEngine for JavaScript](https://github.com/MathKeyboardEngine/MathKeyboardEngine) and that the documentation has not been ported (yet).
 
-The [Examples](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) folder does not contain much yet. Pull requests are welcome :)
+The [Examples](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) only contains an example for Blazor, but even if you work with something else - like Xamarin, .NET MAUI, WPF, UWP - you may find it useful to see. You will very probably make a much cleaner version :)
 
 ## Ask or contribute
 
