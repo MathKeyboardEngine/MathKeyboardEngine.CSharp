@@ -41,7 +41,7 @@ Also available: [MathKeyboardEngine for JavaScript](https://github.com/MathKeybo
 
 ## How to use this library
 
-In Visual Studio's `Solution Explorer`, right-click a project and click `Manage NuGet Packages...`. Browse "MathKeyboardEngine". (Currenlty only a pre-release/beta version is available.)
+In Visual Studio's `Solution Explorer`, right-click a project and click `Manage NuGet Packages...`. Browse "MathKeyboardEngine". (Currently only a pre-release/beta version is available.)
 
 Add
 ```csharp
@@ -57,7 +57,7 @@ var keyboardMemory = new KeyboardMemory();
 ```
 Note that MathKeyboardEngine for C# is a port from [MathKeyboardEngine for JavaScript](https://github.com/MathKeyboardEngine/MathKeyboardEngine) and that the documentation has not been ported (yet).
 
-The [Examples](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) only contains an example for Blazor, but even if you work with something else - like Xamarin, .NET MAUI, WPF, UWP - you may find it useful to see. You will very probably make a much cleaner version :)
+The [Examples](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) only contains an example for Blazor, but even if you work with something else - like Xamarin, .NET MAUI, WPF or UWP - you may find parts that you want to copy.
 
 ## Ask or contribute
 
