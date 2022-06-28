@@ -52,7 +52,46 @@
 	<VirtualKey GetTreeNode="GetSubscriptNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelectionAndPrevious(node)" InsertAction="(k, node) => k.InsertWithEncapsulateCurrent((BranchingNode)node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	<VirtualKey GetTreeNode="GetSquareRootNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelection(node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	<VirtualKey GetTreeNode="GetNthRootNode" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
-
+	<br />
+	<VirtualKey GetTreeNode="() => new RoundBracketsNode()" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelection(node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetSquareBracketsNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelection(node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetCurlyBracketsNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelection(node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetPipesNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelection(node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetDoublePipesNode" SelectionModeInsertAction="(k, node) => k.InsertWithEncapsulateSelection(node)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<br/>
+	<div style="text-align: right">
+		<label for="matrixHeight">Height</label>
+		<input @bind=matrixHeight type="number" min="1" class="disable-physical-keypress-math-input-when-focused" />
+		<br />
+		<label for="matrixWidth">Width</label>
+		<input @bind=matrixWidth type="number" min="1" class="disable-physical-keypress-math-input-when-focused" />
+	</div>
+	<VirtualKey GetTreeNode="@(() => new MatrixNode("pmatrix", matrixWidth, matrixHeight))" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="@(() => new MatrixNode("vmatrix", matrixWidth, matrixHeight))" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<br/>
+	@foreach(var x in new[] { @"\approx", "=", @"\neq", @"\leq", @"\geq", "<", ">" })
+	{
+		<VirtualKey GetTreeNode="() => new StandardLeafNode(x)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	}
+    <br />
+	@foreach(var x in new[] { @"\mathbb{N}", @"\mathbb{Z}", @"\mathbb{R}", @"\in", @"\subset", @"\subseteq", @"\setminus", @"\exists", @"\forall", @"\neg", @"\lor", @"\land", @"\Rightarrow", @"\Leftarrow" })
+	{
+		<VirtualKey GetTreeNode="() => new StandardLeafNode(x)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	}
+	<br/>
+	@foreach(var x in new[] {  @"\sin", @"\cos", @"\tan", @"\arcsin", @"\cos^{-1}", @"tan^{inv}" })
+	{
+		<VirtualKey GetTreeNode="() => new StandardLeafNode(x)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	}
+	<br/>
+	<VirtualKey GetTreeNode="GetIntegralNode" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetSumNode" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetProductNode" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	<VirtualKey GetTreeNode="GetLimitNode" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	@foreach(var x in new[] {  @"\leftarrow", @"\rightarrow", @"\uparrow", @"\downarrow", @"\infty" })
+	{
+		<VirtualKey GetTreeNode="() => new StandardLeafNode(x)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
+	}
 </div>
 <div class="footer">
 	<a href="https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp">View on GitHub</a>
@@ -65,8 +104,11 @@
 		SelectionHightlightStart = @"\colorbox{" + CssHelper.SelectionModeColor + @"}{\(\displaystyle",
 		SelectionHightlightEnd = @"\)}",
 	};
-	private static Func<string> decimalSeparatorSetting = () => DateTime.Now.Second % 2 == 0 ? "." : "{,}";
-	private static Func<string> multiplicationSymbolSetting = () => DateTime.Now.Second % 2 == 0 ? @"\times" : @"\cdot";
+	private string decimalSeparatorSetting() => DateTime.Now.Second % 2 == 0 ? "." : "{,}";
+	private string multiplicationSymbolSetting() => DateTime.Now.Second % 2 == 0 ? @"\times" : @"\cdot";
+	private int matrixHeight { get; set; } = 2;
+	private int matrixWidth { get; set; } = 2;
+
 
 	public MathTextboxInfo GetMathTextboxInfo() => new MathTextboxInfo
 	{
@@ -74,6 +116,11 @@
 		LatexConfiguration = _latexConfiguration,
 		AfterKeyboardMemoryUpdatedAsync = DisplayResultAsync,
 	};
+
+	public async Task<bool> ShouldIgnorePhysicalKeyPresses()
+	{
+		return await JS.InvokeAsync<bool>("document.activeElement.classList.contains", "disable-physical-keypress-math-input-when-focused");
+	}
 
 	ElementReference typesetEditModeLatex;
 
@@ -90,6 +137,8 @@
 		}
 	}
 
+	private StandardLeafNode GetMultiplicationNode() => new StandardLeafNode(multiplicationSymbolSetting);
+	private DecimalSeparatorNode GetDecimalSeparatorNode() => new DecimalSeparatorNode(decimalSeparatorSetting);
 	private static BranchingNode GetFractionNode() => new DescendingBranchingNode(@"\frac{", "}{", "}");
 	private static BranchingNode GetBinomialNode() => new DescendingBranchingNode(@"\binom{", "}{", "}");
 	private static BranchingNode GetPowerNode() => new AscendingBranchingNode("", "^{", "}");
@@ -97,10 +146,13 @@
 	private static BranchingNode GetSquareRootNode() => new StandardBranchingNode(@"\sqrt{", "}");
 	private static BranchingNode GetNthRootNode() => new DescendingBranchingNode(@"\sqrt[", "]{", "}");
 	private static BranchingNode GetPipesNode() => new StandardBranchingNode(@"\left|", @"\right|");
+	private static BranchingNode GetDoublePipesNode() => new StandardBranchingNode(@"\left\|", @"\right\|");
 	private static BranchingNode GetCurlyBracketsNode() => new StandardBranchingNode(@"\left\{", @"\right\}");
 	private static BranchingNode GetSquareBracketsNode() => new StandardBranchingNode(@"\left[", @"\right]");
-	private static Func<StandardLeafNode> GetMultiplicationNode = () => new StandardLeafNode(multiplicationSymbolSetting);
-	private static Func<DecimalSeparatorNode> GetDecimalSeparatorNode = () => new DecimalSeparatorNode(decimalSeparatorSetting);
+	private static BranchingNode GetIntegralNode() => new AscendingBranchingNode(@"\int_{", "}^{", "}");
+	private static BranchingNode GetSumNode() => new AscendingBranchingNode(@"\sum_{", "}^{", "}");
+	private static BranchingNode GetProductNode() => new AscendingBranchingNode(@"\prod_{", "}^{", "}");
+	private static BranchingNode GetLimitNode() => new AscendingBranchingNode(@"\lim_{", "}");
 
 	private async Task ToggleSelectionMode()
 	{
@@ -213,13 +265,13 @@
 	public async Task OnPhysicalKeyDown(string key)
 	{
 		Console.WriteLine("Hello from instance DOWN: " + key);
-		if (key.StartsWith("Shift"))
-		{
-			inShift = true;
-		}
-		else if (key == "ControlLeft")
+		if (await ShouldIgnorePhysicalKeyPresses() || key == "ControlLeft")
 		{
 			return;
+		}
+		else if (key.StartsWith("Shift"))
+		{
+			inShift = true;
 		}
 		else if (_keyboardMemory.InSelectionMode())
 		{
@@ -233,7 +285,7 @@
 			}
 			else if (inShift)
 			{
-				var handler = SelectionModePhysicalKeydownHandlersForShift.Value.FirstOrDefault(x => x.CanHandle(key));
+				var handler = SelectionModePhysicalKeydownHandlersForShift.FirstOrDefault(x => x.CanHandle(key));
 				if (handler != null)
 				{
 					handler?.Handle(_keyboardMemory, key);
@@ -242,12 +294,12 @@
 				else
 				{
 					_keyboardMemory.LeaveSelectionMode();
-					PhysicalKeydownHandlersForShift.Value.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+					PhysicalKeydownHandlersForShift.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
 				}
 			}
 			else
 			{
-				var handler = SelectionModePhysicalKeydownHandlersNoShift.Value.FirstOrDefault(x => x.CanHandle(key));
+				var handler = SelectionModePhysicalKeydownHandlersNoShift.FirstOrDefault(x => x.CanHandle(key));
 				if (handler != null)
 				{
 					handler?.Handle(_keyboardMemory, key);
@@ -255,97 +307,124 @@
 				}
 				else
 				{
-					PhysicalKeydownHandlersNoShift.Value.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+					_keyboardMemory.LeaveSelectionMode();
+					PhysicalKeydownHandlersNoShift.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
 				}
 			}
 		}
 		else
 		{
-          if (!inShift && key == "Backslash") {
-            pureLatex = @"\";
-          } else if (pureLatex.Length > 0) {
-            if (key == "Space" || key == "Enter" || key == "Escape") {
-              var node = (TreeNode)(
-                pureLatex == @"\frac"
-                  ? GetFractionNode()
-                  : pureLatex == @"\binom"
-                  ? GetBinomialNode()
-                  : pureLatex == @"\sqrt"
-                  ? GetSquareRootNode()
-                  : new StandardLeafNode(pureLatex));
-              _keyboardMemory.Insert(node);
-              pureLatex = "";
-            } else if (key == "Backspace") {
-              pureLatex = pureLatex.Substring(0, pureLatex.Length - 1);
-            } else if (key.StartsWith("Key")) {
-              if (inShift) {
-                pureLatex += key[3];
-              } else {
-                pureLatex += key[3].ToString().ToLower();
-              }
-            }
-          } else if (inShift)
+			if (!inShift && key == "Backslash")
 			{
-				PhysicalKeydownHandlersForShift.Value.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+				pureLatex = @"\";
+			}
+			else if (pureLatex.Length > 0)
+			{
+				if (key == "Space" || key == "Enter" || key == "Escape")
+				{
+					var node = (TreeNode)(
+						pureLatex == @"\frac" ? GetFractionNode()
+						: pureLatex == @"\binom" ? GetBinomialNode()
+						: pureLatex == @"\sqrt" ? GetSquareRootNode()
+						: pureLatex == @"\int" ? GetIntegralNode()
+						: pureLatex == @"\sum" ? GetSumNode()
+						: pureLatex == @"\prod" ? GetProductNode()
+						: pureLatex == @"\lim" ? GetLimitNode()
+						: new StandardLeafNode(pureLatex));
+					_keyboardMemory.Insert(node);
+					pureLatex = "";
+				}
+				else if (key == "Backspace")
+				{
+					pureLatex = pureLatex.Substring(0, pureLatex.Length - 1);
+				}
+				else if (key.StartsWith("Key"))
+				{
+					if (inShift)
+					{
+						pureLatex += key[3];
+					}
+					else
+					{
+						pureLatex += key[3].ToString().ToLower();
+					}
+				}
+			}
+			else if (inShift)
+			{
+				PhysicalKeydownHandlersForShift.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
 			}
 			else
 			{
-				PhysicalKeydownHandlersNoShift.Value.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+				PhysicalKeydownHandlersNoShift.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
 			}
 		}
 
 		await DisplayResultAsync();
 	}
-	public Lazy<PhysicalKeyHandler[]> PhysicalKeydownHandlersForShift = new Lazy<PhysicalKeyHandler[]>(() => new PhysicalKeyHandler[]
-	{
-		new PhysicalKeyHandler("Digit6", (k, key) => k.InsertWithEncapsulateCurrent(GetPowerNode())),
-		new PhysicalKeyHandler("Digit9", (k, key) => k.Insert(new RoundBracketsNode())),
-		new PhysicalKeyHandler("Digit0", (k, key) => k.MoveRight()),
-		new PhysicalKeyHandler("Digit8", (k, key) => k.Insert(GetMultiplicationNode())),
-		new PhysicalKeyHandler("Equal", (k, key) => k.Insert(new StandardLeafNode("+"))),
-		new PhysicalKeyHandler("Minus", (k, key) => k.InsertWithEncapsulateCurrent(GetSubscriptNode())),
-		new PhysicalKeyHandler("Digit1", (k, key) => k.Insert(new StandardLeafNode("!"))),
-		new PhysicalKeyHandler("Digit5", (k, key) => k.Insert(new StandardLeafNode(@"\%"))),
-		new PhysicalKeyHandler((key) => key.StartsWith("Key"), (k, key) => k.Insert(new StandardLeafNode(key[3].ToString()))),
-		new PhysicalKeyHandler("Backslash", (k, key) => k.Insert(GetPipesNode())),
-		new PhysicalKeyHandler("BracketLeft", (k, key) => k.Insert(GetCurlyBracketsNode())),
-		new PhysicalKeyHandler("BracketRight", (k, key) => k.MoveRight()),
-		new PhysicalKeyHandler("Comma", (k, key) => k.Insert(new StandardLeafNode("<"))),
-		new PhysicalKeyHandler("Period", (k, key) => k.Insert(new StandardLeafNode(">"))),
-		new PhysicalKeyHandler("Semicolon", (k, key) => k.Insert(new StandardLeafNode(":")))
-	});
 
-	public Lazy<PhysicalKeyHandler[]> PhysicalKeydownHandlersNoShift = new Lazy<PhysicalKeyHandler[]>(() => new PhysicalKeyHandler[]
+	public IEnumerable<PhysicalKeyHandler> PhysicalKeydownHandlersForShift
 	{
-        new PhysicalKeyHandler((key) => key.StartsWith("Digit"), (k, key) => k.Insert(new DigitNode(key[5].ToString()))),
-        new PhysicalKeyHandler((key) => key.StartsWith("Key"), (k, key) => k.Insert(new StandardLeafNode(key[3].ToString().ToLower()))),
-        new PhysicalKeyHandler("Backspace", (k, key) => k.DeleteCurrent()),
-        new PhysicalKeyHandler("ArrowLeft", (k, key) => k.MoveLeft()),
-        new PhysicalKeyHandler("ArrowRight", (k, key) => k.MoveRight()),
-        new PhysicalKeyHandler("ArrowUp", (k, key) => k.MoveUp()),
-        new PhysicalKeyHandler("ArrowDown", (k, key) => k.MoveDown()),
-        new PhysicalKeyHandler("Slash", (k, key) => k.InsertWithEncapsulateCurrent(GetFractionNode(), InsertWithEncapsulateCurrentMethod.Options.DeleteOuterRoundBracketsIfAny)),
-        new PhysicalKeyHandler("Equal", (k, key) => k.Insert(new StandardLeafNode("="))),
-        new PhysicalKeyHandler("Minus", (k, key) => k.Insert(new StandardLeafNode("-"))),
-        new PhysicalKeyHandler((key) => key == "Period" || key == "Comma", (k, key) => k.Insert(GetDecimalSeparatorNode())),
-        new PhysicalKeyHandler("BracketLeft", (k, key) => k.Insert(GetSquareBracketsNode())),
-        new PhysicalKeyHandler("BracketRight", (k, key) => k.MoveRight())
-	});
+		get
+		{
+			yield return new PhysicalKeyHandler("Digit6", (k, key) => k.InsertWithEncapsulateCurrent(GetPowerNode()));
+			yield return new PhysicalKeyHandler("Digit9", (k, key) => k.Insert(new RoundBracketsNode()));
+			yield return new PhysicalKeyHandler("Digit0", (k, key) => k.MoveRight());
+			yield return new PhysicalKeyHandler("Digit8", (k, key) => k.Insert(GetMultiplicationNode()));
+			yield return new PhysicalKeyHandler("Equal", (k, key) => k.Insert(new StandardLeafNode("+")));
+			yield return new PhysicalKeyHandler("Minus", (k, key) => k.InsertWithEncapsulateCurrent(GetSubscriptNode()));
+			yield return new PhysicalKeyHandler("Digit1", (k, key) => k.Insert(new StandardLeafNode("!")));
+			yield return new PhysicalKeyHandler("Digit5", (k, key) => k.Insert(new StandardLeafNode(@"\%")));
+			yield return new PhysicalKeyHandler((key) => key.StartsWith("Key"), (k, key) => k.Insert(new StandardLeafNode(key[3].ToString())));
+			yield return new PhysicalKeyHandler("Backslash", (k, key) => k.Insert(GetPipesNode()));
+			yield return new PhysicalKeyHandler("BracketLeft", (k, key) => k.Insert(GetCurlyBracketsNode()));
+			yield return new PhysicalKeyHandler("BracketRight", (k, key) => k.MoveRight());
+			yield return new PhysicalKeyHandler("Comma", (k, key) => k.Insert(new StandardLeafNode("<")));
+			yield return new PhysicalKeyHandler("Period", (k, key) => k.Insert(new StandardLeafNode(">")));
+			yield return new PhysicalKeyHandler("Semicolon", (k, key) => k.Insert(new StandardLeafNode(":")));
+		}
+	}
 
-	public Lazy<PhysicalKeyHandler[]> SelectionModePhysicalKeydownHandlersForShift = new Lazy<PhysicalKeyHandler[]>(() => new PhysicalKeyHandler[]
+	public IEnumerable<PhysicalKeyHandler> PhysicalKeydownHandlersNoShift
 	{
-        new PhysicalKeyHandler("Digit6", (k, key) => k.InsertWithEncapsulateSelectionAndPrevious(GetPowerNode())),
-        new PhysicalKeyHandler("BracketLeft", (k, key) => k.InsertWithEncapsulateSelection(GetCurlyBracketsNode())),
-        new PhysicalKeyHandler("Backslash", (k, key) => k.InsertWithEncapsulateSelection(GetPipesNode())),
-        new PhysicalKeyHandler("Digit9", (k, key) => k.InsertWithEncapsulateSelection(new RoundBracketsNode()))
-    });
+		get
+		{
+			yield return new PhysicalKeyHandler((key) => key.StartsWith("Digit"), (k, key) => k.Insert(new DigitNode(key[5].ToString())));
+			yield return new PhysicalKeyHandler((key) => key.StartsWith("Key"), (k, key) => k.Insert(new StandardLeafNode(key[3].ToString().ToLower())));
+			yield return new PhysicalKeyHandler("Backspace", (k, key) => k.DeleteCurrent());
+			yield return new PhysicalKeyHandler("ArrowLeft", (k, key) => k.MoveLeft());
+			yield return new PhysicalKeyHandler("ArrowRight", (k, key) => k.MoveRight());
+			yield return new PhysicalKeyHandler("ArrowUp", (k, key) => k.MoveUp());
+			yield return new PhysicalKeyHandler("ArrowDown", (k, key) => k.MoveDown());
+			yield return new PhysicalKeyHandler("Slash", (k, key) => k.InsertWithEncapsulateCurrent(GetFractionNode(), InsertWithEncapsulateCurrentMethod.Options.DeleteOuterRoundBracketsIfAny));
+			yield return new PhysicalKeyHandler("Equal", (k, key) => k.Insert(new StandardLeafNode("=")));
+			yield return new PhysicalKeyHandler("Minus", (k, key) => k.Insert(new StandardLeafNode("-")));
+			yield return new PhysicalKeyHandler((key) => key == "Period" || key == "Comma", (k, key) => k.Insert(GetDecimalSeparatorNode()));
+			yield return new PhysicalKeyHandler("BracketLeft", (k, key) => k.Insert(GetSquareBracketsNode()));
+			yield return new PhysicalKeyHandler("BracketRight", (k, key) => k.MoveRight());
+		}
+	}
 
-	public Lazy<BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler[]> SelectionModePhysicalKeydownHandlersNoShift = new Lazy<BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler[]>(() => new BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler[]
-    {
-		new BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler("Backspace", (k, key) => k.DeleteSelection()),
-        new BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler("BracketLeft", (k, key) => k.InsertWithEncapsulateSelection(GetSquareBracketsNode())),
-        new BlazorWebAssemblyAppWithKatex.PhysicalKeyHandler("Slash", (k, key) => k.InsertWithEncapsulateSelection(GetFractionNode()))
-    });
+	public IEnumerable<PhysicalKeyHandler> SelectionModePhysicalKeydownHandlersForShift
+	{ 
+		get
+		{
+			yield return new PhysicalKeyHandler("Digit6", (k, key) => k.InsertWithEncapsulateSelectionAndPrevious(GetPowerNode()));
+			yield return new PhysicalKeyHandler("BracketLeft", (k, key) => k.InsertWithEncapsulateSelection(GetCurlyBracketsNode()));
+			yield return new PhysicalKeyHandler("Backslash", (k, key) => k.InsertWithEncapsulateSelection(GetPipesNode()));
+			yield return new PhysicalKeyHandler("Digit9", (k, key) => k.InsertWithEncapsulateSelection(new RoundBracketsNode()));
+		}
+	}
+
+	public IEnumerable<PhysicalKeyHandler> SelectionModePhysicalKeydownHandlersNoShift
+	{
+		get
+		{
+			yield return new PhysicalKeyHandler("Backspace", (k, key) => k.DeleteSelection());
+			yield return new PhysicalKeyHandler("BracketLeft", (k, key) => k.InsertWithEncapsulateSelection(GetSquareBracketsNode()));
+			yield return new PhysicalKeyHandler("Slash", (k, key) => k.InsertWithEncapsulateSelection(GetFractionNode()));
+		}
+	}
 }
 
 <style>
