@@ -1,11 +1,6 @@
 ﻿@page "/"
 @using MathKeyboardEngine
 @inject IJSRuntime JS
-@*
-	Notes:
-	- This example uses a custom Component called "VirtualKey" to avoid duplication, which requires an-also-custom-made "MathTextboxInfo" (which contains the KeyboardMemory (think "styntax tree") for a single "math textbox", so that a VirtualKey can be reused for multiple textboxes).
-	- The "decimalSeparatorSetting" and "multiplicationSymbolSetting" change at a random moment.
-*@
 
 <PageTitle>MathKeyboardEngine + KaTeX (in a Blazor WebAssembly App)</PageTitle>
 
@@ -93,6 +88,11 @@
 		<VirtualKey GetTreeNode="() => new StandardLeafNode(x)" GetMathTextboxInfo="GetMathTextboxInfo"></VirtualKey>
 	}
 </div>
+<p>
+	Note: if you have a physical keyboard attached, you can use that too.<br/>
+	Use a backslash for pure LaTeX commands.<br/>
+	Use Shift + Left for selection mode.
+</p>
 <div class="footer">
 	<a href="https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp">View on GitHub</a>
 </div>
@@ -132,7 +132,7 @@
 		if (firstRender)
 		{
 			await DisplayResultAsync();
-			DocumentEvents.OnPhysicalKeyDownHandler = OnPhysicalKeyDown;
+			DocumentEvents.OnPhysicalKeyDownHandler = OnPhysicalKeyDownAsync;
 			DocumentEvents.OnPhysicalKeyUpHandler = OnPhysicalKeyUp;
 		}
 	}
@@ -193,7 +193,7 @@
 
 	private async Task MoveLeftClicked()
 	{
-		if (_keyboardMemory.InSelectionMode())
+		if (_keyboardMemory.InSelectionMode() || inShift)
 		{
 			_keyboardMemory.SelectLeft();
 		}
@@ -216,7 +216,7 @@
 
 	private async Task MoveRightClicked() 
 	{
-		if (_keyboardMemory.InSelectionMode())
+		if (_keyboardMemory.InSelectionMode() || inShift)
 		{
 			_keyboardMemory.SelectRight();
 		}
@@ -240,32 +240,19 @@
 		StateHasChanged();
 	}
 
-	public async Task OnPhysicalKeyUp(string key)
+	public Task OnPhysicalKeyUp(string key)
 	{
-		Console.WriteLine("Hello from instance UP: " + key);
 		if (key.StartsWith("Shift"))
 		{
 			inShift = false;
 		}
-		else if (key == "ControlLeft")
-		{
-			if (_keyboardMemory.InSelectionMode())
-			{
-				_keyboardMemory.LeaveSelectionMode();
-			}
-			else
-			{
-				_keyboardMemory.EnterSelectionMode();
-			}
-			await DisplayResultAsync();
-		}
+		return Task.CompletedTask;
 	}
 
 	private bool inShift = false;
-	public async Task OnPhysicalKeyDown(string key)
+	public async Task OnPhysicalKeyDownAsync(string key)
 	{
-		Console.WriteLine("Hello from instance DOWN: " + key);
-		if (await ShouldIgnorePhysicalKeyPresses() || key == "ControlLeft")
+		if (await ShouldIgnorePhysicalKeyPresses())
 		{
 			return;
 		}
@@ -376,6 +363,8 @@
 			yield return new PhysicalKeyHandler("Digit1", (k, key) => k.Insert(new StandardLeafNode("!")));
 			yield return new PhysicalKeyHandler("Digit5", (k, key) => k.Insert(new StandardLeafNode(@"\%")));
 			yield return new PhysicalKeyHandler((key) => key.StartsWith("Key"), (k, key) => k.Insert(new StandardLeafNode(key[3].ToString())));
+			yield return new PhysicalKeyHandler("ArrowLeft", (k, key) => k.SelectLeft());
+			yield return new PhysicalKeyHandler("ArrowRight", (k, key) => k.SelectRight());
 			yield return new PhysicalKeyHandler("Backslash", (k, key) => k.Insert(GetPipesNode()));
 			yield return new PhysicalKeyHandler("BracketLeft", (k, key) => k.Insert(GetCurlyBracketsNode()));
 			yield return new PhysicalKeyHandler("BracketRight", (k, key) => k.MoveRight());
