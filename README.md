@@ -8,9 +8,10 @@ Also available: [MathKeyboardEngine for JavaScript](https://github.com/MathKeybo
 
 #### Which LaTeX typesetting libraries?
 
-- If you're making a [Blazor WebAssembly app](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor), then use for example [KaTeX](https://katex.org/) or [MathJax](https://www.mathjax.org/). You have the keyboard-logic from MathKeyboardEngine in C# and an extreme amount of LaTeX commands after just a few lines of JavaScript glue code.
-- If you're making a Windows desktop application, then use for example [WPF-Math](https://github.com/ForNeVeR/wpf-math). Note that MathKeyboardEngine has its own syntax tree and that it works independently.
-- In all other cases, use for example [CSharpMath](https://github.com/verybadcat/CSharpMath). CSharpMath can render LaTeX even for mobile development. Note that CSharpMath distributes several packages and that it also has its own keyboard functionality - however, you may want to choose MathKeyboardEngine for its flexibility.
+- If you're making a [Blazor WebAssembly app](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor), then use [KaTeX](https://katex.org/) or [MathJax](https://www.mathjax.org/). You have the keyboard-logic from MathKeyboardEngine in C# and an extreme amount of LaTeX commands after just a few lines of JavaScript glue code.
+- If you're making a Windows desktop [WPF app](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/overview/?view=netdesktop-5.0) or Windows Forms app, then use [WPF-Math](https://github.com/ForNeVeR/wpf-math).
+- If you're working with UWP, .NET MAUI (Xamarin), Avalonia, Uno, etc., then use [CSharpMath](https://github.com/verybadcat/CSharpMath).
+- ...
 
 #### An execution timeline
 
@@ -41,7 +42,7 @@ Also available: [MathKeyboardEngine for JavaScript](https://github.com/MathKeybo
 
 ## How to use this library
 
-In Visual Studio's `Solution Explorer`, right-click a project and click `Manage NuGet Packages...`. Browse "MathKeyboardEngine". (Currently only a pre-release/beta version is available.)
+In Visual Studio's `Solution Explorer`, right-click a project and click `Manage NuGet Packages...`. Browse "MathKeyboardEngine".
 
 Add
 ```csharp
