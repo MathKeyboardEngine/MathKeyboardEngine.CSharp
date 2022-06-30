@@ -56,9 +56,9 @@ var keyboardMemory = new KeyboardMemory();
 
 // Handle button clicks, etc.
 ```
-Note that MathKeyboardEngine for C# is a port from [MathKeyboardEngine for JavaScript](https://github.com/MathKeyboardEngine/MathKeyboardEngine) and that the documentation has not been ported (yet).
+## Documentation
 
-The [Examples folder](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) only contains an example for Blazor, but even if you work with something else - like Xamarin, .NET MAUI, WPF or UWP - you may find parts that you want to copy.
+Visit the [documentation](https://mathkeyboardengine.github.io/docs/csharp/0.1/) and the [Examples folder](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) for more implementation details. There's only one example - for Blazor - but even if you work with something else - like Xamarin, .NET MAUI, WPF or UWP - you may find parts that you want to copy.
 
 ## Ask or contribute
 
