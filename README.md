@@ -20,6 +20,10 @@ Also available: [MathKeyboardEngine for JavaScript](https://github.com/MathKeybo
 1. Calling `GetEditModeLatex()` outputs the total of LaTeX you typed, for example `\frac{3}{4}\blacksquare` (if `\blacksquare` is your cursor), which you then feed to the typesetting library for display.
 1. Calling `GetViewModeLatex()` outputs the LaTeX without a cursor.
 
+#### Let me test it now!
+
+Live examples can be tested at [MathKeyboardEngine.GitHub.io](https://mathkeyboardengine.github.io).
+
 #### Pros and cons?
 
 <i>Unique about MathKeyboardEngine:</i>
