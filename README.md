@@ -42,7 +42,7 @@ Also available: [MathKeyboardEngine for JavaScript](https://github.com/MathKeybo
 
 ## How to use this library
 
-In Visual Studio's `Solution Explorer`, right-click a project and click `Manage NuGet Packages...`. Browse "MathKeyboardEngine".
+In Visual Studio's `Solution Explorer`, right-click a project and click `Manage NuGet Packages...`. Browse and install "MathKeyboardEngine".
 
 Add
 ```csharp
