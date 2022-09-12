@@ -9,7 +9,7 @@ Also available: [MathKeyboardEngine for JavaScript](https://github.com/MathKeybo
 #### Which LaTeX typesetting libraries?
 
 - If you're making a [.NET MAUI Blazor app](https://docs.microsoft.com/en-us/aspnet/core/blazor/hybrid/tutorials/maui?view=aspnetcore-6.0) or a [Blazor WebAssembly app](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor), then use [KaTeX](https://katex.org/) or [MathJax](https://www.mathjax.org/). You have the keyboard-logic from MathKeyboardEngine in C# and an extreme amount of LaTeX commands after just a few lines of JavaScript glue code.
-- If you're making a Windows desktop [WPF app](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/overview/?view=netdesktop-5.0) or Windows Forms app, then use [WPF-Math](https://github.com/ForNeVeR/wpf-math).
+- If you're making a [WPF app](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/overview/?view=netdesktop-5.0) or Windows Forms app, then use [WPF-Math](https://github.com/ForNeVeR/wpf-math).
 - If you're working with UWP, non-Blazor .NET MAUI, Avalonia, Uno, etc., then use [CSharpMath](https://github.com/verybadcat/CSharpMath).
 - ...
 
