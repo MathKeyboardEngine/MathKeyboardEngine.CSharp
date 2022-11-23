@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Description>MathKeyboardEngine provides the logic for a highly customizable virtual math keyboard. It is intended for use together with any LaTeX typesetting library.</Description>
     <PackageProjectUrl>https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp#README.md</PackageProjectUrl>
     <RepositoryUrl>https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp</RepositoryUrl>

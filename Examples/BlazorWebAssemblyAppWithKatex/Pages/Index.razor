@@ -107,172 +107,180 @@
 </div>
 
 @code {
-	private KeyboardMemory _keyboardMemory = new KeyboardMemory();
-	private LatexConfiguration _latexConfiguration  = new LatexConfiguration
+    private KeyboardMemory _keyboardMemory = new KeyboardMemory();
+    private LatexConfiguration _latexConfiguration  = new LatexConfiguration
 	{
 		SelectionHightlightEnd = @"\)}",
 	};
-	private void SetSelectionHightlightStart()
-	{
-		_latexConfiguration.SelectionHightlightStart = @"\colorbox{" + _colorScheme.SelectionModeColor + @"}{\(\displaystyle";
-	}
-	private readonly ColorScheme _colorScheme = new ColorScheme();
+    private void SetSelectionHightlightStart()
+    {
+        _latexConfiguration.SelectionHightlightStart = @"\colorbox{" + _colorScheme.SelectionModeColor + @"}{\(\displaystyle";
+    }
+    private readonly ColorScheme _colorScheme = new ColorScheme();
 
-	protected override async Task OnInitializedAsync()
-	{
-		await _colorScheme.LoadOSPreferenceAsync(JS);
-		SetSelectionHightlightStart();
-		await base.OnInitializedAsync();
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        await _colorScheme.LoadOSPreferenceAsync(JS);
+        SetSelectionHightlightStart();
+        await base.OnInitializedAsync();
+    }
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender)
-		{
-			await DisplayResultAsync();
-			DocumentEvents.OnPhysicalKeyDownHandler = OnPhysicalKeyDownAsync;
-			DocumentEvents.OnPhysicalKeyUpHandler = OnPhysicalKeyUp;
-		}
-	}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await DisplayResultAsync();
+            DocumentEvents.OnPhysicalKeyDownHandler = OnPhysicalKeyDownAsync;
+            DocumentEvents.OnPhysicalKeyUpHandler = OnPhysicalKeyUp;
+        }
+    }
 
-	public void ToggleColorScheme()
-	{
-		_colorScheme.Toggle();
-		SetSelectionHightlightStart();
-		StateHasChanged();
-	}
+    public void ToggleColorScheme()
+    {
+        _colorScheme.Toggle();
+        SetSelectionHightlightStart();
+        StateHasChanged();
+    }
 
-	private string decimalSeparatorSignType = "decimal point";
-	private string decimalSeparatorSetting() => decimalSeparatorSignType == "decimal point" ? "." : "{,}";
-	private async Task ToggleDecimalSeparatorSignType()
-	{
-		decimalSeparatorSignType = decimalSeparatorSignType == "decimal point" ? "decimal comma" : "decimal point";
-		await DisplayResultAsync();
-	}
+    private string decimalSeparatorSignType = "decimal point";
+    private string decimalSeparatorSetting() => decimalSeparatorSignType == "decimal point" ? "." : "{,}";
+    private async Task ToggleDecimalSeparatorSignType()
+    {
+        decimalSeparatorSignType = decimalSeparatorSignType == "decimal point" ? "decimal comma" : "decimal point";
+        await DisplayResultAsync();
+    }
 
-	private string multiplicationSignType = "cross";
-	private string multiplicationSymbolSetting() => multiplicationSignType == "cross" ? @"\times" : @"\cdot";
-	private async Task ToggleMultiplicationSignType()
-	{
-		multiplicationSignType = multiplicationSignType == "cross" ? "dot" : "cross";
-		await DisplayResultAsync();
-	}
+    private string multiplicationSignType = "cross";
+    private string multiplicationSymbolSetting() => multiplicationSignType == "cross" ? @"\times" : @"\cdot";
+    private async Task ToggleMultiplicationSignType()
+    {
+        multiplicationSignType = multiplicationSignType == "cross" ? "dot" : "cross";
+        await DisplayResultAsync();
+    }
 
-	private int matrixHeight { get; set; } = 2;
-	private int matrixWidth { get; set; } = 2;
+    private int matrixHeight { get; set; } = 2;
+    private int matrixWidth { get; set; } = 2;
 
 
-	public MathTextboxInfo GetMathTextboxInfo() => new MathTextboxInfo
+    public MathTextboxInfo GetMathTextboxInfo() => new MathTextboxInfo
 	{
 		KeyboardMemory = _keyboardMemory,
 		LatexConfiguration = _latexConfiguration,
 		AfterKeyboardMemoryUpdatedAsync = DisplayResultAsync,
 	};
 
-	public async Task<bool> ShouldIgnorePhysicalKeyPresses()
-	{
-		return await JS.InvokeAsync<bool>("document.activeElement.classList.contains", "disable-physical-keypress-math-input-when-focused");
-	}
+    public async Task<bool> ShouldIgnorePhysicalKeyPresses()
+    {
+        return await JS.InvokeAsync<bool>("document.activeElement.classList.contains", "disable-physical-keypress-math-input-when-focused");
+    }
 
-	private StandardLeafNode GetMultiplicationNode() => new StandardLeafNode(multiplicationSymbolSetting);
-	private DecimalSeparatorNode GetDecimalSeparatorNode() => new DecimalSeparatorNode(decimalSeparatorSetting);
-	private static BranchingNode GetFractionNode() => new DescendingBranchingNode(@"\frac{", "}{", "}");
-	private static BranchingNode GetBinomialNode() => new DescendingBranchingNode(@"\binom{", "}{", "}");
-	private static BranchingNode GetPowerNode() => new AscendingBranchingNode("", "^{", "}");
-	private static BranchingNode GetSubscriptNode() => new DescendingBranchingNode("", "_{", "}");
-	private static BranchingNode GetSquareRootNode() => new StandardBranchingNode(@"\sqrt{", "}");
-	private static BranchingNode GetNthRootNode() => new DescendingBranchingNode(@"\sqrt[", "]{", "}");
-	private static BranchingNode GetPipesNode() => new StandardBranchingNode(@"\left|", @"\right|");
-	private static BranchingNode GetDoublePipesNode() => new StandardBranchingNode(@"\left\|", @"\right\|");
-	private static BranchingNode GetCurlyBracketsNode() => new StandardBranchingNode(@"\left\{", @"\right\}");
-	private static BranchingNode GetSquareBracketsNode() => new StandardBranchingNode(@"\left[", @"\right]");
-	private static BranchingNode GetIntegralNode() => new AscendingBranchingNode(@"\int_{", "}^{", "}");
-	private static BranchingNode GetSumNode() => new AscendingBranchingNode(@"\sum_{", "}^{", "}");
-	private static BranchingNode GetProductNode() => new AscendingBranchingNode(@"\prod_{", "}^{", "}");
-	private static BranchingNode GetLimitNode() => new AscendingBranchingNode(@"\lim_{", "}");
+    private StandardLeafNode GetMultiplicationNode() => new StandardLeafNode(multiplicationSymbolSetting);
+    private DecimalSeparatorNode GetDecimalSeparatorNode() => new DecimalSeparatorNode(decimalSeparatorSetting);
+    private static BranchingNode GetFractionNode() => new DescendingBranchingNode(@"\frac{", "}{", "}");
+    private static BranchingNode GetBinomialNode() => new DescendingBranchingNode(@"\binom{", "}{", "}");
+    private static BranchingNode GetPowerNode() => new AscendingBranchingNode("", "^{", "}");
+    private static BranchingNode GetSubscriptNode() => new DescendingBranchingNode("", "_{", "}");
+    private static BranchingNode GetSquareRootNode() => new StandardBranchingNode(@"\sqrt{", "}");
+    private static BranchingNode GetNthRootNode() => new DescendingBranchingNode(@"\sqrt[", "]{", "}");
+    private static BranchingNode GetPipesNode() => new StandardBranchingNode(@"\left|", @"\right|");
+    private static BranchingNode GetDoublePipesNode() => new StandardBranchingNode(@"\left\|", @"\right\|");
+    private static BranchingNode GetCurlyBracketsNode() => new StandardBranchingNode(@"\left\{", @"\right\}");
+    private static BranchingNode GetSquareBracketsNode() => new StandardBranchingNode(@"\left[", @"\right]");
+    private static BranchingNode GetIntegralNode() => new AscendingBranchingNode(@"\int_{", "}^{", "}");
+    private static BranchingNode GetSumNode() => new AscendingBranchingNode(@"\sum_{", "}^{", "}");
+    private static BranchingNode GetProductNode() => new AscendingBranchingNode(@"\prod_{", "}^{", "}");
+    private static BranchingNode GetLimitNode() => new AscendingBranchingNode(@"\lim_{", "}");
 
-	private async Task ToggleSelectionMode()
-	{
-		if (_keyboardMemory.InSelectionMode())
-		{
-			_keyboardMemory.LeaveSelectionMode();
-		}
-		else
-		{
-			_keyboardMemory.EnterSelectionMode();
-		}
-		await DisplayResultAsync();
-	}
+    private async Task ToggleSelectionMode()
+    {
+        if (_keyboardMemory.InSelectionMode())
+        {
+            _keyboardMemory.LeaveSelectionMode();
+        }
+        else
+        {
+            _keyboardMemory.EnterSelectionMode();
+        }
+        await DisplayResultAsync();
+    }
 
-	private async Task DeleteKeyClicked()
-	{
-		if (_keyboardMemory.InSelectionMode())
-		{
-			_keyboardMemory.DeleteSelection();
-		}
-		else
-		{
-			_keyboardMemory.DeleteCurrent();
-		}
+    private async Task DeleteKeyClicked()
+    {
+        if (_keyboardMemory.InSelectionMode())
+        {
+            _keyboardMemory.DeleteSelection();
+        }
+        else
+        {
+            _keyboardMemory.DeleteCurrent();
+        }
 
-		await DisplayResultAsync();
-	}
+        await DisplayResultAsync();
+    }
 
-	private async Task MoveUpClicked() 
-	{
-		if (_keyboardMemory.InSelectionMode())
-		{
-			_keyboardMemory.LeaveSelectionMode();
-		}
-		_keyboardMemory.MoveUp();
-		await DisplayResultAsync();
-	}
+    private async Task MoveUpClicked() 
+    {
+        if (_keyboardMemory.InSelectionMode())
+        {
+            _keyboardMemory.LeaveSelectionMode();
+        }
+        _keyboardMemory.MoveUp();
+        await DisplayResultAsync();
+    }
 
-	private async Task MoveLeftClicked()
-	{
-		if (_keyboardMemory.InSelectionMode() || inShift)
-		{
-			_keyboardMemory.SelectLeft();
-		}
-		else
-		{
-			_keyboardMemory.MoveLeft();
-		}
-		await DisplayResultAsync();
-	}
+    private async Task MoveLeftClicked()
+    {
+        if (_keyboardMemory.InSelectionMode() || inShift)
+        {
+            _keyboardMemory.SelectLeft();
+        }
+        else
+        {
+            _keyboardMemory.MoveLeft();
+        }
+        await DisplayResultAsync();
+    }
 
-	private async Task MoveDownClicked() 	
-	{
-		if (_keyboardMemory.InSelectionMode())
-		{
-			_keyboardMemory.LeaveSelectionMode();
-		}
-		_keyboardMemory.MoveDown();
-		await DisplayResultAsync();
-	}
+    private async Task MoveDownClicked() 	
+    {
+        if (_keyboardMemory.InSelectionMode())
+        {
+            _keyboardMemory.LeaveSelectionMode();
+        }
+        _keyboardMemory.MoveDown();
+        await DisplayResultAsync();
+    }
 
-	private async Task MoveRightClicked() 
-	{
-		if (_keyboardMemory.InSelectionMode() || inShift)
-		{
-			_keyboardMemory.SelectRight();
-		}
-		else
-		{
-			_keyboardMemory.MoveRight();
-		}
-		await DisplayResultAsync();
-	}
+    private async Task MoveRightClicked() 
+    {
+        if (_keyboardMemory.InSelectionMode() || inShift)
+        {
+            _keyboardMemory.SelectRight();
+        }
+        else
+        {
+            _keyboardMemory.MoveRight();
+        }
+        await DisplayResultAsync();
+    }
 
-	private async Task RenderLatexInKeyAsync(TreeNode node, ElementReference key)
-	{
-		await JS.InvokeVoidAsync("katex.render", node.GetViewModeLatex(_latexConfiguration), key, new { throwOnError = false});
-	}
+    private async Task RenderLatexInKeyAsync(TreeNode node, ElementReference key)
+    {
+        await JS.InvokeVoidAsync("katex.render", node.GetViewModeLatex(_latexConfiguration), key, new { throwOnError = false});
+    }
 
-	private string viewModeLatex = "";
-	private ElementReference typesetEditModeLatex;
-	private async Task DisplayResultAsync()
-	{
+    private string viewModeLatex = "";
+    private ElementReference typesetEditModeLatex;
+    private async Task DisplayResultAsync()
+    {
+        if (_keyboardMemory.Current is Placeholder p && p.Nodes.Count == 0)
+        {
+            _latexConfiguration.ActivePlaceholderShape = @"\blacksquare";
+        }
+        else
+        {
+            _latexConfiguration.ActivePlaceholderShape = "|";
+        }
 		var editModeLatex = _keyboardMemory.GetEditModeLatex(_latexConfiguration);
 		await JS.InvokeVoidAsync("katex.render", @$"\displaystyle {editModeLatex}", typesetEditModeLatex, new { throwOnError = false});
 		viewModeLatex = _keyboardMemory.GetViewModeLatex(_latexConfiguration);
