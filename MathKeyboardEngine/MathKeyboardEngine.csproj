@@ -8,7 +8,7 @@
     <PackageTags>virtual; math; keyboard; LaTeX; KaTeX; MathJax; WPF-math; CSharpMath</PackageTags>
     <Copyright>MathKeyboardEngine</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

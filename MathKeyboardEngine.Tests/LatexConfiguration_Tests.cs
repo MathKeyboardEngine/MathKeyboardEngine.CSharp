@@ -34,6 +34,6 @@ public class LatexConfiguration_Tests
             PassivePlaceholderColor = "gray"
         };
         // Assert
-        Assert.Equal(@"\color{orange}{\blacksquare}^{\color{gray}{\blacksquare}}", k.GetEditModeLatex(myLatexConfiguration));
+        Assert.Equal(@"{\color{orange}\blacksquare}^{{\color{gray}\blacksquare}}", k.GetEditModeLatex(myLatexConfiguration));
     }
 }

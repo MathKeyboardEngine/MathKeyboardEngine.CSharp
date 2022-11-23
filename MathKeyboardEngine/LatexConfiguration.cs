@@ -7,7 +7,7 @@ public class LatexConfiguration
     public string PassivePlaceholderShape { get; set; } = @"\square";
     public string? PassivePlaceholderColor { get; set; }
     public string SelectionHightlightStart { get; set; } = @"\colorbox{#ADD8E6}{";
-    public string SelectionHightlightEnd { get; set; } = @"}";
+    public string SelectionHightlightEnd { get; set; } = "}";
 
     public string ActivePlaceholderLatex
     {
@@ -19,7 +19,7 @@ public class LatexConfiguration
             }
             else
             {
-                return @"\color{" + ActivePlaceholderColor + "}{" + ActivePlaceholderShape + "}";
+                return @"{\color{" + ActivePlaceholderColor + "}" + ActivePlaceholderShape + "}";
             }
         }
     }
@@ -34,7 +34,7 @@ public class LatexConfiguration
             }
             else
             {
-                return @"\color{" + PassivePlaceholderColor + "}{" + PassivePlaceholderShape + "}";
+                return @"{\color{" + PassivePlaceholderColor + "}" + PassivePlaceholderShape + "}";
             }
         }
     }
