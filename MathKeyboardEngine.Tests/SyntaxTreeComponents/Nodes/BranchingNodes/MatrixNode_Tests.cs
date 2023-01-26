@@ -2,7 +2,6 @@
 using Xunit;
 
 namespace MathKeyboardEngine.Tests;
-
 public class MatrixNode_Tests
 {
     [Fact]

@@ -1,5 +1,4 @@
 ﻿namespace MathKeyboardEngine;
-
 public class DigitNode : PartOfNumberWithDigits
 {
     private readonly string _latex;

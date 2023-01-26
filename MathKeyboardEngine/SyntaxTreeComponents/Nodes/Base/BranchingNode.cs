@@ -1,5 +1,4 @@
 ﻿namespace MathKeyboardEngine;
-
 public abstract class BranchingNode : TreeNode
 {
     public BranchingNode(List<Placeholder> placeholders)

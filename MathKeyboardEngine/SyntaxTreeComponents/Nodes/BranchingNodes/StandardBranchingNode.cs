@@ -1,5 +1,4 @@
 ﻿namespace MathKeyboardEngine;
-
 public class StandardBranchingNode : BranchingNode
 {
     private readonly string _before;

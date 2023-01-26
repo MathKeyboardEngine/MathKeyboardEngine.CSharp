@@ -1,5 +1,5 @@
-﻿namespace MathKeyboardEngine;
-
+﻿using MathKeyboardEngine._Helpers;
+namespace MathKeyboardEngine;
 public abstract class TreeNode : SyntaxTreeComponent
 {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value (...).
@@ -14,11 +14,11 @@ public abstract class TreeNode : SyntaxTreeComponent
         {
             if (this == k.InclusiveSelectionLeftBorder)
             {
-                latex = StringHelper.ConcatLatex(latexConfiguration.SelectionHightlightStart, latex);
+                latex = Concat.Latex(latexConfiguration.SelectionHightlightStart, latex);
             }
             if (this == k.InclusiveSelectionRightBorder)
             {
-                latex = StringHelper.ConcatLatex(latex, latexConfiguration.SelectionHightlightEnd);
+                latex = Concat.Latex(latex, latexConfiguration.SelectionHightlightEnd);
             }
             return latex;
         }
@@ -26,7 +26,7 @@ public abstract class TreeNode : SyntaxTreeComponent
         {
             if (this == k.Current)
             {
-                return StringHelper.ConcatLatex(latex, latexConfiguration.ActivePlaceholderLatex);
+                return Concat.Latex(latex, latexConfiguration.ActivePlaceholderLatex);
             }
             else
             {
