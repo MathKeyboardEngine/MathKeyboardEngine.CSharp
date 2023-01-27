@@ -18,7 +18,8 @@ public static class _DeleteLeft
                 {
                     if (current.ParentNode.Placeholders.Count == 2 && current == current.ParentNode.Placeholders[1] && current.Nodes.Count == 0)
                     {
-                        k.DeleteOuterBranchingNodeButNotItsContents(nonEmptyPlaceholderOnLeft);
+                        nonEmptyPlaceholderOnLeft.DeleteOuterBranchingNodeButNotItsContents();
+                        k.Current = nonEmptyPlaceholderOnLeft.Nodes.Last();
                     }
                     else
                     {
@@ -66,7 +67,10 @@ public static class _DeleteLeft
             var current = ((TreeNode)k.Current);
             if (current is BranchingNode b && b.Placeholders[0].Nodes.Count > 0 && b.Placeholders.Skip(1).All(x => x.Nodes.Count == 0))
             {
-                k.DeleteOuterBranchingNodeButNotItsContents(b.Placeholders[0]);
+                var nonEmptyPlaceholder = b.Placeholders[0];
+                nonEmptyPlaceholder.DeleteOuterBranchingNodeButNotItsContents();
+                k.Current = nonEmptyPlaceholder.Nodes.Last();
+
             }
             else if (current is BranchingNode b2 && b2.Placeholders.Any(x => x.Nodes.Count > 0))
             {
@@ -80,19 +84,6 @@ public static class _DeleteLeft
                 k.Current = previousNode ?? (SyntaxTreeComponent)current.ParentPlaceholder;
             }
         }
-    }
-
-    private static void DeleteOuterBranchingNodeButNotItsContents(this KeyboardMemory k, Placeholder nonEmptyPlaceholder)
-    {
-        var outerBranchingNode = nonEmptyPlaceholder.ParentNode!;
-        var indexOfOuterBranchingNode = outerBranchingNode.ParentPlaceholder.Nodes.IndexOf(outerBranchingNode);
-        outerBranchingNode.ParentPlaceholder.Nodes.RemoveAt(indexOfOuterBranchingNode);
-        outerBranchingNode.ParentPlaceholder.Nodes.InsertRange(indexOfOuterBranchingNode, nonEmptyPlaceholder.Nodes);
-        foreach (var node in nonEmptyPlaceholder.Nodes)
-        {
-            node.ParentPlaceholder = outerBranchingNode.ParentPlaceholder;
-        }
-        k.Current = nonEmptyPlaceholder.Nodes.Last();
     }
 
     public static void EncapsulatePreviousInto(TreeNode previousNode, Placeholder targetPlaceholder)
