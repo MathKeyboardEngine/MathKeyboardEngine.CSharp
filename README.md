@@ -8,12 +8,19 @@ Also available:
 - [MathKeyboardEngine for JavaScript](https://github.com/MathKeyboardEngine/MathKeyboardEngine#readme).
 - [MathKeyboardEngine for Python](https://github.com/MathKeyboardEngine/MathKeyboardEngine.Python#readme).
 
+
 #### Which LaTeX typesetting libraries?
 
-- If you're making a [.NET MAUI Blazor app](https://docs.microsoft.com/en-us/aspnet/core/blazor/hybrid/tutorials/maui?view=aspnetcore-6.0) or a [Blazor WebAssembly app](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor), then use [KaTeX](https://katex.org/) or [MathJax](https://www.mathjax.org/). You have the keyboard-logic from MathKeyboardEngine in C# and an extreme amount of LaTeX commands after just a few lines of JavaScript glue code.
-- If you're making a [WPF app](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/overview/?view=netdesktop-5.0) or Windows Forms app, then use [WPF-Math](https://github.com/ForNeVeR/wpf-math).
-- If you're working with UWP, non-Blazor .NET MAUI, Avalonia, Uno, etc., then use [CSharpMath](https://github.com/verybadcat/CSharpMath).
+An example of a typesetting library is [KaTeX](https://katex.org/), which is meant for JavaScript. That library could, however, be used in most C# apps when loaded into a WebView (from local JavaScript and CSS files or via an internet connection). That WebView could be used to display the "output" of the key presses. For each virtual key you could use a PNG file.
+
+If you're making a [.NET MAUI Blazor app](https://docs.microsoft.com/en-us/aspnet/core/blazor/hybrid/tutorials/maui?view=aspnetcore-6.0) or a [Blazor WebAssembly app](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor), then a WebView is automatically used for your whole app. Therefore, you can use [KaTeX](https://katex.org/) or [MathJax](https://www.mathjax.org/) after creating some JavaScript-C# glue code.
+
+If you don't use Blazor AND your don't want to use a WebView, then you need another typesetting library. Examples per project type:
+
+- If you're making a [WPF app](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/overview/?view=netdesktop-5.0) or Windows Forms app, then use [WPF-Math](https://github.com/ForNeVeR/wpf-math) as typesetting library.
+- If you're working with UWP, non-Blazor .NET MAUI, Avalonia, Uno, etc., then use [CSharpMath](https://github.com/verybadcat/CSharpMath) as typesetting library.
 - ...
+
 
 #### An execution timeline
 
@@ -22,9 +29,11 @@ Also available:
 1. Calling `GetEditModeLatex()` outputs the total of LaTeX you typed, for example `\frac{3}{4}\blacksquare` (if `\blacksquare` is your cursor), which you then feed to the typesetting library for display.
 1. Calling `GetViewModeLatex()` outputs the LaTeX without a cursor.
 
+
 #### Let me test it now!
 
 Live examples can be tested at [MathKeyboardEngine.GitHub.io](https://mathkeyboardengine.github.io).
+
 
 #### Pros and cons?
 
@@ -63,11 +72,13 @@ var keyboardMemory = new KeyboardMemory();
 // Handle button clicks, etc.
 ```
 
+
 ## Documentation
 
 Visit the [documentation](https://mathkeyboardengine.github.io/docs/csharp/0.2/) and (the right version of)\* the [Examples folder](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) for more implementation details. There's only one example - for Blazor WebAssembly - but even if you work with something else - like Xamarin, .NET MAUI (especially .NET MAUI Blazor!), WPF or UWP - you may find parts that you want to copy.
 
 \* If you use a version tag in the url like this: https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/v0.1.1, you can see the git repository as it was for that version. That may not be needed if the [changelog](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/main/CHANGELOG.md) doesn't note any important changes.
+
 
 ## Ask or contribute
 

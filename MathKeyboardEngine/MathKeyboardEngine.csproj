@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.2.0-beta</Version>
+    <Version>0.2.0</Version>
     <Description>MathKeyboardEngine provides the logic for a highly customizable virtual math keyboard. It is intended for use together with any LaTeX typesetting library.</Description>
     <PackageProjectUrl>https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp#readme</PackageProjectUrl>
     <RepositoryUrl>https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp</RepositoryUrl>
     <PackageTags>virtual; math; keyboard; LaTeX; KaTeX; MathJax; WPF-math; CSharpMath</PackageTags>
     <Copyright>MathKeyboardEngine</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -16,14 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\Circle.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\LICENSE.txt">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+    <None Include="..\Circle.png" Pack="true" PackagePath="\"/>
+    <None Include="..\LICENSE.txt" Pack="true" PackagePath="\"/>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
