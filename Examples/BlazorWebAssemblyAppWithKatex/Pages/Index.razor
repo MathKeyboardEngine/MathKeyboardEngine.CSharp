@@ -101,10 +101,6 @@
 	Use a backslash for pure LaTeX commands.<br/>
     Use Shift + Left for selection mode (or use the blue key).
 </p>
-<div class="footer">
-    <a href="https://github.com/MathKeyboardEngine/MathKeyboardEngine#readme">View on GitHub (JavaScript)</a>
-    <a href="https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp#readme">View on GitHub (C#)</a>
-</div>
 
 @code {
     private KeyboardMemory _keyboardMemory = new KeyboardMemory();
@@ -189,7 +185,7 @@
     private static BranchingNode GetIntegralNode() => new AscendingBranchingNode(@"\int_{", "}^{", "}");
     private static BranchingNode GetSumNode() => new AscendingBranchingNode(@"\sum_{", "}^{", "}");
     private static BranchingNode GetProductNode() => new AscendingBranchingNode(@"\prod_{", "}^{", "}");
-    private static BranchingNode GetLimitNode() => new AscendingBranchingNode(@"\lim_{", "}");
+    private static BranchingNode GetLimitNode() => new StandardBranchingNode(@"\lim_{", "}");
 
     private async Task ToggleSelectionMode()
     {
@@ -212,7 +208,7 @@
         }
         else
         {
-            _keyboardMemory.DeleteCurrent();
+            _keyboardMemory.DeleteLeft();
         }
 
         await DisplayResultAsync();
@@ -281,93 +277,98 @@
         {
             _latexConfiguration.ActivePlaceholderShape = "|";
         }
-		var editModeLatex = _keyboardMemory.GetEditModeLatex(_latexConfiguration);
-		await JS.InvokeVoidAsync("katex.render", @$"\displaystyle {editModeLatex}", typesetEditModeLatex, new { throwOnError = false});
-		viewModeLatex = _keyboardMemory.GetViewModeLatex(_latexConfiguration);
-		StateHasChanged();
-	}
+        var editModeLatex = _keyboardMemory.GetEditModeLatex(_latexConfiguration);
+        await JS.InvokeVoidAsync("katex.render", @$"\displaystyle {editModeLatex}", typesetEditModeLatex, new { throwOnError = false});
+        viewModeLatex = _keyboardMemory.GetViewModeLatex(_latexConfiguration);
+        StateHasChanged();
+    }
 
-	public Task OnPhysicalKeyUp(string key)
-	{
-		if (key.StartsWith("Shift"))
-		{
-			inShift = false;
-		}
-		return Task.CompletedTask;
-	}
+    public Task OnPhysicalKeyUp(string key)
+    {
+        if (key.StartsWith("Shift"))
+        {
+            inShift = false;
+        }
+        return Task.CompletedTask;
+    }
 
-	private string pureLatex = "";
-	private bool inShift = false;
-	public async Task OnPhysicalKeyDownAsync(string key)
-	{
-		if (await ShouldIgnorePhysicalKeyPresses())
-		{
-			return;
-		}
-		else if (key.StartsWith("Shift"))
-		{
-			inShift = true;
-		}
-		else if (_keyboardMemory.InSelectionMode())
-		{
-			if (key == "ArrowLeft")
-			{
-				_keyboardMemory.SelectLeft();
-			}
-			else if (key == "ArrowRight")
-			{
-				_keyboardMemory.SelectRight();
-			}
-			else if (inShift)
-			{
-				var handler = SelectionModePhysicalKeydownHandlersForShift.FirstOrDefault(x => x.CanHandle(key));
-				if (handler != null)
-				{
-					handler?.Handle(_keyboardMemory, key);
-					_keyboardMemory.LeaveSelectionMode();
-				}
-				else
-				{
-					_keyboardMemory.LeaveSelectionMode();
-					PhysicalKeydownHandlersForShift.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
-				}
-			}
-			else
-			{
-				var handler = SelectionModePhysicalKeydownHandlersNoShift.FirstOrDefault(x => x.CanHandle(key));
-				if (handler != null)
-				{
-					handler?.Handle(_keyboardMemory, key);
-					_keyboardMemory.LeaveSelectionMode();
-				}
-				else
-				{
-					_keyboardMemory.LeaveSelectionMode();
-					PhysicalKeydownHandlersNoShift.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
-				}
-			}
-		}
-		else
-		{
-			if (!inShift && key == "Backslash")
-			{
-				pureLatex = @"\";
-			}
-			else if (pureLatex.Length > 0)
-			{
-				if (key == "Space" || key == "Enter" || key == "Escape")
-				{
-					var node = (TreeNode)(
-						pureLatex == @"\frac" ? GetFractionNode()
-						: pureLatex == @"\binom" ? GetBinomialNode()
-						: pureLatex == @"\sqrt" ? GetSquareRootNode()
-						: pureLatex == @"\int" ? GetIntegralNode()
-						: pureLatex == @"\sum" ? GetSumNode()
-						: pureLatex == @"\prod" ? GetProductNode()
-						: pureLatex == @"\lim" ? GetLimitNode()
-						: new StandardLeafNode(pureLatex));
-					_keyboardMemory.Insert(node);
-					pureLatex = "";
+    private string pureLatex = "";
+    private bool inShift = false;
+    public async Task OnPhysicalKeyDownAsync(string key)
+    {
+        if (await ShouldIgnorePhysicalKeyPresses())
+        {
+            return;
+        }
+        else if (key.StartsWith("Shift"))
+        {
+            inShift = true;
+        }
+        else if (_keyboardMemory.InSelectionMode())
+        {
+            if (key == "ArrowLeft")
+            {
+                _keyboardMemory.SelectLeft();
+            }
+            else if (key == "ArrowRight")
+            {
+                _keyboardMemory.SelectRight();
+            }
+            else if (inShift)
+            {
+                var handler = SelectionModePhysicalKeydownHandlersForShift.FirstOrDefault(x => x.CanHandle(key));
+                if (handler != null)
+                {
+                    handler?.Handle(_keyboardMemory, key);
+                    _keyboardMemory.LeaveSelectionMode();
+                }
+                else
+                {
+                    _keyboardMemory.LeaveSelectionMode();
+                    PhysicalKeydownHandlersForShift.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+                }
+            }
+            else
+            {
+                var handler = SelectionModePhysicalKeydownHandlersNoShift.FirstOrDefault(x => x.CanHandle(key));
+                if (handler != null)
+                {
+                    handler?.Handle(_keyboardMemory, key);
+                    _keyboardMemory.LeaveSelectionMode();
+                }
+                else
+                {
+                    _keyboardMemory.LeaveSelectionMode();
+                    PhysicalKeydownHandlersNoShift.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
+                }
+            }
+        }
+        else
+        {
+            if (!inShift && key == "Backslash")
+            {
+                pureLatex = @"\";
+            }
+            else if (pureLatex.Length > 0)
+            {
+                var roundBracketsRequested = key == "Digit9" && inShift;
+                if (roundBracketsRequested || key == "Space" || key == "Enter" || key == "Escape")
+                {
+                    var node = (TreeNode)(
+                        pureLatex == @"\frac" ? GetFractionNode()
+                        : pureLatex == @"\binom" ? GetBinomialNode()
+                        : pureLatex == @"\sqrt" ? GetSquareRootNode()
+                        : pureLatex == @"\int" ? GetIntegralNode()
+                        : pureLatex == @"\sum" ? GetSumNode()
+                        : pureLatex == @"\prod" ? GetProductNode()
+                        : pureLatex == @"\lim" ? GetLimitNode()
+                        : new StandardLeafNode(pureLatex));
+                    _keyboardMemory.Insert(node);
+                    if (roundBracketsRequested)
+                    {
+                        _keyboardMemory.Insert(new RoundBracketsNode());
+                    }
+                    pureLatex = "";
 				}
 				else if (key == "Backspace")
 				{
@@ -428,12 +429,13 @@
 		{
 			yield return new PhysicalKeyHandler((key) => key.StartsWith("Digit"), (k, key) => k.Insert(new DigitNode(key[5].ToString())));
 			yield return new PhysicalKeyHandler((key) => key.StartsWith("Key"), (k, key) => k.Insert(new StandardLeafNode(key[3].ToString().ToLower())));
-			yield return new PhysicalKeyHandler("Backspace", (k, key) => k.DeleteCurrent());
+			yield return new PhysicalKeyHandler("Backspace", (k, key) => k.DeleteLeft());
+            yield return new PhysicalKeyHandler("Delete", (k, key) => k.DeleteRight());
 			yield return new PhysicalKeyHandler("ArrowLeft", (k, key) => k.MoveLeft());
 			yield return new PhysicalKeyHandler("ArrowRight", (k, key) => k.MoveRight());
 			yield return new PhysicalKeyHandler("ArrowUp", (k, key) => k.MoveUp());
 			yield return new PhysicalKeyHandler("ArrowDown", (k, key) => k.MoveDown());
-			yield return new PhysicalKeyHandler("Slash", (k, key) => k.InsertWithEncapsulateCurrent(GetFractionNode(), InsertWithEncapsulateCurrentMethod.Options.DeleteOuterRoundBracketsIfAny));
+			yield return new PhysicalKeyHandler("Slash", (k, key) => k.InsertWithEncapsulateCurrent(GetFractionNode(), InsertWithEncapsulateCurrentOptions.DeleteOuterRoundBracketsIfAny));
 			yield return new PhysicalKeyHandler("Equal", (k, key) => k.Insert(new StandardLeafNode("=")));
 			yield return new PhysicalKeyHandler("Minus", (k, key) => k.Insert(new StandardLeafNode("-")));
 			yield return new PhysicalKeyHandler((key) => key == "Period" || key == "Comma", (k, key) => k.Insert(GetDecimalSeparatorNode()));
@@ -458,6 +460,7 @@
 		get
 		{
 			yield return new PhysicalKeyHandler("Backspace", (k, key) => k.DeleteSelection());
+            yield return new PhysicalKeyHandler("Delete", (k, key) => k.DeleteSelection());
 			yield return new PhysicalKeyHandler("BracketLeft", (k, key) => k.InsertWithEncapsulateSelection(GetSquareBracketsNode()));
 			yield return new PhysicalKeyHandler("Slash", (k, key) => k.InsertWithEncapsulateSelection(GetFractionNode()));
 		}
@@ -540,18 +543,6 @@ input {
 .setting-value {
     border: 1px solid gray;
     padding: 0.15rem;
-}
-
-.footer {
-    text-align: center;
-    margin: 15px;
-}
-
-a {
-    color: #58a6ff;
-    text-decoration: none;
-    border: 1px solid #58a6ff;
-    padding: 0.25rem;
 }
 
 #pureLatexFromPhysicalKeys {
