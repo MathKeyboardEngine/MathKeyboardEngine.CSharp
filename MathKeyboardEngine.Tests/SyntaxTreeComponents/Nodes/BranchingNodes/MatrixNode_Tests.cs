@@ -97,15 +97,15 @@ public class MatrixNode_Tests
         k.Insert(new DigitNode("4"));
         Expect.Latex(@"\begin{pmatrix}1 & 2 \\ 3 & 4▦\end{pmatrix}", k);
         // Act & Assert
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex(@"\begin{pmatrix}1 & 2 \\ 3 & ▦\end{pmatrix}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex(@"\begin{pmatrix}1 & 2 \\ ▦ & ⬚\end{pmatrix}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex(@"\begin{pmatrix}1 & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex("▦", k);
     }
 

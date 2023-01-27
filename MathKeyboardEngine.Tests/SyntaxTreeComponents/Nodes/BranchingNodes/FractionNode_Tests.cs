@@ -55,7 +55,7 @@ public class FractionNode_Tests
         var k = new KeyboardMemory();
         k.Insert(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         Expect.Latex(@"\frac{▦}{⬚}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex("▦", k);
     }
 
@@ -66,7 +66,7 @@ public class FractionNode_Tests
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         k.MoveDown();
         Expect.Latex(@"\frac{⬚}{▦}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex("▦", k);
     }
 
@@ -78,7 +78,7 @@ public class FractionNode_Tests
         k.MoveDown();
         k.MoveRight();
         Expect.Latex(@"\frac{⬚}{⬚}▦", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex("▦", k);
     }
 
@@ -93,9 +93,9 @@ public class FractionNode_Tests
         k.Insert(new DigitNode("3"));
         k.MoveRight();
         Expect.Latex(@"\frac{12}{3}▦", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex(@"\frac{12}{▦}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex("12▦", k);
     }
 

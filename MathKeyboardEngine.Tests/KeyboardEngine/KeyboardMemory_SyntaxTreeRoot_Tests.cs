@@ -22,7 +22,7 @@ public class KeyboardMemory_SyntaxTreeRoot_Tests
     public void SyntaxTreeRoot_cannot_be_deleted()
     {
         var k = new KeyboardMemory();
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Assert.True(k.SyntaxTreeRoot is Placeholder);
     }
 

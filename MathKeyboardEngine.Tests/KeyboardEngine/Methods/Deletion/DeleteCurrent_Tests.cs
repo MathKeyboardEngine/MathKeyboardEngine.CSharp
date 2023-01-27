@@ -14,14 +14,14 @@ public class DeleteCurrent_Tests
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
         k.Insert(new DigitNode("3"));
         k.MoveDown();
-        k.DeleteCurrent(); // trying to fix typo
+        k.DeleteLeft(); // trying to fix typo
         Expect.Latex("2x▦^{3}", k);
         k.MoveUp();
         Expect.Latex("2x⬚^{3▦}", k); // Huh? Let's delete that empty placeholder!
         k.MoveDown();
         Expect.Latex("2x▦^{3}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         k.MoveUp();
         // Assert
         Expect.Latex("2x^{3▦}", k);
@@ -43,14 +43,14 @@ public class DeleteCurrent_Tests
         k.Insert(new DigitNode("3"));
         Expect.Latex("1+2.5+^{3▦}", k);
         k.MoveDown();
-        k.DeleteCurrent(); // trying to fix typo
+        k.DeleteLeft(); // trying to fix typo
         Expect.Latex("1+2.5▦^{3}", k);
         k.MoveUp();
         Expect.Latex("1+2.5⬚^{3▦}", k); // Huh? Let's delete that empty placeholder!
         k.MoveDown();
         Expect.Latex("1+2.5▦^{3}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex("1+2.5▦^{3}", k);
         k.MoveUp();
         // Assert
@@ -69,14 +69,14 @@ public class DeleteCurrent_Tests
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
         k.Insert(new DigitNode("3"));
         k.MoveDown();
-        k.DeleteCurrent(); // trying to fix typo
+        k.DeleteLeft(); // trying to fix typo
         Expect.Latex("2.5▦^{3}", k);
         k.MoveUp();
         Expect.Latex("2.5⬚^{3▦}", k); // Huh? Let's delete that empty placeholder!
         k.MoveDown();
         Expect.Latex("2.5▦^{3}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         k.MoveUp();
         // Assert
         Expect.Latex("2.5^{3▦}", k);
@@ -94,7 +94,7 @@ public class DeleteCurrent_Tests
         k.MoveRight();
         Expect.Latex(@"\begin{pmatrix}⬚ & ▦ \\ 3 & ⬚\end{pmatrix}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex(@"\begin{pmatrix}⬚ & ▦ \\ 3 & ⬚\end{pmatrix}", k);
     }
@@ -110,7 +110,7 @@ public class DeleteCurrent_Tests
         k.MoveRight();
         Expect.Latex(@"\begin{pmatrix}12 & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex(@"\begin{pmatrix}1▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
     }
@@ -128,10 +128,10 @@ public class DeleteCurrent_Tests
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
         Expect.Latex("2^{3^{▦}}", k);
         // Act & Assert
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex("2^{3▦}", k);
         Assert.Equal(d3.ParentPlaceholder, powerNode.Placeholders[1]);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex("2^{▦}", k);
     }
 
@@ -146,7 +146,7 @@ public class DeleteCurrent_Tests
         k.Insert(new DigitNode("2"));
         Expect.Latex(@"\frac{12▦}{⬚}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex(@"\frac{1▦}{⬚}", k);
     }
@@ -167,7 +167,7 @@ public class DeleteCurrent_Tests
         k.MoveDown();
         Expect.Latex("▦^{12}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex("12▦", k);
     }
@@ -184,7 +184,7 @@ public class DeleteCurrent_Tests
         k.MoveRight();
         Expect.Latex("(1+x)▦", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex("1+x▦", k);
 
@@ -201,7 +201,7 @@ public class DeleteCurrent_Tests
         k.MoveRight();
         Expect.Latex(@"\frac{1}{x}▦", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex(@"\frac{1}{▦}", k);
     }
@@ -223,7 +223,7 @@ public class DeleteCurrent_Tests
         k.MoveRight();
         Expect.Latex(@"\frac{1}{\frac{1}{\frac{1}{x}}}▦", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex(@"\frac{1}{\frac{1}{\frac{1}{▦}}}", k);
     }
@@ -239,7 +239,7 @@ public class DeleteCurrent_Tests
         k.MoveRight();
         Expect.Latex(@"\frac{1}{⬚}▦", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex("1▦", k);
     }
@@ -254,7 +254,7 @@ public class DeleteCurrent_Tests
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode("", "_{", "}"));
         Expect.Latex("12_{▦}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex("12▦", k);
     }
@@ -271,7 +271,7 @@ public class DeleteCurrent_Tests
         k.MoveRight();
         Expect.Latex("12_{⬚}▦", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex("12▦", k);
     }
@@ -292,7 +292,7 @@ public class DeleteCurrent_Tests
         k.MoveLeft();
         Expect.Latex(@"12_{⬚}▦\sqrt{⬚}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex(@"12▦\sqrt{⬚}", k);
     }
@@ -310,7 +310,7 @@ public class DeleteCurrent_Tests
         k.MoveRight();
         Expect.Latex(@"\begin{pmatrix}12 \\ ⬚ \\ ⬚\end{pmatrix}▦", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex("12▦", k);
     }
@@ -333,7 +333,7 @@ public class DeleteCurrent_Tests
         k.MoveLeft();
         Expect.Latex(@"\frac{ab}{▦}\sqrt{⬚}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex(@"ab▦\sqrt{⬚}", k);
     }
@@ -353,11 +353,11 @@ public class DeleteCurrent_Tests
         k.MoveRight();
         Expect.Latex(@"\begin{pmatrix}12 & ⬚ \\ 34 & ⬚\end{pmatrix}▦", k);
         // Act & Assert
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex(@"\begin{pmatrix}12 & ⬚ \\ 3▦ & ⬚\end{pmatrix}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex(@"\begin{pmatrix}12 & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex(@"\begin{pmatrix}1▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
     }
 
@@ -376,7 +376,7 @@ public class DeleteCurrent_Tests
         k.MoveUp();
         Expect.Latex(@"\begin{pmatrix}▦ & 2 \\ ⬚ & 4\end{pmatrix}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex(@"\begin{pmatrix}▦ & 2 \\ ⬚ & 4\end{pmatrix}", k);
     }
@@ -391,7 +391,7 @@ public class DeleteCurrent_Tests
         k.Insert(new MatrixNode("pmatrix", 2, 2));
         Expect.Latex(@"2\times\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
         // Act
-        k.DeleteCurrent();
+        k.DeleteLeft();
         // Assert
         Expect.Latex(@"2\times▦", k);
     }

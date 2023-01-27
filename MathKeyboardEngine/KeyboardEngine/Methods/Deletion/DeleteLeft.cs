@@ -1,8 +1,8 @@
 ﻿using MathKeyboardEngine._Helpers;
 namespace MathKeyboardEngine;
-public static class _DeleteCurrent
+public static class _DeleteLeft
 {
-    public static void DeleteCurrent(this KeyboardMemory k)
+    public static void DeleteLeft(this KeyboardMemory k)
     {
         if (k.Current is Placeholder)
         {
@@ -71,7 +71,7 @@ public static class _DeleteCurrent
             else if (current is BranchingNode b2 && b2.Placeholders.Any(x => x.Nodes.Count > 0))
             {
                 k.Current = b2.Placeholders.SelectMany(x => x.Nodes).Last();
-                k.DeleteCurrent();
+                k.DeleteLeft();
             }
             else
             {

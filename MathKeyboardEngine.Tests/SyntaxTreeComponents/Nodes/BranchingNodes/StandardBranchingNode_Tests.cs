@@ -44,7 +44,7 @@ public class StandardBranchingNode_Tests
         var k = new KeyboardMemory();
         k.Insert(new StandardBranchingNode(@"\sqrt{", "}"));
         Expect.Latex(@"\sqrt{▦}", k);
-        k.DeleteCurrent();
+        k.DeleteLeft();
         Expect.Latex("▦", k);
     }
 }
