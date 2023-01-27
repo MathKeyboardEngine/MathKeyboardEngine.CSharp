@@ -322,6 +322,20 @@ public class DeleteRight_Tests
     }
 
     [Fact]
+    public void DeleteRight_does_not_delete_a_MatrixNode_from_an_empty_Placeholder_if_a_previous_Placeholder_is_not_empty()
+    {
+        // Arrange
+        var k = new KeyboardMemory();
+        k.Insert(new MatrixNode("pmatrix", 2, 2));
+        k.Insert(new DigitNode("1"));
+        k.MoveRight();
+        Expect.Latex(@"\begin{pmatrix}1 & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
+        // Act & assert
+        k.DeleteRight();
+        Expect.Latex(@"\begin{pmatrix}1 & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
+    }
+
+    [Fact]
     public void DeleteRight_lets_the_cursor_pull_exponents_and_subscripts_towards_itself()
     {
         // Arrange
