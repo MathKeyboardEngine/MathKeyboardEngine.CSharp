@@ -1,10 +1,10 @@
 ﻿using Xunit;
 
 namespace MathKeyboardEngine.Tests;
-public class DeleteCurrent_Tests
+public class DeleteLeft_Tests
 {
     [Fact]
-    public void DeleteCurrent_can_also_be_used_to_delete_empty_Placeholders_in_some_cases_UX__case_x()
+    public void DeleteLeft_can_also_be_used_to_delete_empty_Placeholders_in_some_cases_UX__case_x()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -28,7 +28,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_can_also_be_used_to_delete_empty_Placeholders_in_some_cases_UX__case_1plus2point5()
+    public void DeleteLeft_can_also_be_used_to_delete_empty_Placeholders_in_some_cases_UX__case_1plus2point5()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -58,7 +58,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_can_also_be_used_to_delete_empty_Placeholders_in_some_cases_UX__case_2point5()
+    public void DeleteLeft_can_also_be_used_to_delete_empty_Placeholders_in_some_cases_UX__case_2point5()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -83,7 +83,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_does_nothing_sometimes()
+    public void DeleteLeft_does_nothing_sometimes()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -100,7 +100,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_deletes_the_last_TreeNode_from_the_previous_Placeholders()
+    public void DeleteLeft_deletes_the_last_TreeNode_from_the_previous_Placeholders()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -116,7 +116,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_can_revert_InsertWithEncapsulateCurrent_sometimes__execution_path_with_multiple_digits_treated_as_a_single_thing()
+    public void DeleteLeft_can_revert_InsertWithEncapsulateCurrent_sometimes__execution_path_with_multiple_digits_treated_as_a_single_thing()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -137,7 +137,7 @@ public class DeleteCurrent_Tests
 
 
     [Fact]
-    public void DeleteCurrent_can_delete_from_the_first_Placeholder_of_a_BranchingNode()
+    public void DeleteLeft_can_delete_from_the_first_Placeholder_of_a_BranchingNode()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -152,7 +152,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_can_revert__raise_selected_to_the_power_of_an_empty_Placeholder()
+    public void DeleteLeft_can_revert__raise_selected_to_the_power_of_an_empty_Placeholder()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -173,7 +173,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_from_the_right_of_a_single_Placeholder_BranchingNode__Placeholder_contains_a_TreeNodes()
+    public void DeleteLeft_from_the_right_of_a_single_Placeholder_BranchingNode__Placeholder_contains_a_TreeNodes()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -191,7 +191,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_from_the_right_of_a_BranchingNode__last_Placeholder_contains_a_LeafNode()
+    public void DeleteLeft_from_the_right_of_a_BranchingNode__last_Placeholder_contains_a_LeafNode()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -207,7 +207,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_from_the_right_of_a_BranchingNode__last_Placeholder_contains_nested_BranchingNodes()
+    public void DeleteLeft_from_the_right_of_a_BranchingNode__last_Placeholder_contains_nested_BranchingNodes()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -229,7 +229,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_from_the_right_of_a_BranchingNode__last_Placeholder_is_empty_and_first_Placeholder_contains_1_LeafNode()
+    public void DeleteLeft_from_the_right_of_a_BranchingNode__last_Placeholder_is_empty_and_first_Placeholder_contains_1_LeafNode()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -245,7 +245,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_deletes_a_subscript_from_its_empty_Placeholder()
+    public void DeleteLeft_deletes_a_subscript_from_its_empty_Placeholder()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -260,7 +260,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_deletes_a_subscript_from_the_right()
+    public void DeleteLeft_deletes_a_subscript_from_the_right()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -277,7 +277,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_deletes_a_subscript_from_the_right__case_with_a_BranchingNode_on_the_right()
+    public void DeleteLeft_deletes_a_subscript_from_the_right__case_with_a_BranchingNode_on_the_right()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -298,7 +298,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_deletes_a_single_column_matrix_or_any_BranchingNode_from_the_right_if_the_only_non_empty_Placeholder_is_at_index_0()
+    public void DeleteLeft_deletes_a_single_column_matrix_or_any_BranchingNode_from_the_right_if_the_only_non_empty_Placeholder_is_at_index_0()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -316,7 +316,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_deletes_a_fraction_from_its_second_Placeholder__case_with_a_BranchingNode_on_the_right()
+    public void DeleteLeft_deletes_a_fraction_from_its_second_Placeholder__case_with_a_BranchingNode_on_the_right()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -339,7 +339,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_deletes_the_last_TreeNode_of_the_last_Placeholder_with_content()
+    public void DeleteLeft_deletes_the_last_TreeNode_of_the_last_Placeholder_with_content()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -362,7 +362,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_does_nothing_from_the_first_Placeholder_if_multiple_sibling_Placeholders_are_filled()
+    public void DeleteLeft_does_nothing_from_the_first_Placeholder_if_multiple_sibling_Placeholders_are_filled()
     {
         // Arrange
         var k = new KeyboardMemory();
@@ -382,7 +382,7 @@ public class DeleteCurrent_Tests
     }
 
     [Fact]
-    public void DeleteCurrent_deletes_a_BranchingNode_from_one_of_its_Placeholders__sets_Current_at_the_right_of_the_previous_TreeNode()
+    public void DeleteLeft_deletes_a_BranchingNode_from_one_of_its_Placeholders__sets_Current_at_the_right_of_the_previous_TreeNode()
     {
         // Arrange
         var k = new KeyboardMemory();

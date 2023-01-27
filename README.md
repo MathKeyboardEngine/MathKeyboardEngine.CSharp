@@ -18,7 +18,7 @@ Also available:
 #### An execution timeline
 
 1. You load a page with your customized virtual math keyboard (based on one of the examples). On load the LaTeX for each key is typeset (by KaTeX, MathJax, WPF-Math or CSharpMath, etc.) and a cursor is displayed in a textbox-look-a-like element.
-1. On your customized virtual math keyboard, you press a key. The key calls a MathKeyboardEngine function, for example `Insert(someMatrixNode)` or `MoveUp()`, `DeleteCurrent()`, etc.
+1. On your customized virtual math keyboard, you press a key. The key calls a MathKeyboardEngine function, for example `Insert(someMatrixNode)` or `MoveUp()`, `DeleteLeft()`, etc.
 1. Calling `GetEditModeLatex()` outputs the total of LaTeX you typed, for example `\frac{3}{4}\blacksquare` (if `\blacksquare` is your cursor), which you then feed to the typesetting library for display.
 1. Calling `GetViewModeLatex()` outputs the LaTeX without a cursor.
 
