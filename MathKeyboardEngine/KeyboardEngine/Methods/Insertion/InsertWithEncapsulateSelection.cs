@@ -1,5 +1,7 @@
 ﻿using MathKeyboardEngine._Helpers;
+
 namespace MathKeyboardEngine;
+
 public static class _InsertWithEncapsulateSelection
 {
     public static void InsertWithEncapsulateSelection(this KeyboardMemory k, BranchingNode newNode)

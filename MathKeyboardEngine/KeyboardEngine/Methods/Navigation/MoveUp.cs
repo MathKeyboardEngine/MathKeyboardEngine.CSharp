@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public static class _MoveUp
 {
     public static void MoveUp(this KeyboardMemory k)

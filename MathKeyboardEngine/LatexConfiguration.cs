@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public class LatexConfiguration
 {
     public string ActivePlaceholderShape { get; set; } = @"\blacksquare";

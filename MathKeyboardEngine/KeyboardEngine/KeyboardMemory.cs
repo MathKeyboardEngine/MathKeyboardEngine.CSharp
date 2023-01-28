@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public class KeyboardMemory
 {
     public KeyboardMemory()

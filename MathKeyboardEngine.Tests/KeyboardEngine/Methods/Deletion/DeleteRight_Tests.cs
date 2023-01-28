@@ -1,7 +1,7 @@
-﻿using MathKeyboardEngine;
-using Xunit;
+﻿using Xunit;
 
 namespace MathKeyboardEngine.Tests;
+
 public class DeleteRight_Tests
 {
     [Fact]

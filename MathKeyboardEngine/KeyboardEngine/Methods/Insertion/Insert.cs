@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public static class _Insert
 {
     public static void Insert(this KeyboardMemory k, TreeNode newNode)

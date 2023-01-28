@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public class AscendingBranchingNode : StandardBranchingNode
 {
     public AscendingBranchingNode(string before, string then, params string[] rest)

@@ -3,6 +3,7 @@ using MathKeyboardEngine._Helpers;
 using Xunit;
 
 namespace MathKeyboardEngine.Tests;
+
 public class SetSelectionDiff_Tests
 {
     [Fact]

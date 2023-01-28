@@ -1,5 +1,7 @@
 ﻿using MathKeyboardEngine._Helpers;
+
 namespace MathKeyboardEngine;
+
 public static class _SelectLeft
 {
     public static void SelectLeft(this KeyboardMemory k)

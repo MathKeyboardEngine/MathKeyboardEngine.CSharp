@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public static class _LeaveSelectionMode
 {
     public static void LeaveSelectionMode(this KeyboardMemory k)

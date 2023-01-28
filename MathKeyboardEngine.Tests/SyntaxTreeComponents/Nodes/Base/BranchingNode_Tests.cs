@@ -2,6 +2,7 @@
 using Xunit;
 
 namespace MathKeyboardEngine.Tests;
+
 public class BranchingNode_Tests
 {
     [Fact]

@@ -1,5 +1,7 @@
 ﻿using MathKeyboardEngine._Helpers;
+
 namespace MathKeyboardEngine;
+
 public class Placeholder : SyntaxTreeComponent
 {
     public BranchingNode? ParentNode { get; set; }

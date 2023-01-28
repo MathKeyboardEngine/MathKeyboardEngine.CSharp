@@ -1,5 +1,7 @@
 ﻿using MathKeyboardEngine._Helpers;
+
 namespace MathKeyboardEngine;
+
 public static class _MoveRight
 {
     public static void MoveRight(this KeyboardMemory k)

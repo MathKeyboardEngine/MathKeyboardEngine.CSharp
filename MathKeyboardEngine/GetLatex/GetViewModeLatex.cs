@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public static class _GetViewModeLatex
 {
     private static readonly KeyboardMemory _emptyKeyboardMemory = new();

@@ -1,6 +1,7 @@
 ﻿using Xunit;
 
 namespace MathKeyboardEngine.Tests;
+
 public class RoundBracketsNode_Tests
 {
     [Fact]

@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public class StandardLeafNode : LeafNode
 {
     private readonly Func<string> _latex;

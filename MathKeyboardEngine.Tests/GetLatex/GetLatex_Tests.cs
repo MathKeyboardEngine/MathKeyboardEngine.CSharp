@@ -1,6 +1,7 @@
 ﻿using Xunit;
 
 namespace MathKeyboardEngine.Tests;
+
 public class GetLatex_Tests
 {
     private static readonly LatexConfiguration Config = new LatexConfiguration

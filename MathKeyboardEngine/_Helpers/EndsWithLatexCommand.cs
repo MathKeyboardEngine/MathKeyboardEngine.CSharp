@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine._Helpers;
+
 public static class _EndsWithLatexCommand
 { 
     public static bool EndsWithLatexCommand(this string latex)

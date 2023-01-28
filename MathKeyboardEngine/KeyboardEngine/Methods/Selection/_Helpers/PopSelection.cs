@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine._Helpers;
+
 public static class _PopSelection
 {
     public static List<TreeNode> PopSelection(this KeyboardMemory k)

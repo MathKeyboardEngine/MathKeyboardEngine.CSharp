@@ -1,5 +1,7 @@
 ﻿using MathKeyboardEngine._Helpers;
+
 namespace MathKeyboardEngine;
+
 public static class _DeleteLeft
 {
     public static void DeleteLeft(this KeyboardMemory k)

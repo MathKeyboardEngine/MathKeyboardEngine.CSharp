@@ -8,7 +8,7 @@
 
 - `DeleteRight`.
 
-## [0.1.1] 2022-22-23
+## [0.1.1] 2022-11-23
 
 - Fix only relevant if `LatexConfiguration`'s `ActivePlaceholderColor` and `PassivePlaceholderColor` is used: use `{\color{my-color}x}` instead of `\color{my-color}{x}`.
 

@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public class DecimalSeparatorNode : PartOfNumberWithDigits
 {
     private readonly Func<string> _latex;

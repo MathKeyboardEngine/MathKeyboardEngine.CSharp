@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine._Helpers;
+
 public static class Concat
 {
     public static string Latex(params string[] latexParts)

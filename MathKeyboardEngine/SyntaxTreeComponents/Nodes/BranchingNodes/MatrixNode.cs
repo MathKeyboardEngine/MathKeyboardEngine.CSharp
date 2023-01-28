@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine;
+
 public class MatrixNode : BranchingNode
 {
     private readonly string _matrixType;

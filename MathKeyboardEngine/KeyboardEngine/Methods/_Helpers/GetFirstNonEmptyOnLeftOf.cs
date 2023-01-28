@@ -1,4 +1,5 @@
 ﻿namespace MathKeyboardEngine._Helpers;
+
 public static class _GetFirstNonEmptyOnLeftOf
 {
     public static Placeholder? GetFirstNonEmptyOnLeftOf(this IEnumerable<Placeholder> source, Placeholder element)
