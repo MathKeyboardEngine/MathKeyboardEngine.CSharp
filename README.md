@@ -7,6 +7,8 @@ MathKeyboardEngine for C# provides the logic for a highly customizable virtual m
 Also available:
 - [MathKeyboardEngine for JavaScript](https://github.com/MathKeyboardEngine/MathKeyboardEngine#readme).
 - [MathKeyboardEngine for Python](https://github.com/MathKeyboardEngine/MathKeyboardEngine.Python#readme).
+- [MathKeyboardEngine for Swift](https://github.com/MathKeyboardEngine/MathKeyboardEngine.Swift#readme).
+- [MathKeyboardEngine for other languages](https://github.com/MathKeyboardEngine).
 
 
 #### Which LaTeX typesetting libraries?
