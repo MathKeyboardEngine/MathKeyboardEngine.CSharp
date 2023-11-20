@@ -9,5 +9,4 @@ Let the old docs point to that branch.
 Increment the csproj version.
 Do a release to NuGet. (Right-click the MathKeyboardEngine project, click "Pack", release it via https://nuget.org (with mathkeyboardengine@outlook.com).)
 Update the readme to point to the new right docs.
-Update the Example to use the released package.
 Commit the incremented csproj version + updated example with commit title v0.y.z.

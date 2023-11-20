@@ -12,7 +12,7 @@ public class Subscript_Tests
         k.Insert(new StandardLeafNode("a"));
         k.MoveRight();
         k.Insert(new DigitNode("4"));
-        Expect.Latex("a_{4▦}", k);
+        Expect.EditModeLatex("a_{4▦}", k);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Subscript_Tests
         k.Insert(new StandardLeafNode("a"));
         k.MoveDown();
         k.Insert(new DigitNode("4"));
-        Expect.Latex("a_{4▦}", k);
+        Expect.EditModeLatex("a_{4▦}", k);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class Subscript_Tests
         var k = new KeyboardMemory();
         k.Insert(new StandardLeafNode("a"));
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode("", "_{", "}"));
-        Expect.Latex("a_{▦}", k);
+        Expect.EditModeLatex("a_{▦}", k);
     }
 
     [Fact]
@@ -43,9 +43,9 @@ public class Subscript_Tests
         k.Insert(new StandardLeafNode("a"));
         k.MoveDown();
         k.Insert(new DigitNode("4"));
-        Expect.Latex("a_{4▦}", k);
+        Expect.EditModeLatex("a_{4▦}", k);
         k.MoveUp();
-        Expect.Latex("a▦_{4}", k);
+        Expect.EditModeLatex("a▦_{4}", k);
     }
 
     [Fact]
@@ -54,12 +54,12 @@ public class Subscript_Tests
         // Arrange
         var k = new KeyboardMemory();
         k.Insert(new DescendingBranchingNode("", "_{", "}"));
-        Expect.Latex("▦_{⬚}", k);
+        Expect.EditModeLatex("▦_{⬚}", k);
         // Act & Assert
         k.MoveLeft();
-        Expect.Latex("▦⬚_{⬚}", k);
+        Expect.EditModeLatex("▦⬚_{⬚}", k);
         k.MoveRight();
-        Expect.Latex("▦_{⬚}", k);
+        Expect.EditModeLatex("▦_{⬚}", k);
     }
 
     [Fact]
@@ -68,16 +68,16 @@ public class Subscript_Tests
         // Arrange
         var k = new KeyboardMemory();
         k.Insert(new DescendingBranchingNode("", "_{", "}"));
-        Expect.Latex("▦_{⬚}", k);
+        Expect.EditModeLatex("▦_{⬚}", k);
         // Act & Assert 1
         k.MoveUp();
-        Expect.Latex("▦_{⬚}", k);
+        Expect.EditModeLatex("▦_{⬚}", k);
         // Arrange 2
         k.MoveDown();
-        Expect.Latex("⬚_{▦}", k);
+        Expect.EditModeLatex("⬚_{▦}", k);
         // Act & Assert 2
         k.MoveDown();
-        Expect.Latex("⬚_{▦}", k);
+        Expect.EditModeLatex("⬚_{▦}", k);
     }
 
     [Fact]
@@ -87,16 +87,16 @@ public class Subscript_Tests
         var k = new KeyboardMemory();
         k.Insert(new DescendingBranchingNode("", "_{", "}"));
         k.Insert(new StandardLeafNode("a"));
-        Expect.Latex("a▦_{⬚}", k);
+        Expect.EditModeLatex("a▦_{⬚}", k);
         // Act & Assert 1
         k.MoveUp();
-        Expect.Latex("a▦_{⬚}", k);
+        Expect.EditModeLatex("a▦_{⬚}", k);
         // Arrange 2
         k.MoveDown();
         k.Insert(new DigitNode("4"));
-        Expect.Latex("a_{4▦}", k);
+        Expect.EditModeLatex("a_{4▦}", k);
         // Act & Assert 2
         k.MoveDown();
-        Expect.Latex("a_{4▦}", k);
+        Expect.EditModeLatex("a_{4▦}", k);
     }
 }

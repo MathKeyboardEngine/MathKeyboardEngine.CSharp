@@ -31,6 +31,7 @@ If you don't use Blazor AND your don't want to use a WebView, then you need anot
 1. Calling `GetEditModeLatex()` outputs the total of LaTeX you typed, for example `\frac{3}{4}\blacksquare` (if `\blacksquare` is your cursor), which you then feed to the typesetting library for display.
 1. Calling `GetViewModeLatex()` outputs the LaTeX without a cursor.
 
+Note: you can use `Parse.Latex(latexString)` for pre-filling the textbox or for allowing users to also use raw LaTeX commands.
 
 #### Let me test it now!
 

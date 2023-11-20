@@ -13,10 +13,10 @@ public class StandardLeafNode_Tests
         k.Insert(new DigitNode("2"));
         k.Insert(new StandardLeafNode(() => myMultiplicationSignSetting));
         k.Insert(new StandardLeafNode("a"));
-        Expect.Latex(@"2\times a▦", k);
+        Expect.EditModeLatex(@"2\times a▦", k);
         // Act
         myMultiplicationSignSetting = @"\cdot";
         // Assert
-        Expect.Latex(@"2\cdot a▦", k);
+        Expect.EditModeLatex(@"2\cdot a▦", k);
     }
 }

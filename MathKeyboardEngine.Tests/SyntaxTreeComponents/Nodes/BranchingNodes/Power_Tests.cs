@@ -12,7 +12,7 @@ public class Power_Tests
         k.Insert(new DigitNode("3"));
         k.MoveRight();
         k.Insert(new DigitNode("4"));
-        Expect.Latex("3^{4▦}", k);
+        Expect.EditModeLatex("3^{4▦}", k);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Power_Tests
         k.Insert(new DigitNode("3"));
         k.MoveUp();
         k.Insert(new DigitNode("4"));
-        Expect.Latex("3^{4▦}", k);
+        Expect.EditModeLatex("3^{4▦}", k);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class Power_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("3"));
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
-        Expect.Latex("3^{▦}", k);
+        Expect.EditModeLatex("3^{▦}", k);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class Power_Tests
         k.MoveUp();
         k.Insert(new DigitNode("4"));
         k.MoveDown();
-        Expect.Latex("3▦^{4}", k);
+        Expect.EditModeLatex("3▦^{4}", k);
     }
 
     [Fact]
@@ -52,11 +52,11 @@ public class Power_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new AscendingBranchingNode("", "^{", "}"));
-        Expect.Latex("▦^{⬚}", k);
+        Expect.EditModeLatex("▦^{⬚}", k);
         k.MoveLeft();
-        Expect.Latex("▦⬚^{⬚}", k);
+        Expect.EditModeLatex("▦⬚^{⬚}", k);
         k.MoveRight();
-        Expect.Latex("▦^{⬚}", k);
+        Expect.EditModeLatex("▦^{⬚}", k);
     }
 
     [Fact]
@@ -64,13 +64,13 @@ public class Power_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new AscendingBranchingNode("", "^{", "}"));
-        Expect.Latex("▦^{⬚}", k);
+        Expect.EditModeLatex("▦^{⬚}", k);
         k.MoveDown();
-        Expect.Latex("▦^{⬚}", k);
+        Expect.EditModeLatex("▦^{⬚}", k);
         k.MoveUp();
-        Expect.Latex("⬚^{▦}", k);
+        Expect.EditModeLatex("⬚^{▦}", k);
         k.MoveUp();
-        Expect.Latex("⬚^{▦}", k);
+        Expect.EditModeLatex("⬚^{▦}", k);
     }
 
     [Fact]
@@ -79,14 +79,14 @@ public class Power_Tests
         var k = new KeyboardMemory();
         k.Insert(new AscendingBranchingNode("", "^{", "}"));
         k.Insert(new DigitNode("3"));
-        Expect.Latex("3▦^{⬚}", k);
+        Expect.EditModeLatex("3▦^{⬚}", k);
         k.MoveDown();
-        Expect.Latex("3▦^{⬚}", k);
+        Expect.EditModeLatex("3▦^{⬚}", k);
         k.MoveUp();
-        Expect.Latex("3^{▦}", k);
+        Expect.EditModeLatex("3^{▦}", k);
         k.Insert(new DigitNode("4"));
-        Expect.Latex("3^{4▦}", k);
+        Expect.EditModeLatex("3^{4▦}", k);
         k.MoveUp();
-        Expect.Latex("3^{4▦}", k);
+        Expect.EditModeLatex("3^{4▦}", k);
     }
 }

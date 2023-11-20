@@ -13,10 +13,10 @@ public class DecimalSeparatorNode_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DecimalSeparatorNode(() => myDecimalSeparatorSetting));
         k.Insert(new DigitNode("2"));
-        Expect.Latex("1{,}2▦", k);
+        Expect.EditModeLatex("1{,}2▦", k);
         // Act
         myDecimalSeparatorSetting = ".";
         // Assert
-        Expect.Latex("1.2▦", k);
+        Expect.EditModeLatex("1.2▦", k);
     }
 }

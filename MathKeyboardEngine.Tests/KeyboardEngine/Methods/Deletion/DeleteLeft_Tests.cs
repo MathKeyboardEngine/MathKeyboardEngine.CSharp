@@ -16,16 +16,16 @@ public class DeleteLeft_Tests
         k.Insert(new DigitNode("3"));
         k.MoveDown();
         k.DeleteLeft(); // trying to fix typo
-        Expect.Latex("2x▦^{3}", k);
+        Expect.EditModeLatex("2x▦^{3}", k);
         k.MoveUp();
-        Expect.Latex("2x⬚^{3▦}", k); // Huh? Let's delete that empty placeholder!
+        Expect.EditModeLatex("2x⬚^{3▦}", k); // Huh? Let's delete that empty placeholder!
         k.MoveDown();
-        Expect.Latex("2x▦^{3}", k);
+        Expect.EditModeLatex("2x▦^{3}", k);
         // Act
         k.DeleteLeft();
         k.MoveUp();
         // Assert
-        Expect.Latex("2x^{3▦}", k);
+        Expect.EditModeLatex("2x^{3▦}", k);
     }
 
     [Fact]
@@ -40,22 +40,22 @@ public class DeleteLeft_Tests
         k.Insert(new DigitNode("5"));
         k.Insert(new StandardLeafNode("+")); // oops, typo!
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
-        Expect.Latex("1+2.5+^{▦}", k);
+        Expect.EditModeLatex("1+2.5+^{▦}", k);
         k.Insert(new DigitNode("3"));
-        Expect.Latex("1+2.5+^{3▦}", k);
+        Expect.EditModeLatex("1+2.5+^{3▦}", k);
         k.MoveDown();
         k.DeleteLeft(); // trying to fix typo
-        Expect.Latex("1+2.5▦^{3}", k);
+        Expect.EditModeLatex("1+2.5▦^{3}", k);
         k.MoveUp();
-        Expect.Latex("1+2.5⬚^{3▦}", k); // Huh? Let's delete that empty placeholder!
+        Expect.EditModeLatex("1+2.5⬚^{3▦}", k); // Huh? Let's delete that empty placeholder!
         k.MoveDown();
-        Expect.Latex("1+2.5▦^{3}", k);
+        Expect.EditModeLatex("1+2.5▦^{3}", k);
         // Act
         k.DeleteLeft();
-        Expect.Latex("1+2.5▦^{3}", k);
+        Expect.EditModeLatex("1+2.5▦^{3}", k);
         k.MoveUp();
         // Assert
-        Expect.Latex("1+2.5^{3▦}", k);
+        Expect.EditModeLatex("1+2.5^{3▦}", k);
     }
 
     [Fact]
@@ -71,16 +71,16 @@ public class DeleteLeft_Tests
         k.Insert(new DigitNode("3"));
         k.MoveDown();
         k.DeleteLeft(); // trying to fix typo
-        Expect.Latex("2.5▦^{3}", k);
+        Expect.EditModeLatex("2.5▦^{3}", k);
         k.MoveUp();
-        Expect.Latex("2.5⬚^{3▦}", k); // Huh? Let's delete that empty placeholder!
+        Expect.EditModeLatex("2.5⬚^{3▦}", k); // Huh? Let's delete that empty placeholder!
         k.MoveDown();
-        Expect.Latex("2.5▦^{3}", k);
+        Expect.EditModeLatex("2.5▦^{3}", k);
         // Act
         k.DeleteLeft();
         k.MoveUp();
         // Assert
-        Expect.Latex("2.5^{3▦}", k);
+        Expect.EditModeLatex("2.5^{3▦}", k);
     }
 
     [Fact]
@@ -93,11 +93,11 @@ public class DeleteLeft_Tests
         k.Insert(new DigitNode("3"));
         k.MoveUp();
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ▦ \\ 3 & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ▦ \\ 3 & ⬚\end{pmatrix}", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex(@"\begin{pmatrix}⬚ & ▦ \\ 3 & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ▦ \\ 3 & ⬚\end{pmatrix}", k);
     }
 
     [Fact]
@@ -109,11 +109,11 @@ public class DeleteLeft_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}12 & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}12 & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex(@"\begin{pmatrix}1▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
     }
 
     [Fact]
@@ -127,13 +127,13 @@ public class DeleteLeft_Tests
         var d3 = new DigitNode("3");
         k.Insert(d3);
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
-        Expect.Latex("2^{3^{▦}}", k);
+        Expect.EditModeLatex("2^{3^{▦}}", k);
         // Act & Assert
         k.DeleteLeft();
-        Expect.Latex("2^{3▦}", k);
+        Expect.EditModeLatex("2^{3▦}", k);
         Assert.Equal(d3.ParentPlaceholder, powerNode.Placeholders[1]);
         k.DeleteLeft();
-        Expect.Latex("2^{▦}", k);
+        Expect.EditModeLatex("2^{▦}", k);
     }
 
 
@@ -145,11 +145,11 @@ public class DeleteLeft_Tests
         k.Insert(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
-        Expect.Latex(@"\frac{12▦}{⬚}", k);
+        Expect.EditModeLatex(@"\frac{12▦}{⬚}", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex(@"\frac{1▦}{⬚}", k);
+        Expect.EditModeLatex(@"\frac{1▦}{⬚}", k);
     }
 
     [Fact]
@@ -159,18 +159,18 @@ public class DeleteLeft_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
         k.SelectLeft();
         k.SelectLeft();
-        Expect.Latex(@"\colorbox{blue}{12}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{12}", k);
         k.InsertWithEncapsulateSelectionAndPrevious(new AscendingBranchingNode("", "^{", "}"));
-        Expect.Latex("⬚^{12▦}", k);
+        Expect.EditModeLatex("⬚^{12▦}", k);
         k.MoveDown();
-        Expect.Latex("▦^{12}", k);
+        Expect.EditModeLatex("▦^{12}", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
     }
 
     [Fact]
@@ -183,11 +183,11 @@ public class DeleteLeft_Tests
         k.Insert(new StandardLeafNode("+"));
         k.Insert(new StandardLeafNode("x"));
         k.MoveRight();
-        Expect.Latex("(1+x)▦", k);
+        Expect.EditModeLatex("(1+x)▦", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex("1+x▦", k);
+        Expect.EditModeLatex("1+x▦", k);
 
     }
 
@@ -200,11 +200,11 @@ public class DeleteLeft_Tests
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         k.Insert(new StandardLeafNode("x"));
         k.MoveRight();
-        Expect.Latex(@"\frac{1}{x}▦", k);
+        Expect.EditModeLatex(@"\frac{1}{x}▦", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex(@"\frac{1}{▦}", k);
+        Expect.EditModeLatex(@"\frac{1}{▦}", k);
     }
 
     [Fact]
@@ -222,11 +222,11 @@ public class DeleteLeft_Tests
         k.MoveRight();
         k.MoveRight();
         k.MoveRight();
-        Expect.Latex(@"\frac{1}{\frac{1}{\frac{1}{x}}}▦", k);
+        Expect.EditModeLatex(@"\frac{1}{\frac{1}{\frac{1}{x}}}▦", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex(@"\frac{1}{\frac{1}{\frac{1}{▦}}}", k);
+        Expect.EditModeLatex(@"\frac{1}{\frac{1}{\frac{1}{▦}}}", k);
     }
 
     [Fact]
@@ -238,11 +238,11 @@ public class DeleteLeft_Tests
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         k.MoveRight();
         k.MoveRight();
-        Expect.Latex(@"\frac{1}{⬚}▦", k);
+        Expect.EditModeLatex(@"\frac{1}{⬚}▦", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
     }
 
     [Fact]
@@ -253,11 +253,11 @@ public class DeleteLeft_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode("", "_{", "}"));
-        Expect.Latex("12_{▦}", k);
+        Expect.EditModeLatex("12_{▦}", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
     }
 
     [Fact]
@@ -270,11 +270,11 @@ public class DeleteLeft_Tests
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode("", "_{", "}"));
         k.MoveRight();
         k.MoveRight();
-        Expect.Latex("12_{⬚}▦", k);
+        Expect.EditModeLatex("12_{⬚}▦", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
     }
 
     [Fact]
@@ -285,17 +285,17 @@ public class DeleteLeft_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode("", "_{", "}"));
-        Expect.Latex(@"12_{▦}", k);
+        Expect.EditModeLatex(@"12_{▦}", k);
         k.MoveRight();
-        Expect.Latex(@"12_{⬚}▦", k);
+        Expect.EditModeLatex(@"12_{⬚}▦", k);
         k.Insert(new StandardBranchingNode(@"\sqrt{", "}"));
-        Expect.Latex(@"12_{⬚}\sqrt{▦}", k);
+        Expect.EditModeLatex(@"12_{⬚}\sqrt{▦}", k);
         k.MoveLeft();
-        Expect.Latex(@"12_{⬚}▦\sqrt{⬚}", k);
+        Expect.EditModeLatex(@"12_{⬚}▦\sqrt{⬚}", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex(@"12▦\sqrt{⬚}", k);
+        Expect.EditModeLatex(@"12▦\sqrt{⬚}", k);
     }
 
     [Fact]
@@ -309,11 +309,11 @@ public class DeleteLeft_Tests
         k.MoveDown();
         k.MoveRight();
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}12 \\ ⬚ \\ ⬚\end{pmatrix}▦", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}12 \\ ⬚ \\ ⬚\end{pmatrix}▦", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
     }
 
     [Fact]
@@ -326,17 +326,17 @@ public class DeleteLeft_Tests
         k.Insert(new StandardLeafNode("b"));
         k.MoveDown();
         k.MoveRight();
-        Expect.Latex(@"\frac{ab}{⬚}▦", k);
+        Expect.EditModeLatex(@"\frac{ab}{⬚}▦", k);
         k.Insert(new StandardBranchingNode(@"\sqrt{", "}"));
-        Expect.Latex(@"\frac{ab}{⬚}\sqrt{▦}", k);
+        Expect.EditModeLatex(@"\frac{ab}{⬚}\sqrt{▦}", k);
         k.MoveLeft();
-        Expect.Latex(@"\frac{ab}{⬚}▦\sqrt{⬚}", k);
+        Expect.EditModeLatex(@"\frac{ab}{⬚}▦\sqrt{⬚}", k);
         k.MoveLeft();
-        Expect.Latex(@"\frac{ab}{▦}\sqrt{⬚}", k);
+        Expect.EditModeLatex(@"\frac{ab}{▦}\sqrt{⬚}", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex(@"ab▦\sqrt{⬚}", k);
+        Expect.EditModeLatex(@"ab▦\sqrt{⬚}", k);
     }
 
     [Fact]
@@ -352,14 +352,14 @@ public class DeleteLeft_Tests
         k.Insert(new DigitNode("4"));
         k.MoveRight();
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}12 & ⬚ \\ 34 & ⬚\end{pmatrix}▦", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}12 & ⬚ \\ 34 & ⬚\end{pmatrix}▦", k);
         // Act & Assert
         k.DeleteLeft();
-        Expect.Latex(@"\begin{pmatrix}12 & ⬚ \\ 3▦ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}12 & ⬚ \\ 3▦ & ⬚\end{pmatrix}", k);
         k.DeleteLeft();
-        Expect.Latex(@"\begin{pmatrix}12 & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}12 & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
         k.DeleteLeft();
-        Expect.Latex(@"\begin{pmatrix}1▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
     }
 
     [Fact]
@@ -375,11 +375,11 @@ public class DeleteLeft_Tests
         k.MoveLeft();
         k.MoveLeft();
         k.MoveUp();
-        Expect.Latex(@"\begin{pmatrix}▦ & 2 \\ ⬚ & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦ & 2 \\ ⬚ & 4\end{pmatrix}", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex(@"\begin{pmatrix}▦ & 2 \\ ⬚ & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦ & 2 \\ ⬚ & 4\end{pmatrix}", k);
     }
 
     [Fact]
@@ -390,10 +390,10 @@ public class DeleteLeft_Tests
         k.Insert(new DigitNode("2"));
         k.Insert(new StandardLeafNode(@"\times"));
         k.Insert(new MatrixNode("pmatrix", 2, 2));
-        Expect.Latex(@"2\times\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"2\times\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
         // Act
         k.DeleteLeft();
         // Assert
-        Expect.Latex(@"2\times▦", k);
+        Expect.EditModeLatex(@"2\times▦", k);
     }
 }

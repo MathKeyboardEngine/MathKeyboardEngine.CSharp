@@ -9,13 +9,13 @@ public class NthRoot_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new DescendingBranchingNode(@"\sqrt[", "]{", "}"));
-        Expect.Latex(@"\sqrt[▦]{⬚}", k);
+        Expect.EditModeLatex(@"\sqrt[▦]{⬚}", k);
         k.Insert(new DigitNode("3"));
         k.MoveRight();
-        Expect.Latex(@"\sqrt[3]{▦}", k);
+        Expect.EditModeLatex(@"\sqrt[3]{▦}", k);
         k.Insert(new DigitNode("2"));
         k.Insert(new DigitNode("7"));
-        Expect.Latex(@"\sqrt[3]{27▦}", k);
+        Expect.EditModeLatex(@"\sqrt[3]{27▦}", k);
     }
 
     [Fact]
@@ -24,16 +24,16 @@ public class NthRoot_Tests
         // Arrange
         var k = new KeyboardMemory();
         k.Insert(new DescendingBranchingNode(@"\sqrt[", "]{", "}"));
-        Expect.Latex(@"\sqrt[▦]{⬚}", k);
+        Expect.EditModeLatex(@"\sqrt[▦]{⬚}", k);
         // Act & Assert MoveDown
         k.MoveDown();
-        Expect.Latex(@"\sqrt[⬚]{▦}", k);
+        Expect.EditModeLatex(@"\sqrt[⬚]{▦}", k);
         k.MoveDown();
-        Expect.Latex(@"\sqrt[⬚]{▦}", k);
+        Expect.EditModeLatex(@"\sqrt[⬚]{▦}", k);
         // Act && Assert MoveUp
         k.MoveUp();
-        Expect.Latex(@"\sqrt[▦]{⬚}", k);
+        Expect.EditModeLatex(@"\sqrt[▦]{⬚}", k);
         k.MoveUp();
-        Expect.Latex(@"\sqrt[▦]{⬚}", k);
+        Expect.EditModeLatex(@"\sqrt[▦]{⬚}", k);
     }
 }

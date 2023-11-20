@@ -11,13 +11,13 @@ public class DeleteSelection_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
         k.SelectLeft();
-        Expect.Latex(@"1\colorbox{blue}{2}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{2}", k);
         // Act
         k.DeleteSelection();
         // Assert
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
     }
 
     [Fact]
@@ -26,13 +26,13 @@ public class DeleteSelection_Tests
         // Arrange
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         k.SelectLeft();
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
         // Act
         k.DeleteSelection();
         // Assert
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
     }
 
     [Fact]
@@ -43,14 +43,14 @@ public class DeleteSelection_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
         k.Insert(new DigitNode("3"));
-        Expect.Latex("123▦", k);
+        Expect.EditModeLatex("123▦", k);
         k.SelectLeft();
         k.SelectLeft();
-        Expect.Latex(@"1\colorbox{blue}{23}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{23}", k);
         // Act
         k.DeleteSelection();
         // Assert
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
     }
 
     [Fact]
@@ -63,14 +63,14 @@ public class DeleteSelection_Tests
         k.Insert(new DigitNode("3"));
         k.MoveLeft();
         k.MoveLeft();
-        Expect.Latex("1▦23", k);
+        Expect.EditModeLatex("1▦23", k);
         k.SelectRight();
         k.SelectRight();
-        Expect.Latex(@"1\colorbox{blue}{23}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{23}", k);
         // Act
         k.DeleteSelection();
         // Assert
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
     }
 
     [Fact]
@@ -80,14 +80,14 @@ public class DeleteSelection_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
         k.SelectLeft();
         k.SelectLeft();
-        Expect.Latex(@"\colorbox{blue}{12}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{12}", k);
         // Act
         k.DeleteSelection();
         // Assert
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
     }
 
     [Fact]
@@ -99,13 +99,13 @@ public class DeleteSelection_Tests
         k.Insert(new DigitNode("2"));
         k.MoveLeft();
         k.MoveLeft();
-        Expect.Latex("▦12", k);
+        Expect.EditModeLatex("▦12", k);
         k.SelectRight();
         k.SelectRight();
-        Expect.Latex(@"\colorbox{blue}{12}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{12}", k);
         // Act
         k.DeleteSelection();
         // Assert
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
     }
 }

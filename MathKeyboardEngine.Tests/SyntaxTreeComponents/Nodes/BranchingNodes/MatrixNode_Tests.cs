@@ -10,7 +10,7 @@ public class MatrixNode_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new MatrixNode("pmatrix", 2, 3));
-        Expect.Latex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
         k.Insert(new DigitNode("1"));
         k.MoveRight();
         k.Insert(new DigitNode("2"));
@@ -18,7 +18,7 @@ public class MatrixNode_Tests
         k.Insert(new DigitNode("4"));
         k.MoveDown();
         k.Insert(new DigitNode("6"));
-        Expect.Latex(@"\begin{pmatrix}1 & 2 \\ ⬚ & 4 \\ ⬚ & 6▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & 2 \\ ⬚ & 4 \\ ⬚ & 6▦\end{pmatrix}", k);
     }
 
     [Fact]
@@ -33,39 +33,39 @@ public class MatrixNode_Tests
         k.Insert(new DigitNode("3"));
         k.MoveRight();
         k.Insert(new DigitNode("4"));
-        Expect.Latex(@"\begin{pmatrix}1 & ⬚ \\ 3 & 4▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ⬚ \\ 3 & 4▦\end{pmatrix}", k);
         // Act & Assert MoveLeft
         k.MoveLeft();
-        Expect.Latex(@"\begin{pmatrix}1 & ⬚ \\ 3 & ▦4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ⬚ \\ 3 & ▦4\end{pmatrix}", k);
         k.MoveLeft();
-        Expect.Latex(@"\begin{pmatrix}1 & ⬚ \\ 3▦ & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ⬚ \\ 3▦ & 4\end{pmatrix}", k);
         k.MoveLeft();
-        Expect.Latex(@"\begin{pmatrix}1 & ⬚ \\ ▦3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ⬚ \\ ▦3 & 4\end{pmatrix}", k);
         k.MoveLeft();
-        Expect.Latex(@"\begin{pmatrix}1 & ▦ \\ 3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ▦ \\ 3 & 4\end{pmatrix}", k);
         k.MoveLeft();
-        Expect.Latex(@"\begin{pmatrix}1▦ & ⬚ \\ 3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1▦ & ⬚ \\ 3 & 4\end{pmatrix}", k);
         k.MoveLeft();
-        Expect.Latex(@"\begin{pmatrix}▦1 & ⬚ \\ 3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦1 & ⬚ \\ 3 & 4\end{pmatrix}", k);
         k.MoveLeft();
-        Expect.Latex(@"▦\begin{pmatrix}1 & ⬚ \\ 3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"▦\begin{pmatrix}1 & ⬚ \\ 3 & 4\end{pmatrix}", k);
         // Act & Assert MoveRight
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}▦1 & ⬚ \\ 3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦1 & ⬚ \\ 3 & 4\end{pmatrix}", k);
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}1▦ & ⬚ \\ 3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1▦ & ⬚ \\ 3 & 4\end{pmatrix}", k);
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}1 & ▦ \\ 3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ▦ \\ 3 & 4\end{pmatrix}", k);
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}1 & ⬚ \\ ▦3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ⬚ \\ ▦3 & 4\end{pmatrix}", k);
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}1 & ⬚ \\ 3▦ & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ⬚ \\ 3▦ & 4\end{pmatrix}", k);
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}1 & ⬚ \\ 3 & ▦4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ⬚ \\ 3 & ▦4\end{pmatrix}", k);
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}1 & ⬚ \\ 3 & 4▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ⬚ \\ 3 & 4▦\end{pmatrix}", k);
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}1 & ⬚ \\ 3 & 4\end{pmatrix}▦", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ⬚ \\ 3 & 4\end{pmatrix}▦", k);
     }
 
     [Fact]
@@ -75,12 +75,12 @@ public class MatrixNode_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("2"));
         k.Insert(new MatrixNode("pmatrix", 2, 2));
-        Expect.Latex(@"2\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"2\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
         // Act & Assert
         k.MoveLeft();
-        Expect.Latex(@"2▦\begin{pmatrix}⬚ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"2▦\begin{pmatrix}⬚ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
         k.MoveRight();
-        Expect.Latex(@"2\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"2\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
     }
 
     [Fact]
@@ -96,18 +96,18 @@ public class MatrixNode_Tests
         k.Insert(new DigitNode("3"));
         k.MoveRight();
         k.Insert(new DigitNode("4"));
-        Expect.Latex(@"\begin{pmatrix}1 & 2 \\ 3 & 4▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & 2 \\ 3 & 4▦\end{pmatrix}", k);
         // Act & Assert
         k.DeleteLeft();
-        Expect.Latex(@"\begin{pmatrix}1 & 2 \\ 3 & ▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & 2 \\ 3 & ▦\end{pmatrix}", k);
         k.DeleteLeft();
-        Expect.Latex(@"\begin{pmatrix}1 & 2 \\ ▦ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & 2 \\ ▦ & ⬚\end{pmatrix}", k);
         k.DeleteLeft();
-        Expect.Latex(@"\begin{pmatrix}1 & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
         k.DeleteLeft();
-        Expect.Latex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
         k.DeleteLeft();
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
     }
 
     [Fact]
@@ -116,16 +116,16 @@ public class MatrixNode_Tests
         // Arrange
         var k = new KeyboardMemory();
         k.Insert(new MatrixNode("pmatrix", 2, 2));
-        Expect.Latex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
         // Act & Assert
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
         k.MoveDown();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ⬚ \\ ⬚ & ▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ⬚ \\ ⬚ & ▦\end{pmatrix}", k);
         k.MoveLeft();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
         k.MoveUp();
-        Expect.Latex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
     }
 
     [Fact]
@@ -134,22 +134,22 @@ public class MatrixNode_Tests
         // Arrange
         var k = new KeyboardMemory();
         k.Insert(new MatrixNode("pmatrix", 2, 2));
-        Expect.Latex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
         // Act & Assert
         k.MoveUp();
-        Expect.Latex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}▦ & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
         k.MoveDown();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
         k.MoveDown();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ⬚ \\ ▦ & ⬚\end{pmatrix}", k);
         k.MoveRight();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ⬚ \\ ⬚ & ▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ⬚ \\ ⬚ & ▦\end{pmatrix}", k);
         k.MoveDown();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ⬚ \\ ⬚ & ▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ⬚ \\ ⬚ & ▦\end{pmatrix}", k);
         k.MoveUp();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
         k.MoveUp();
-        Expect.Latex(@"\begin{pmatrix}⬚ & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}⬚ & ▦ \\ ⬚ & ⬚\end{pmatrix}", k);
     }
 
     [Fact]
@@ -165,14 +165,14 @@ public class MatrixNode_Tests
         k.Insert(new DigitNode("3"));
         k.MoveRight();
         k.Insert(new DigitNode("4"));
-        Expect.Latex(@"\begin{pmatrix}1 & 2 \\ 3 & 4▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & 2 \\ 3 & 4▦\end{pmatrix}", k);
         // Act & Assert
         k.MoveDown();
-        Expect.Latex(@"\begin{pmatrix}1 & 2 \\ 3 & 4▦\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & 2 \\ 3 & 4▦\end{pmatrix}", k);
         k.MoveUp();
-        Expect.Latex(@"\begin{pmatrix}1 & 2▦ \\ 3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & 2▦ \\ 3 & 4\end{pmatrix}", k);
         k.MoveUp();
-        Expect.Latex(@"\begin{pmatrix}1 & 2▦ \\ 3 & 4\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}1 & 2▦ \\ 3 & 4\end{pmatrix}", k);
     }
 
     [Fact]

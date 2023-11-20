@@ -13,7 +13,7 @@ public class SetSelectionDiff_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.SelectLeft();
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
         var currentSelectionDiff = k.SelectionDiff!.Value;
         // Act & Assert
         var ex = Assert.Throws<Exception>(() => k.SetSelectionDiff(currentSelectionDiff - 1)); // Trying to go even more to the left.

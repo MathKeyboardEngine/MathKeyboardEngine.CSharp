@@ -12,11 +12,11 @@ public class SelectRight_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
         k.MoveLeft();
-        Expect.Latex("1▦2", k);
+        Expect.EditModeLatex("1▦2", k);
         // Act
         k.SelectRight();
         // Assert
-        Expect.Latex(@"1\colorbox{blue}{2}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{2}", k);
     }
 
     [Fact]
@@ -26,11 +26,11 @@ public class SelectRight_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.MoveLeft();
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
         // Act
         k.SelectRight();
         // Assert
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
     }
 
     [Fact]
@@ -43,12 +43,12 @@ public class SelectRight_Tests
         k.Insert(new DigitNode("3"));
         k.MoveLeft();
         k.MoveLeft();
-        Expect.Latex("1▦23", k);
+        Expect.EditModeLatex("1▦23", k);
         // Act
         k.SelectRight();
         k.SelectRight();
         // Assert
-        Expect.Latex(@"1\colorbox{blue}{23}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{23}", k);
     }
 
     [Fact]
@@ -60,12 +60,12 @@ public class SelectRight_Tests
         k.Insert(new DigitNode("2"));
         k.MoveLeft();
         k.MoveLeft();
-        Expect.Latex("▦12", k);
+        Expect.EditModeLatex("▦12", k);
         // Act
         k.SelectRight();
         k.SelectRight();
         // Assert
-        Expect.Latex(@"\colorbox{blue}{12}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{12}", k);
     }
 
     [Fact]
@@ -75,11 +75,11 @@ public class SelectRight_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.SelectLeft();
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
         // Act
         k.SelectRight();
         // Assert
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         Assert.True(k.InSelectionMode());
     }
 
@@ -90,13 +90,13 @@ public class SelectRight_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.MoveLeft();
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
         k.SelectRight();
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
         // Act
         k.SelectRight();
         // Assert
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
     }
 
     [Fact]
@@ -107,13 +107,13 @@ public class SelectRight_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
         k.MoveLeft();
-        Expect.Latex("1▦2", k);
+        Expect.EditModeLatex("1▦2", k);
         k.SelectRight();
-        Expect.Latex(@"1\colorbox{blue}{2}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{2}", k);
         // Act
         k.SelectRight();
         // Assert
-        Expect.Latex(@"1\colorbox{blue}{2}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{2}", k);
     }
 
     [Fact]
@@ -130,16 +130,16 @@ public class SelectRight_Tests
         k.MoveLeft();
         k.MoveLeft();
         k.MoveLeft();
-        Expect.Latex(@"\sqrt{▦2}+a", k);
+        Expect.EditModeLatex(@"\sqrt{▦2}+a", k);
         k.SelectRight();
-        Expect.Latex(@"\sqrt{\colorbox{blue}{2}}+a", k);
+        Expect.EditModeLatex(@"\sqrt{\colorbox{blue}{2}}+a", k);
         // Act & Assert
         k.SelectRight();
-        Expect.Latex(@"\colorbox{blue}{\sqrt{2}}+a", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{\sqrt{2}}+a", k);
         k.SelectRight();
-        Expect.Latex(@"\colorbox{blue}{\sqrt{2}+}a", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{\sqrt{2}+}a", k);
         k.SelectRight();
-        Expect.Latex(@"\colorbox{blue}{\sqrt{2}+a}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{\sqrt{2}+a}", k);
     }
 
     [Fact]
@@ -157,24 +157,24 @@ public class SelectRight_Tests
         k.MoveLeft();
         k.MoveLeft();
         k.MoveLeft();
-        Expect.Latex(@"3\sqrt{▦2}+a", k);
+        Expect.EditModeLatex(@"3\sqrt{▦2}+a", k);
         k.SelectRight();
-        Expect.Latex(@"3\sqrt{\colorbox{blue}{2}}+a", k);
+        Expect.EditModeLatex(@"3\sqrt{\colorbox{blue}{2}}+a", k);
         // Act & Assert
         k.SelectRight();
-        Expect.Latex(@"3\colorbox{blue}{\sqrt{2}}+a", k);
+        Expect.EditModeLatex(@"3\colorbox{blue}{\sqrt{2}}+a", k);
         k.SelectRight();
-        Expect.Latex(@"3\colorbox{blue}{\sqrt{2}+}a", k);
+        Expect.EditModeLatex(@"3\colorbox{blue}{\sqrt{2}+}a", k);
         k.SelectRight();
-        Expect.Latex(@"3\colorbox{blue}{\sqrt{2}+a}", k);
+        Expect.EditModeLatex(@"3\colorbox{blue}{\sqrt{2}+a}", k);
     }
 
     [Fact]
     public void Does_nothing_in_an_empty_SyntaxTreeRoot()
     {
         var k = new KeyboardMemory();
-        Expect.Latex(@"▦", k);
+        Expect.EditModeLatex(@"▦", k);
         k.SelectRight();
-        Expect.Latex(@"▦", k);
+        Expect.EditModeLatex(@"▦", k);
     }
 }

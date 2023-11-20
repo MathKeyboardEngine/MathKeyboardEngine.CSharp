@@ -9,18 +9,18 @@ public class StandardBranchingNode_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new StandardBranchingNode(@"\sqrt{", "}"));
-        Expect.Latex(@"\sqrt{▦}", k);
+        Expect.EditModeLatex(@"\sqrt{▦}", k);
         k.Insert(new DigitNode("3"));
         k.MoveRight();
-        Expect.Latex(@"\sqrt{3}▦", k);
+        Expect.EditModeLatex(@"\sqrt{3}▦", k);
         k.MoveLeft();
-        Expect.Latex(@"\sqrt{3▦}", k);
+        Expect.EditModeLatex(@"\sqrt{3▦}", k);
         k.MoveLeft();
-        Expect.Latex(@"\sqrt{▦3}", k);
+        Expect.EditModeLatex(@"\sqrt{▦3}", k);
         k.MoveLeft();
-        Expect.Latex(@"▦\sqrt{3}", k);
+        Expect.EditModeLatex(@"▦\sqrt{3}", k);
         k.MoveRight();
-        Expect.Latex(@"\sqrt{▦3}", k);
+        Expect.EditModeLatex(@"\sqrt{▦3}", k);
     }
 
     [Fact]
@@ -28,15 +28,15 @@ public class StandardBranchingNode_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new StandardBranchingNode(@"\sqrt{", "}"));
-        Expect.Latex(@"\sqrt{▦}", k);
+        Expect.EditModeLatex(@"\sqrt{▦}", k);
         k.MoveRight();
-        Expect.Latex(@"\sqrt{⬚}▦", k);
+        Expect.EditModeLatex(@"\sqrt{⬚}▦", k);
         k.MoveLeft();
-        Expect.Latex(@"\sqrt{▦}", k);
+        Expect.EditModeLatex(@"\sqrt{▦}", k);
         k.MoveLeft();
-        Expect.Latex(@"▦\sqrt{⬚}", k);
+        Expect.EditModeLatex(@"▦\sqrt{⬚}", k);
         k.MoveRight();
-        Expect.Latex(@"\sqrt{▦}", k);
+        Expect.EditModeLatex(@"\sqrt{▦}", k);
     }
 
     [Fact]
@@ -44,8 +44,8 @@ public class StandardBranchingNode_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new StandardBranchingNode(@"\sqrt{", "}"));
-        Expect.Latex(@"\sqrt{▦}", k);
+        Expect.EditModeLatex(@"\sqrt{▦}", k);
         k.DeleteLeft();
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
     }
 }

@@ -13,7 +13,7 @@ public class InsertWithEncapsulateCurrent_Tests
         // Act
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
         // Assert
-        Expect.Latex("▦^{⬚}", k);
+        Expect.EditModeLatex("▦^{⬚}", k);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class InsertWithEncapsulateCurrent_Tests
         // Act
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         // Assert
-        Expect.Latex(@"\frac{\begin{pmatrix}1 & 2 \\ 3 & 4\end{pmatrix}}{▦}", k);
+        Expect.EditModeLatex(@"\frac{\begin{pmatrix}1 & 2 \\ 3 & 4\end{pmatrix}}{▦}", k);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class InsertWithEncapsulateCurrent_Tests
         // Act
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
         // Assert
-        Expect.Latex(@"\begin{pmatrix}2^{▦} & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
+        Expect.EditModeLatex(@"\begin{pmatrix}2^{▦} & ⬚ \\ ⬚ & ⬚\end{pmatrix}", k);
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class InsertWithEncapsulateCurrent_Tests
         // Act
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         // Assert
-        Expect.Latex(@"\frac{12}{▦}", k);
+        Expect.EditModeLatex(@"\frac{12}{▦}", k);
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class InsertWithEncapsulateCurrent_Tests
         // Act
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         // Assert
-        Expect.Latex(@"\frac{12.3}{▦}", k);
+        Expect.EditModeLatex(@"\frac{12.3}{▦}", k);
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class InsertWithEncapsulateCurrent_Tests
         // Act
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         // Assert
-        Expect.Latex(@"1+\frac{23}{▦}", k);
+        Expect.EditModeLatex(@"1+\frac{23}{▦}", k);
     }
 
     [Fact]
@@ -100,15 +100,15 @@ public class InsertWithEncapsulateCurrent_Tests
         k.Insert(new DigitNode("2"));
         k.Insert(new StandardLeafNode("+"));
         k.Insert(new DigitNode("3"));
-        Expect.Latex(@"1+(2+3▦)", k);
+        Expect.EditModeLatex(@"1+(2+3▦)", k);
 
         k.MoveRight();
-        Expect.Latex(@"1+(2+3)▦", k);
+        Expect.EditModeLatex(@"1+(2+3)▦", k);
         var powerNode = new AscendingBranchingNode("", "^{", "}");
         // Act
         k.InsertWithEncapsulateCurrent(powerNode);
         // Assert
-        Expect.Latex(@"1+(2+3)^{▦}", k);
+        Expect.EditModeLatex(@"1+(2+3)^{▦}", k);
         Assert.Equal("(2+3)", powerNode.Placeholders[0].GetLatex(k, null!));
     }
 
@@ -131,11 +131,11 @@ public class InsertWithEncapsulateCurrent_Tests
         k.Insert(new DigitNode("3"));
         k.MoveRight();
         k.MoveRight();
-        Expect.Latex(@"1+((x+2)(x-3))▦", k);
+        Expect.EditModeLatex(@"1+((x+2)(x-3))▦", k);
         // Act
         k.InsertWithEncapsulateCurrent(new DescendingBranchingNode(@"\frac{", "}{", "}"), InsertWithEncapsulateCurrentOptions.DeleteOuterRoundBracketsIfAny);
         // Assert
-        Expect.Latex(@"1+\frac{(x+2)(x-3)}{▦}", k);
+        Expect.EditModeLatex(@"1+\frac{(x+2)(x-3)}{▦}", k);
     }
 
     [Fact]
@@ -150,12 +150,12 @@ public class InsertWithEncapsulateCurrent_Tests
         k.Insert(new StandardLeafNode("+"));
         k.Insert(new DigitNode("3"));
         k.MoveRight();
-        Expect.Latex(@"1+|x+3|▦", k);
+        Expect.EditModeLatex(@"1+|x+3|▦", k);
         // Act
         var fraction = new DescendingBranchingNode(@"\frac{", "}{", "}");
         k.InsertWithEncapsulateCurrent(fraction, InsertWithEncapsulateCurrentOptions.DeleteOuterRoundBracketsIfAny);
         // Assert
-        Expect.Latex(@"1+\frac{|x+3|}{▦}", k);
+        Expect.EditModeLatex(@"1+\frac{|x+3|}{▦}", k);
     }
 
     [Fact]
@@ -167,11 +167,11 @@ public class InsertWithEncapsulateCurrent_Tests
         k.Insert(new StandardLeafNode("A"));
         k.Insert(new StandardLeafNode("B"));
         k.MoveRight();
-        Expect.Latex("(AB)▦", k);
+        Expect.EditModeLatex("(AB)▦", k);
         // Act
         k.InsertWithEncapsulateCurrent(new StandardBranchingNode(@"\overrightarrow{", "}"), InsertWithEncapsulateCurrentOptions.DeleteOuterRoundBracketsIfAny);
         // Assert
-        Expect.Latex(@"\overrightarrow{AB}▦", k);
+        Expect.EditModeLatex(@"\overrightarrow{AB}▦", k);
 
     }
 }

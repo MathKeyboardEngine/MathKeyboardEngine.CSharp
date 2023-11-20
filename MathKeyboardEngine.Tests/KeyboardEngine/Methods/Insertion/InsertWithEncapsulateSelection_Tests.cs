@@ -11,13 +11,13 @@ public class InsertWithEncapsulateSelection_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
         k.SelectLeft();
-        Expect.Latex(@"1\colorbox{blue}{2}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{2}", k);
         // Act
         k.InsertWithEncapsulateSelection(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         // Assert
-        Expect.Latex(@"1\frac{2}{▦}", k);
+        Expect.EditModeLatex(@"1\frac{2}{▦}", k);
     }
 
     [Fact]
@@ -26,13 +26,13 @@ public class InsertWithEncapsulateSelection_Tests
         // Arrange
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         k.SelectLeft();
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
         // Act
         k.InsertWithEncapsulateSelection(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         // Assert
-        Expect.Latex(@"\frac{1}{▦}", k);
+        Expect.EditModeLatex(@"\frac{1}{▦}", k);
     }
 
     [Fact]
@@ -43,14 +43,14 @@ public class InsertWithEncapsulateSelection_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
         k.Insert(new DigitNode("3"));
-        Expect.Latex("123▦", k);
+        Expect.EditModeLatex("123▦", k);
         k.SelectLeft();
         k.SelectLeft();
-        Expect.Latex(@"1\colorbox{blue}{23}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{23}", k);
         // Act
         k.InsertWithEncapsulateSelection(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         // Assert
-        Expect.Latex(@"1\frac{23}{▦}", k);
+        Expect.EditModeLatex(@"1\frac{23}{▦}", k);
     }
 
     [Fact]
@@ -60,14 +60,14 @@ public class InsertWithEncapsulateSelection_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
         k.SelectLeft();
         k.SelectLeft();
-        Expect.Latex(@"\colorbox{blue}{12}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{12}", k);
         // Act
         k.InsertWithEncapsulateSelection(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         // Assert
-        Expect.Latex(@"\frac{12}{▦}", k);
+        Expect.EditModeLatex(@"\frac{12}{▦}", k);
     }
 
 
@@ -79,10 +79,10 @@ public class InsertWithEncapsulateSelection_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
         k.EnterSelectionMode();
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
         // Act
         k.InsertWithEncapsulateSelection(new DescendingBranchingNode(@"\frac{", "}{", "}"));
         // Assert
-        Expect.Latex(@"12\frac{▦}{⬚}", k);
+        Expect.EditModeLatex(@"12\frac{▦}{⬚}", k);
     }
 }

@@ -10,11 +10,11 @@ public class BranchingNode_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new DummyBranchingNode());
-        Expect.Latex(@"wow >> ▦ << wow", k);
+        Expect.EditModeLatex(@"wow >> ▦ << wow", k);
         k.MoveUp();
-        Expect.Latex(@"wow >> ▦ << wow", k);
+        Expect.EditModeLatex(@"wow >> ▦ << wow", k);
         k.MoveDown();
-        Expect.Latex(@"wow >> ▦ << wow", k);
+        Expect.EditModeLatex(@"wow >> ▦ << wow", k);
     }
 
     public class DummyBranchingNode : BranchingNode

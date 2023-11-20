@@ -12,9 +12,19 @@ public static class Expect
         SelectionHightlightEnd = "}",
     };
 
-    public static void Latex(string latex, KeyboardMemory k)
+    public static void EditModeLatex(string latex, KeyboardMemory k)
     {
         Assert.Equal(latex, k.GetEditModeLatex(_testConfig));
+    }
+
+    public static void ViewModeLatex(string latex, TreeNode treeNode)
+    {
+        Assert.Equal(latex, treeNode.GetLatex(new KeyboardMemory(), _testConfig));
+    }
+
+    public static void ViewModeLatex(string latex, Placeholder placeholder)
+    {
+        Assert.Equal(latex, placeholder.GetLatex(new KeyboardMemory(), _testConfig));
     }
 
     public static void ViewModeLatex(string latex, KeyboardMemory k)

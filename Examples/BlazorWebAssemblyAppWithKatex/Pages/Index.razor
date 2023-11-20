@@ -7,7 +7,7 @@
 <h1>MathKeyboardEngine + KaTeX (in a Blazor WebAssembly App)</h1>
 
 <div id="typesetEditModeLatex" @ref=typesetEditModeLatex></div>
-<div id="pureLatexFromPhysicalKeys">@pureLatex</div>
+<div id="inputMirror">@inputTextToParse@(inputTextToParse?.Length > 2 ? " ----> press Enter" : "")</div>
 <div id="viewModeLatex">@viewModeLatex</div>
 <i>Example keys - to be styled - to help you design your virtual math keyboard</i>
 <div id="mathKeyboard">
@@ -97,10 +97,16 @@
 	}
 </div>
 <p>
-	Note: if you have a physical keyboard attached, you can use that too.<br/>
-	Use a backslash for pure LaTeX commands.<br/>
+    Note: if you have a physical keyboard attached, you can use that too. For example, try <kbd>^</kbd>, <kbd>*</kbd>, <kbd>(</kbd> and <kbd>/</kbd>.<br />
     Use Shift + Left for selection mode (or use the blue key).
 </p>
+
+<h2>Parse a LaTeX string</h2>
+<input id="inputToParse" @ref=inputToParse value=@inputTextToParse
+    @oninput=RawInputChanged
+    @onkeydown="ParseLatex"
+    type="text"
+    placeholder="Type or paste + press Enter" />
 
 @code {
     private KeyboardMemory _keyboardMemory = new KeyboardMemory();
@@ -138,6 +144,25 @@
         StateHasChanged();
     }
 
+    ElementReference inputToParse;
+    string? inputTextToParse;
+    public void RawInputChanged(ChangeEventArgs e)
+    {
+        inputTextToParse = e.Value as string;
+    }
+
+    public async Task ParseLatex(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter")
+        {
+            var parsedNodes = Parse.Latex(inputTextToParse).SyntaxTreeRoot.Nodes;
+            inputTextToParse = null;
+            _keyboardMemory.Insert(parsedNodes);
+            await DisplayResultAsync();
+            await JS.InvokeVoidAsync("document.activeElement.blur");
+        }
+    }
+
     private string decimalSeparatorSignType = "decimal point";
     private string decimalSeparatorSetting() => decimalSeparatorSignType == "decimal point" ? "." : "{,}";
     private async Task ToggleDecimalSeparatorSignType()
@@ -167,7 +192,7 @@
 
     public async Task<bool> ShouldIgnorePhysicalKeyPresses()
     {
-        return await JS.InvokeAsync<bool>("document.activeElement.classList.contains", "disable-physical-keypress-math-input-when-focused");
+        return inputTextToParse?.Length > 0 || await JS.InvokeAsync<bool>("document.activeElement.classList.contains", "disable-physical-keypress-math-input-when-focused");
     }
 
     private StandardLeafNode GetMultiplicationNode() => new StandardLeafNode(multiplicationSymbolSetting);
@@ -214,7 +239,7 @@
         await DisplayResultAsync();
     }
 
-    private async Task MoveUpClicked() 
+    private async Task MoveUpClicked()
     {
         if (_keyboardMemory.InSelectionMode())
         {
@@ -237,7 +262,7 @@
         await DisplayResultAsync();
     }
 
-    private async Task MoveDownClicked() 	
+    private async Task MoveDownClicked()
     {
         if (_keyboardMemory.InSelectionMode())
         {
@@ -247,7 +272,7 @@
         await DisplayResultAsync();
     }
 
-    private async Task MoveRightClicked() 
+    private async Task MoveRightClicked()
     {
         if (_keyboardMemory.InSelectionMode() || inShift)
         {
@@ -292,7 +317,6 @@
         return Task.CompletedTask;
     }
 
-    private string pureLatex = "";
     private bool inShift = false;
     public async Task OnPhysicalKeyDownAsync(string key)
     {
@@ -347,45 +371,9 @@
         {
             if (!inShift && key == "Backslash")
             {
-                pureLatex = @"\";
+                await inputToParse.FocusAsync();
+                return;
             }
-            else if (pureLatex.Length > 0)
-            {
-                var roundBracketsRequested = key == "Digit9" && inShift;
-                if (roundBracketsRequested || key == "Space" || key == "Enter" || key == "Escape")
-                {
-                    var node = (TreeNode)(
-                        pureLatex == @"\frac" ? GetFractionNode()
-                        : pureLatex == @"\binom" ? GetBinomialNode()
-                        : pureLatex == @"\sqrt" ? GetSquareRootNode()
-                        : pureLatex == @"\int" ? GetIntegralNode()
-                        : pureLatex == @"\sum" ? GetSumNode()
-                        : pureLatex == @"\prod" ? GetProductNode()
-                        : pureLatex == @"\lim" ? GetLimitNode()
-                        : new StandardLeafNode(pureLatex));
-                    _keyboardMemory.Insert(node);
-                    if (roundBracketsRequested)
-                    {
-                        _keyboardMemory.Insert(new RoundBracketsNode());
-                    }
-                    pureLatex = "";
-				}
-				else if (key == "Backspace")
-				{
-					pureLatex = pureLatex.Substring(0, pureLatex.Length - 1);
-				}
-				else if (key.StartsWith("Key"))
-				{
-					if (inShift)
-					{
-						pureLatex += key[3];
-					}
-					else
-					{
-						pureLatex += key[3].ToString().ToLower();
-					}
-				}
-			}
 			else if (inShift)
 			{
 				PhysicalKeydownHandlersForShift.FirstOrDefault(x => x.CanHandle(key))?.Handle(_keyboardMemory, key);
@@ -445,7 +433,7 @@
 	}
 
 	public IEnumerable<PhysicalKeyHandler> SelectionModePhysicalKeydownHandlersForShift
-	{ 
+	{
 		get
 		{
 			yield return new PhysicalKeyHandler("Digit6", (k, key) => k.InsertWithEncapsulateSelectionAndPrevious(GetPowerNode()));
@@ -545,8 +533,22 @@ input {
     padding: 0.15rem;
 }
 
-#pureLatexFromPhysicalKeys {
-    color: green;
+
+#inputMirror {
+position: absolute;
+left: 0;
+top: 0;
+color: green;
+}
+
+#inputToParse {
+width: 300px;
+}
+
+kbd {
+border: 2px solid gray;
+font-size: 1rem;
+padding: 2px;
 }
 
 </style>

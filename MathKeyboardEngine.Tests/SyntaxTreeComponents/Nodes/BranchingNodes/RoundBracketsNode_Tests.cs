@@ -9,7 +9,7 @@ public class RoundBracketsNode_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new RoundBracketsNode());
-        Expect.Latex(@"\left(▦\right)", k);
+        Expect.EditModeLatex(@"\left(▦\right)", k);
     }
 
     [Fact]
@@ -17,6 +17,6 @@ public class RoundBracketsNode_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new RoundBracketsNode("(", ")"));
-        Expect.Latex("(▦)", k);
+        Expect.EditModeLatex("(▦)", k);
     }
 }

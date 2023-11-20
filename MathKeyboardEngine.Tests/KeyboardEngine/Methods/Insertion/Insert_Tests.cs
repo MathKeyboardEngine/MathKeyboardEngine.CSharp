@@ -11,14 +11,14 @@ public class Insert_Tests
         var k = new KeyboardMemory();
         var d1 = new DigitNode("1");
         k.Insert(d1);
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         k.MoveLeft();
         Assert.Equal(k.Current, d1.ParentPlaceholder);
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
         // Act
         k.Insert(new DigitNode("2"));
         // Assert
-        Expect.Latex("2▦1", k);
+        Expect.EditModeLatex("2▦1", k);
     }
 
     [Fact]
@@ -29,19 +29,19 @@ public class Insert_Tests
         var d1 = new DigitNode("1");
         k.Insert(d1);
         Assert.Equal(k.Current, d1);
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         // Act 1
         k.Insert(new DigitNode("2"));
         // Assert 1
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
         // Arrange 2
         k.MoveLeft();
         Assert.Equal(k.Current, d1);
-        Expect.Latex("1▦2", k);
+        Expect.EditModeLatex("1▦2", k);
         // Act 2
         k.Insert(new DigitNode("3"));
         // Assert 2
-        Expect.Latex("13▦2", k);
+        Expect.EditModeLatex("13▦2", k);
     }
 
     [Fact]

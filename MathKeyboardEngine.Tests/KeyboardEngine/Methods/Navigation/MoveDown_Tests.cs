@@ -12,10 +12,10 @@ public class MoveDown_Tests
         k.Insert(new DigitNode("2"));
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
         k.Insert(new RoundBracketsNode("(", ")"));
-        Expect.Latex("2^{(▦)}", k);
+        Expect.EditModeLatex("2^{(▦)}", k);
         // Act
         k.MoveDown();
         // Assert
-        Expect.Latex("2▦^{(⬚)}", k);
+        Expect.EditModeLatex("2▦^{(⬚)}", k);
     }
 }

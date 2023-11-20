@@ -11,11 +11,11 @@ public class SelectLeft_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
         // Act
         k.SelectLeft();
         // Assert
-        Expect.Latex(@"1\colorbox{blue}{2}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{2}", k);
     }
 
     [Fact]
@@ -24,11 +24,11 @@ public class SelectLeft_Tests
         // Arrange
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         // Act
         k.SelectLeft();
         // Assert
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
     }
 
     [Fact]
@@ -39,12 +39,12 @@ public class SelectLeft_Tests
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
         k.Insert(new DigitNode("3"));
-        Expect.Latex("123▦", k);
+        Expect.EditModeLatex("123▦", k);
         // Act
         k.SelectLeft();
         k.SelectLeft();
         // Assert
-        Expect.Latex(@"1\colorbox{blue}{23}", k);
+        Expect.EditModeLatex(@"1\colorbox{blue}{23}", k);
     }
 
     [Fact]
@@ -54,12 +54,12 @@ public class SelectLeft_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.Insert(new DigitNode("2"));
-        Expect.Latex("12▦", k);
+        Expect.EditModeLatex("12▦", k);
         // Act
         k.SelectLeft();
         k.SelectLeft();
         // Assert
-        Expect.Latex(@"\colorbox{blue}{12}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{12}", k);
     }
 
     [Fact]
@@ -69,12 +69,12 @@ public class SelectLeft_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.MoveLeft();
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
         k.EnterSelectionMode();
         // Act
         k.SelectLeft();
         // Assert
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
     }
 
     [Fact]
@@ -84,11 +84,11 @@ public class SelectLeft_Tests
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
         k.SelectLeft();
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
         // Act
         k.SelectLeft();
         // Assert
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
     }
 
     [Fact]
@@ -99,11 +99,11 @@ public class SelectLeft_Tests
         k.Insert(new DigitNode("1"));
         k.MoveLeft();
         k.SelectRight();
-        Expect.Latex(@"\colorbox{blue}{1}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{1}", k);
         // Act
         k.SelectLeft();
         // Assert
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
         Assert.True(k.InSelectionMode());
     }
 
@@ -115,12 +115,12 @@ public class SelectLeft_Tests
         k.Insert(new DigitNode("2"));
         k.InsertWithEncapsulateCurrent(new AscendingBranchingNode("", "^{", "}"));
         k.Insert(new StandardLeafNode("x"));
-        Expect.Latex("2^{x▦}", k);
+        Expect.EditModeLatex("2^{x▦}", k);
         k.SelectLeft();
-        Expect.Latex(@"2^{\colorbox{blue}{x}}", k);
+        Expect.EditModeLatex(@"2^{\colorbox{blue}{x}}", k);
         // Act
         k.SelectLeft();
         // Assert
-        Expect.Latex(@"\colorbox{blue}{2^{x}}", k);
+        Expect.EditModeLatex(@"\colorbox{blue}{2^{x}}", k);
     }
 }

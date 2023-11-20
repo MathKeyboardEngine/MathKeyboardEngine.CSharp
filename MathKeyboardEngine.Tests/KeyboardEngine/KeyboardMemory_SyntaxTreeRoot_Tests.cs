@@ -49,15 +49,15 @@ public class KeyboardMemory_SyntaxTreeRoot_Tests
     public void Impossible_move_requests_in_an_empty_root_Placeholder_do_not_throw()
     {
         var k = new KeyboardMemory();
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
         k.MoveLeft();
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
         k.MoveDown();
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
         k.MoveUp();
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
         k.MoveRight();
-        Expect.Latex("▦", k);
+        Expect.EditModeLatex("▦", k);
     }
 
     [Fact]
@@ -65,20 +65,20 @@ public class KeyboardMemory_SyntaxTreeRoot_Tests
     {
         var k = new KeyboardMemory();
         k.Insert(new DigitNode("1"));
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         k.MoveUp();
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         k.MoveRight();
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         k.MoveDown();
-        Expect.Latex("1▦", k);
+        Expect.EditModeLatex("1▦", k);
         k.MoveLeft();
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
         k.MoveDown();
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
         k.MoveLeft();
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
         k.MoveUp();
-        Expect.Latex("▦1", k);
+        Expect.EditModeLatex("▦1", k);
     }
 }

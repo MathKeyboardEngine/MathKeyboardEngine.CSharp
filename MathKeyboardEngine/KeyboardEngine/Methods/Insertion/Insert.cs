@@ -2,7 +2,22 @@
 
 public static class _Insert
 {
+    public static void Insert(this KeyboardMemory k, IEnumerable<TreeNode> nodes)
+    {
+        foreach(var node in nodes)
+        {
+            k.InsertCore(node);
+            k.Current = node;
+        }
+    }
+
     public static void Insert(this KeyboardMemory k, TreeNode newNode)
+    {
+        k.InsertCore(newNode);
+        k.MoveRight();
+    }
+
+    private static void InsertCore(this KeyboardMemory k, TreeNode newNode)
     {
         if (k.Current is Placeholder)
         {
@@ -18,6 +33,5 @@ public static class _Insert
             parent.Nodes.Insert(indexOfCurrent + 1, newNode);
             newNode.ParentPlaceholder = parent;
         }
-        k.MoveRight();
     }
 }
