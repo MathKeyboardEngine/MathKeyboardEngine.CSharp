@@ -1,6 +1,6 @@
 ﻿namespace MathKeyboardEngine;
 
-public static class _MoveDown
+public static class __MoveDown
 {
     public static void MoveDown(this KeyboardMemory k)
     {

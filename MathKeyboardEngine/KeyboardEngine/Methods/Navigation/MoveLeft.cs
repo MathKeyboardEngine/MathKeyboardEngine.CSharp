@@ -1,8 +1,8 @@
-﻿using MathKeyboardEngine._Helpers;
+﻿using MathKeyboardEngine.__Helpers;
 
 namespace MathKeyboardEngine;
 
-public static class _MoveLeft
+public static class __MoveLeft
 {
     public static void MoveLeft(this KeyboardMemory k)
     {

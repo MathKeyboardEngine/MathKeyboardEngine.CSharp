@@ -1,6 +1,6 @@
-﻿namespace MathKeyboardEngine._Helpers;
+﻿namespace MathKeyboardEngine.__Helpers;
 
-public static class _FirstBeforeOrDefault
+public static class __FirstBeforeOrDefault
 {
     public static T? FirstBeforeOrDefault<T>(this IEnumerable<T> source, T element) where T : class
     {

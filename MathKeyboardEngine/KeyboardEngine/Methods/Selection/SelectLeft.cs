@@ -1,8 +1,8 @@
-﻿using MathKeyboardEngine._Helpers;
+﻿using MathKeyboardEngine.__Helpers;
 
 namespace MathKeyboardEngine;
 
-public static class _SelectLeft
+public static class __SelectLeft
 {
     public static void SelectLeft(this KeyboardMemory k)
     {

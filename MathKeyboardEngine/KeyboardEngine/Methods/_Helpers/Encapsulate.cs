@@ -1,6 +1,6 @@
-﻿namespace MathKeyboardEngine._Helpers;
+﻿namespace MathKeyboardEngine.__Helpers;
 
-public static class _Encapsulate
+public static class __Encapsulate
 {
     public static void Encapsulate(this Placeholder encapsulatingPlaceholder, IEnumerable<TreeNode> nodes)
     {

@@ -1,8 +1,8 @@
-﻿using MathKeyboardEngine._Helpers;
+﻿using MathKeyboardEngine.__Helpers;
 
 namespace MathKeyboardEngine;
 
-public static class _InsertWithEncapsulateSelection
+public static class __InsertWithEncapsulateSelection
 {
     public static void InsertWithEncapsulateSelection(this KeyboardMemory k, BranchingNode newNode)
     {

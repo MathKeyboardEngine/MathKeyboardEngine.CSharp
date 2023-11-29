@@ -1,13 +1,13 @@
-﻿namespace MathKeyboardEngine._Helpers;
+﻿namespace MathKeyboardEngine.__Helpers;
 
 public record BracePairContent(string Content, string Rest);
 
-public static class _GetBracketPairContent
+public static class __GetBracketPairContent
 {
     public static BracePairContent GetBracketPairContent(this string sWithOpening, string opening, string closing)
     {
         var openingBracket = opening.Last();
-        var s = sWithOpening.Substring(opening.Length);
+        var s = sWithOpening[opening.Length..];
         var level = 0;
         for (var closingBracketIndex = 0; closingBracketIndex < s.Length; closingBracketIndex++)
         {

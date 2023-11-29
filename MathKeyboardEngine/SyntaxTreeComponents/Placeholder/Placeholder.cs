@@ -1,11 +1,11 @@
-﻿using MathKeyboardEngine._Helpers;
+﻿using MathKeyboardEngine.__Helpers;
 
 namespace MathKeyboardEngine;
 
 public class Placeholder : SyntaxTreeComponent
 {
     public BranchingNode? ParentNode { get; set; }
-    public List<TreeNode> Nodes { get; } = new();
+    public List<TreeNode> Nodes { get; } = [];
 
     public override string GetLatex(KeyboardMemory k, LatexConfiguration latexConfiguration)
     {

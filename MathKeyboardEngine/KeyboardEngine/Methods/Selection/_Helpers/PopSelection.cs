@@ -1,6 +1,6 @@
-﻿namespace MathKeyboardEngine._Helpers;
+﻿namespace MathKeyboardEngine.__Helpers;
 
-public static class _PopSelection
+public static class __PopSelection
 {
     public static List<TreeNode> PopSelection(this KeyboardMemory k)
     {
@@ -11,7 +11,7 @@ public static class _PopSelection
         if (k.SelectionDiff == 0)
         {
             k.LeaveSelectionMode();
-            return new();
+            return [];
         }
         var diff = k.SelectionDiff.Value;
         if (k.Current is Placeholder p)

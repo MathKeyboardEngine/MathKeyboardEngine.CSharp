@@ -1,5 +1,5 @@
 ﻿using System;
-using MathKeyboardEngine._Helpers;
+using MathKeyboardEngine.__Helpers;
 using Xunit;
 
 namespace MathKeyboardEngine.Tests;

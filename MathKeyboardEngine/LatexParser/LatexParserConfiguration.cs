@@ -3,7 +3,7 @@
 public class LatexParserConfiguration
 {
     public List<string>? AdditionalDigits { get; set; }
-    public List<string> DecimalSeparatorMatchers { get; set; } = new List<string> { ".", "{,}" };
+    public List<string> DecimalSeparatorMatchers { get; set; } = [".", "{,}"];
     public Func<string>? PreferredDecimalSeparator { get; set; }
     public bool PreferRoundBracketsNode { get; set; } = true;
 }

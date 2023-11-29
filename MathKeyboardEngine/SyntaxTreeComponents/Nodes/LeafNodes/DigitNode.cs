@@ -1,15 +1,9 @@
 ﻿namespace MathKeyboardEngine;
 
-public class DigitNode : PartOfNumberWithDigits
+public class DigitNode(string latex) : PartOfNumberWithDigits
 {
-    private readonly string _latex;
-
-    public DigitNode(string latex)
-    {
-        _latex = latex;
-    }
     protected override string GetLatexPart(KeyboardMemory k, LatexConfiguration latexConfiguration)
     {
-        return _latex;
+        return latex;
     }
 }

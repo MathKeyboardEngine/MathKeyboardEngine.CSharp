@@ -3,7 +3,7 @@
 public class MatrixNode : BranchingNode
 {
     private readonly string _matrixType;
-    private readonly List<List<Placeholder>> _grid = new();
+    private readonly List<List<Placeholder>> _grid = [];
     private readonly int _width;
     private readonly int _height;
 

@@ -1,8 +1,8 @@
-﻿using MathKeyboardEngine._Helpers;
+﻿using MathKeyboardEngine.__Helpers;
 
 namespace MathKeyboardEngine;
 
-public static class _DeleteRight
+public static class __DeleteRight
 {
     public static void DeleteRight(this KeyboardMemory k)
     {

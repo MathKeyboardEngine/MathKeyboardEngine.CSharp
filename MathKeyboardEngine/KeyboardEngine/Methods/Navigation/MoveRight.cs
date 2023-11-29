@@ -1,8 +1,8 @@
-﻿using MathKeyboardEngine._Helpers;
+﻿using MathKeyboardEngine.__Helpers;
 
 namespace MathKeyboardEngine;
 
-public static class _MoveRight
+public static class __MoveRight
 {
     public static void MoveRight(this KeyboardMemory k)
     {

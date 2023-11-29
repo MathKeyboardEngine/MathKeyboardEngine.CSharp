@@ -1,10 +1,5 @@
 ﻿namespace MathKeyboardEngine;
 
-public class RoundBracketsNode : StandardBranchingNode
+public class RoundBracketsNode(string leftBracketLatex = @"\left(", string rightBracketLatex = @"\right)") : StandardBranchingNode(leftBracketLatex, rightBracketLatex)
 {
-    public RoundBracketsNode(string leftBracketLatex = @"\left(", string rightBracketLatex = @"\right)")
-        : base(leftBracketLatex, rightBracketLatex)
-    {
-
-    }
 }

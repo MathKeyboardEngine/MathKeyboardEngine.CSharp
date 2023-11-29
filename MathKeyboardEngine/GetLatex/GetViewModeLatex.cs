@@ -1,6 +1,6 @@
 ﻿namespace MathKeyboardEngine;
 
-public static class _GetViewModeLatex
+public static class __GetViewModeLatex
 {
     private static readonly KeyboardMemory _emptyKeyboardMemory = new();
     public static string GetViewModeLatex(this SyntaxTreeComponent syntaxTreeComponent, LatexConfiguration latexConfiguration)

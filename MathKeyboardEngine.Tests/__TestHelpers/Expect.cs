@@ -4,7 +4,7 @@ namespace MathKeyboardEngine.Tests;
 
 public static class Expect
 {
-    private static readonly LatexConfiguration _testConfig = new LatexConfiguration
+    private static readonly LatexConfiguration _testConfig = new()
     {
         ActivePlaceholderShape = "▦",
         PassivePlaceholderShape = "⬚",

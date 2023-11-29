@@ -1,8 +1,8 @@
-﻿using MathKeyboardEngine._Helpers;
+﻿using MathKeyboardEngine.__Helpers;
 
 namespace MathKeyboardEngine;
 
-public static class _InsertWithEncapsulateCurrent
+public static class __InsertWithEncapsulateCurrent
 {
     public static void InsertWithEncapsulateCurrent(this KeyboardMemory k, BranchingNode newNode, InsertWithEncapsulateCurrentOptions? options = null)
     {

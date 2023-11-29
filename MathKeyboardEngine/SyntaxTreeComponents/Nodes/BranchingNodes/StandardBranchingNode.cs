@@ -1,25 +1,14 @@
 ﻿namespace MathKeyboardEngine;
 
-public class StandardBranchingNode : BranchingNode
+public class StandardBranchingNode(string before, string then, params string[] rest)
+    : BranchingNode(Enumerable.Range(1, rest.Length + 1).Select(x => new Placeholder()).ToList())
 {
-    private readonly string _before;
-    private readonly string _then;
-    private readonly string[] _rest;
-
-    public StandardBranchingNode(string before, string then, params string[] rest)
-        : base(Enumerable.Range(1, rest.Length + 1).Select(x => new Placeholder()).ToList())
-    {
-        _before = before;
-        _then = then;
-        _rest = rest;
-    }
-
     protected override string GetLatexPart(KeyboardMemory k, LatexConfiguration latexConfiguration)
     {
-        var latex = _before + Placeholders[0].GetLatex(k, latexConfiguration) + _then;
-        for (var i = 0; i < _rest.Length; i++)
+        var latex = before + Placeholders[0].GetLatex(k, latexConfiguration) + then;
+        for (var i = 0; i < rest.Length; i++)
         {
-            latex += Placeholders[i + 1].GetLatex(k, latexConfiguration) + _rest[i];
+            latex += Placeholders[i + 1].GetLatex(k, latexConfiguration) + rest[i];
         }
         return latex;
     }

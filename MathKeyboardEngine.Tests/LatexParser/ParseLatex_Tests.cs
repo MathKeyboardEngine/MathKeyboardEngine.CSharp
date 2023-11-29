@@ -71,8 +71,10 @@ public class LatexParser_Tests
     public void Can_handle_non_decimal_number_base()
     {
         // Arrange
-        var myParserConfig = new LatexParserConfiguration();
-        myParserConfig.AdditionalDigits = new List<string> { "↊", "↋" };
+        var myParserConfig = new LatexParserConfiguration
+        {
+            AdditionalDigits = ["↊", "↋"]
+        };
         // Act
         var k = Parse.Latex("6↊↋", myParserConfig);
         // Assert
@@ -183,8 +185,10 @@ public class LatexParser_Tests
     {
         // Arrange
         var preferredDecimalSeparator = "{,}";
-        var myParserConfig = new LatexParserConfiguration();
-        myParserConfig.PreferredDecimalSeparator = () => preferredDecimalSeparator;
+        var myParserConfig = new LatexParserConfiguration
+        {
+            PreferredDecimalSeparator = () => preferredDecimalSeparator
+        };
         // Act 1
         var k = Parse.Latex("1.2", myParserConfig);
         // Assert 1
@@ -231,8 +235,10 @@ public class LatexParser_Tests
         // Arrange
         var latex = @"\exp\left[\int d^{4}xg\phi\bar{\psi}\psi\right]=\sum_{n=0}^{\infty}\frac{g^{n}}{n!}\left(\int d^{4}x\phi\bar{\psi}\psi\right)^{n}";
         // Act
-        var myParserConfig = new LatexParserConfiguration();
-        myParserConfig.PreferRoundBracketsNode = false;
+        var myParserConfig = new LatexParserConfiguration
+        {
+            PreferRoundBracketsNode = false
+        };
         var k = Parse.Latex(latex, myParserConfig);
         // Assert
         var nodes = k.SyntaxTreeRoot.Nodes;
@@ -339,13 +345,9 @@ public class LatexParser_Tests
         Assert.True(placeholder2Node is DescendingBranchingNode);
         Expect.ViewModeLatex(@"\frac{4}{5}", placeholder2);
 
-        var placeholder3 = matrixNode.Placeholders[3];
-        var placeholder3Node = Assert.Single(placeholder3.Nodes);
-        Expect.ViewModeLatex("x", placeholder3);
+        Expect.ViewModeLatex("x", Assert.Single(matrixNode.Placeholders[3].Nodes));
 
-        var placeholder4 = matrixNode.Placeholders[4];
-        var placeholder4Node = Assert.Single(placeholder4.Nodes);
-        Expect.ViewModeLatex(@"\pi", placeholder4);
+        Expect.ViewModeLatex(@"\pi", Assert.Single(matrixNode.Placeholders[4].Nodes));
 
         var placeholder5 = matrixNode.Placeholders[5];
         Assert.Equal(2, placeholder5.Nodes.Count);
@@ -376,7 +378,8 @@ public class LatexParser_Tests
     [Fact]
     public void It_throws_if_begin_does_not_contain_the_word_matrix_or_cases()
     {
-        Assert.ThrowsAny<Exception>(() => Parse.Latex(@"\begin{test}12\\34\end{test}"));
+        var ex = Assert.ThrowsAny<Exception>(() => Parse.Latex(@"\begin{test}12\\34\end{test}"));
+        Assert.Equal("""Expected a word ending with "matrix" or "cases" after "\begin{".""", ex.Message);
     }
 
     [Theory]
@@ -385,8 +388,10 @@ public class LatexParser_Tests
     public void LatexParserConfiguration_PreferRoundBracketsNode(string latex)
     {
         // Arrange
-        var myParserConfig = new LatexParserConfiguration();
-        myParserConfig.PreferRoundBracketsNode = true;
+        var myParserConfig = new LatexParserConfiguration
+        {
+            PreferRoundBracketsNode = true
+        };
         // Act
         var k = Parse.Latex(latex, myParserConfig);
         // Assert

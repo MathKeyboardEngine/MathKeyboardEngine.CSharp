@@ -1,4 +1,4 @@
-﻿using MathKeyboardEngine._Helpers;
+﻿using MathKeyboardEngine.__Helpers;
 
 namespace MathKeyboardEngine;
 
@@ -45,7 +45,7 @@ public static class Parse
                 var matrixTypeAndRest = x.GetBracketPairContent(@"\begin{", "}");
                 if (!matrixTypeAndRest.Content.EndsWith("matrix") && !matrixTypeAndRest.Content.EndsWith("cases"))
                 {
-                    throw new Exception(@"Expected a word ending with 'matrix' or 'cases' after '\begin{'.");
+                    throw new Exception("""Expected a word ending with "matrix" or "cases" after "\begin{".""");
                 }
                 var matrixContent = matrixTypeAndRest.Rest[..matrixTypeAndRest.Rest.IndexOf(@$"\end{{{matrixTypeAndRest.Content}}}")];
                 var lines = matrixContent.Split(@"\\");

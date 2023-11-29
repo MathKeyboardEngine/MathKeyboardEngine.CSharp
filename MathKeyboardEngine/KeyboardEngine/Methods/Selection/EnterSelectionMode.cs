@@ -1,8 +1,8 @@
-﻿using MathKeyboardEngine._Helpers;
+﻿using MathKeyboardEngine.__Helpers;
 
 namespace MathKeyboardEngine;
 
-public static class _EnterSelectionMode
+public static class __EnterSelectionMode
 {
     public static void EnterSelectionMode(this KeyboardMemory k)
     {

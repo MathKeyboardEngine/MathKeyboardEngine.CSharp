@@ -1,7 +1,7 @@
-﻿namespace MathKeyboardEngine._Helpers;
+﻿namespace MathKeyboardEngine.__Helpers;
 
-public static class _EndsWithLatexCommand
-{ 
+public static class __EndsWithLatexCommand
+{
     public static bool EndsWithLatexCommand(this string latex)
     {
         if (latex.Length == 0)
@@ -9,7 +9,7 @@ public static class _EndsWithLatexCommand
             return false;
         }
 
-        if (char.IsLetter(latex[latex.Length - 1]))
+        if (char.IsLetter(latex[^1]))
         {
             for (var i = latex.Length - 2; i >= 0; i--)
             {

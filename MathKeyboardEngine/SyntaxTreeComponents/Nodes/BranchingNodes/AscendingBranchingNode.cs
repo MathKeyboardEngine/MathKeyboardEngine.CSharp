@@ -1,13 +1,7 @@
 ﻿namespace MathKeyboardEngine;
 
-public class AscendingBranchingNode : StandardBranchingNode
+public class AscendingBranchingNode(string before, string then, params string[] rest) : StandardBranchingNode(before, then, rest)
 {
-    public AscendingBranchingNode(string before, string then, params string[] rest)
-        : base(before, then, rest)
-    {
-
-    }
-
     public override Placeholder? GetMoveDownSuggestion(Placeholder fromPlaceholder)
     {
         var currentPlaceholderIndex = Placeholders.IndexOf(fromPlaceholder);

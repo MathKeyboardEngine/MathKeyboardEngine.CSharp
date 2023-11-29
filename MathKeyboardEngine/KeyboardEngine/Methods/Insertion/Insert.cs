@@ -1,6 +1,6 @@
 ﻿namespace MathKeyboardEngine;
 
-public static class _Insert
+public static class __Insert
 {
     public static void Insert(this KeyboardMemory k, IEnumerable<TreeNode> nodes)
     {

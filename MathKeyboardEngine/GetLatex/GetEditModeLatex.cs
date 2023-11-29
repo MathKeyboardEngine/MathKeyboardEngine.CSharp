@@ -1,6 +1,6 @@
 ﻿namespace MathKeyboardEngine;
 
-public static class _GetEditModeLatex
+public static class __GetEditModeLatex
 {
     public static string GetEditModeLatex(this KeyboardMemory k, LatexConfiguration latexConfiguration)
     {

@@ -1,6 +1,6 @@
-﻿namespace MathKeyboardEngine._Helpers;
+﻿namespace MathKeyboardEngine.__Helpers;
 
-public static class _DeleteOuterBranchingNodeButNotItsContents
+public static class __DeleteOuterBranchingNodeButNotItsContents
 {
     public static void DeleteOuterBranchingNodeButNotItsContents(this Placeholder nonEmptyPlaceholder)
     {

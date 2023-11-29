@@ -1,6 +1,6 @@
-﻿namespace MathKeyboardEngine._Helpers;
+﻿namespace MathKeyboardEngine.__Helpers;
 
-public static class _EncapsulateAllPartsOfNumberWithDigitsLeftOfIndex
+public static class __EncapsulateAllPartsOfNumberWithDigitsLeftOfIndex
 {
     public static void EncapsulateAllPartsOfNumberWithDigitsLeftOfIndex(this Placeholder encapsulatingPlaceholder, int exclusiveRightIndex, List<TreeNode> siblingNodes)
     {

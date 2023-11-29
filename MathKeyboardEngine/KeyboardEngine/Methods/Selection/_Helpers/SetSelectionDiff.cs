@@ -1,6 +1,6 @@
-﻿namespace MathKeyboardEngine._Helpers;
+﻿namespace MathKeyboardEngine.__Helpers;
 
-public static class _SetSelectionDiff
+public static class __SetSelectionDiff
 {
     public static void SetSelectionDiff(this KeyboardMemory k, int diffWithCurrent)
     {

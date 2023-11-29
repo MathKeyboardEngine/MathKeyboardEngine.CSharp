@@ -78,9 +78,9 @@ var keyboardMemory = new KeyboardMemory();
 
 ## Documentation
 
-Visit the [documentation](https://mathkeyboardengine.github.io/docs/csharp/0.2/) and (the right version of)\* the [Examples folder](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) for more implementation details. There's only one example - for Blazor WebAssembly - but even if you work with something else - like Xamarin, .NET MAUI (especially .NET MAUI Blazor!), WPF or UWP - you may find parts that you want to copy.
+Visit the [documentation](https://mathkeyboardengine.github.io/docs/csharp/1.0/) and (the right version of)\* the [Examples folder](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/master/Examples) for more implementation details. There's only one example - for Blazor WebAssembly - but even if you work with something else - like Xamarin, .NET MAUI (especially .NET MAUI Blazor!), WPF or UWP - you may find parts that you want to copy.
 
-\* If you use a version tag in the url like this: https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/v0.1.1, you can see the git repository as it was for that version. That may not be needed if the [changelog](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/main/CHANGELOG.md) doesn't note any important changes.
+\* If you use a version tag in the url like this: https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/v0.2, you can see the git repository as it was for that version. That may not be needed if the [changelog](https://github.com/MathKeyboardEngine/MathKeyboardEngine.CSharp/tree/main/CHANGELOG.md) doesn't note any important changes.
 
 
 ## License

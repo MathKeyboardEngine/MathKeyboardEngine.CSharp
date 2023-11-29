@@ -1,4 +1,4 @@
-﻿namespace MathKeyboardEngine._Helpers;
+﻿namespace MathKeyboardEngine.__Helpers;
 
 public static class Concat
 {
